@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<div th:replace="~{base :: head('Plantae Cozinha Vegetal')}"></div>
-	<script th:inline="javascript">
-		apiEndpoint = /*[[${apiEndpoint}]]*/
-	</script>
-</head>
-<body>
-    <div th:replace="~{base :: header}"}></div>
-    
-	<div class="card mt-3 ml-2 mr-2" id="cadastro-form">
+<div th:fragment="cadastro" class="card mt-3 ml-2 mr-2" id="cadastro-form">
     <form th:object="${clienteDto}" class="card-body" th:action="@{/qr-code/novo}" method="POST">
 
         <div class="form-group">
@@ -26,6 +12,3 @@
         <button  class="btn btn-primary" type="submit">Gerar Ingresso</button>
     </form>
 </div>
-	
-</body>
-</html>

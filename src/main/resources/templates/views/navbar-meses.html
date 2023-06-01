@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand navbar-light bg-light">
+    <ol class="navbar-nav">
+    
+      <li class="nav-item dropdown anos-dropdown">
+	        <a class="nav-link dropdown-toggle mr-3" href="#" id="navbarDropdownMenuLink" 
+	        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text=${ano}></a>
+	        
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	        	<div th:each="anoLista : ${listaAnos}">
+		          <a class="dropdown-item" 
+		          th:href="'/home/'+${anoLista}+'/'+${mes}"
+		          th:text="${anoLista}" 
+		          th:classappend="${ano} == ${anoLista} ? 'active'"
+		          ></a>
+	        	</div>
+	        </div>
+      </li>
+      
+      <div class="row" style="min-width: 385px">
+	      	<li class="nav-item col-auto" id="mesLista" th:each="mesLista : ${listaMeses}">
+	        	<a class="nav-link" 
+	        	th:href="'/home/'+${ano}+'/'+${mesLista.number}" 
+	        	th:text=${mesLista.name} 
+	        	th:classappend="${mesLista.name} == ${mesNome} ? 'mesAtual'"></a>
+	      	</li>
+      </div>
+      
+    </ol>
+</nav>

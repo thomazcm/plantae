@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,14 +22,14 @@ import com.thomazcm.plantae.repository.IngressoRepository;
 
 @RestController
 @RequestMapping("/qr-code")
-public class CodeApi {
+public class QrCodeApi {
 	
 	@Autowired IngressoGenerator ingressoGenerator;
 	@Autowired QRCodeGenerator qrCodeGenerator;
 	@Autowired IngressoRepository repository;
 	
 	@PostMapping(value = "/novo", produces = MediaType.IMAGE_PNG_VALUE)
-	public ResponseEntity<BufferedImage> QRCode(@RequestBody ClienteDto cliente)
+	public ResponseEntity<BufferedImage> QRCode(ClienteDto cliente)
 	throws Exception{
 		var ingresso = ingressoGenerator.novoIngresso(cliente.getNome());
 		return ResponseEntity.ok(qrCodeGenerator.generateQRCodeImage(ingresso.getQrCodeUrl()));
