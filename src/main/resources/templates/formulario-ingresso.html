@@ -1,16 +1,21 @@
 <div th:fragment class="row">
     <div class="col-md-6 offset-md-3">
         <div class="card mt-3">
-            <div class="card-body" style="background-color: #f7e7d4;">
-                <form>
+            <div class="card-body plantae-form">
+                <form @submit.prevent="confirmarIngresso" >
                     <div class="form-group">
-                        <label for="inputField">Informe o nome do cliente para gerar o ingresso:</label>
+                        <label for="inputField" class="plantae-text">Informe o nome do cliente para gerar o ingresso:</label>
                         <input type="text" class="form-control" id="inputField" placeholder="nome do cliente"
-                            v-model="clienteDto.nome">
+                            v-model="clienteDto.nome" :class="{ 'is-invalid': ingressoGerado && !clienteDto.nome }">
+                            <div v-if="ingressoGerado && !clienteDto.nome" class="invalid-feedback">
+                                Por favor, preencha o nome do cliente.
+                            </div>
                     </div>
-                    <button type="button" class="btn" style="color:#FBF3EA;background-color:#AA4E3B"
-                        v-on:click="gerarIngresso()">Gerar Ingresso</button>
+                    <button type="button" class="plantae-button btn"
+                        v-on:click="confirmarNovoIngresso()">Gerar Ingresso</button>
                 </form>
+                <div th:replace="~{confirmar-ingresso::novo}"></div>
+
             </div>
         </div>
     </div>

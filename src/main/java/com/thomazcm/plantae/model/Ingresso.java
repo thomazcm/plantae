@@ -2,28 +2,43 @@ package com.thomazcm.plantae.model;
 
 import java.time.LocalDate;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document (collection = "ingressos")
 public class Ingresso {
 
+	@Id
+	private String id;
 	private Integer numero;
 	private String cliente;
 	private LocalDate data;
-	private final String qrCodeUrl;
+	private String qrCodeUrl;
 	private Boolean valid = true;
 	private int senha;
 	
-	public Ingresso(int numero, String cliente, String qrCodeUrl, int senha) {
+	public Ingresso(int numero, String cliente, int senha) {
 		this.numero = numero;
 		this.cliente = cliente;
 		this.data = LocalDate.now();
-		this.qrCodeUrl = qrCodeUrl;
 		this.senha = senha;
 	}
 	
-	public Boolean verificarSenha(String senha) {
-		if (this.senha == Integer.parseInt(senha)) {
+	public void setQrCodeUrl(String qrCodeUrl) {
+		this.qrCodeUrl = qrCodeUrl;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Boolean validar(String senha) {
+		if (this.valid && this.senha == Integer.parseInt(senha)) {
+			this.valid = false;
 			return true;
 		}
 		return false;
@@ -46,6 +61,10 @@ public class Ingresso {
 	public String getCliente() {
 		return cliente;
 	}
+	public void setCliente(String cliente) {
+		this.cliente = cliente;
+	}
+
 	public LocalDate getData() {
 		return data;
 	}

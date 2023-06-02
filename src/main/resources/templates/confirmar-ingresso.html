@@ -1,0 +1,48 @@
+<!-- Confirmation Dialog -->
+<div th:fragment="novo" class="modal fade" id="confirmationModalNovoIngresso" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content mt-10" id="confirm-box">
+            <div class="modal-body">
+                <h3 class="modal-title" style="color: #84312e;">Gerar 1 ingresso para:</h3>
+                <p class="plantae-text" style="font-size:1.5rem">{{ clienteDto.nome }}</p>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-lg btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button v-on:click="gerarIngresso" type="submit" class="btn btn-lg plantae-button" data-dismiss="modal">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="excluir" class="modal fade" id="confirmationModalExcluirIngresso" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content mt-10" id="confirm-box">
+            <div class="modal-body">
+                <h3 class="modal-title" style="color: #84312e;">Excluir o ingresso de:</h3>
+                <p class="plantae-text" style="font-size:1.5rem">{{ clienteModal }}</p>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" v-on:click="cancelarExclusao" class="btn btn-lg btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button v-on:click="excluir(ingresso)" type="submit" class="btn btn-lg btn-danger" data-dismiss="modal">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment=validar class="modal fade" id="confirmationModalValidarIngresso" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content mt-10" id="confirm-box">
+            <div class="modal-body">
+                <h3 class="modal-title" style="color: #84312e;">Validar a entrada de:</h3>
+                <p class="plantae-text" style="font-size:1.4rem">{{ clienteModal }}<br><b>Esse Ingresso NÃO poderá mais ser utilizado</b></p>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" v-on:click="cancelarValidacao" class="btn btn-lg btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button v-on:click="validar(ingresso)" type="submit" class="btn btn-lg plantae-button" data-dismiss="modal">Validar</button>
+            </div>
+        </div>
+    </div>
+</div>

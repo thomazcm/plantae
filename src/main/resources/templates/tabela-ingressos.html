@@ -1,23 +1,43 @@
 <div th:fragment class="row mt-3">
-    <div class="col">
+    <div class="col" :key="listaKey">
         <h4>Ingressos Vendidos: {{ ingressos.length }}</h4>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
-                    <tr>
+                    <tr class="plantae-text">
                         <th>Data da Compra</th>
-                        <th style="text-align: center;">Nome</th>
-                        <th>Validar ou Editar</th>
+                        <th class="text-left align-middle">Nome</th>
+                        <th v-if="!ingresso.editando">📥 PDF<br>🎟️ Validar<br>📝 Editar</th>
+                        <th v-else>🗑️ Excluir<br>✅ Ok</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="ingresso in ingressos" :key="ingresso.numero">
+                    <tr v-for="ingresso in ingressos">
                         <td style="width: 8%;">{{ ingresso.data }}</td>
-                        <td style="width: 65%;">{{ ingresso.cliente }}</td>
-                        <td style="width: 25%;">
+                        
+                        <td v-if="!ingresso.editando">{{ ingresso.cliente }}</td>
+                        <td v-else>
+                        <input class="form-control input-field" type="text" v-model="ingresso.cliente"
+                        ></input></td>
+                        
+                        <td v-if="!ingresso.editando" style="width: 32%;">
+                        	<div v-if="!ingresso.valid" class="d-flex justify-content-between">
+                            	<span class="text-success">Validado</span>
+                        		<button class="btn btn-sm btn-danger ml-1" v-on:click="confirmarExcluirIngresso(ingresso)">🗑️</span></button>
+                        		<div th:replace="~{confirmar-ingresso::excluir}"></div>
+                        	</div>
+                            <div v-else>
+                            	<button class="btn btn-sm" style="background-color: #85adad;" v-on:click="baixarIngresso(ingresso)">📥</button>
+	                            <button class="btn btn-sm" style="background-color: #ca6b68;" v-on:click="confirmarValidarIngresso(ingresso)">🎟️</button>
+	                            <button class="btn btn-sm btn-warning ml" v-on:click="editar(ingresso)">📝</button>
+	                            <div th:replace="~{confirmar-ingresso::validar}"></div>
+                            </div>
+                        </td>
+                        <td v-else style="width: 25%;">
                             <span v-if="!ingresso.valid" class="text-danger">❌</span>
-                            <button v-else class="btn btn-sm btn-success">✅</span>
-                            <button class="btn btn-sm btn-warning">✏️</button>
+                            <button v-else class="btn btn-sm btn-danger" v-on:click="confirmarExcluirIngresso(ingresso)">🗑️</span>
+                            <button class="btn btn-sm btn-success ml-1" v-on:click="ok(ingresso)">✅</button>
+                         	<div th:replace="~{confirmar-ingresso::excluir}"></div>
                         </td>
                     </tr>
                 </tbody>

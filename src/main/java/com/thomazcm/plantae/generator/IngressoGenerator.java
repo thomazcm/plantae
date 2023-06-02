@@ -22,13 +22,16 @@ public class IngressoGenerator {
 		int numero = repository.findAll().size()+1;
 		String cliente = nomeCliente;
 		int senha = new Random().nextInt(1, Integer.MAX_VALUE);
-		String qrcode = gerarQrCode(numero, senha);
-		
-		return repository.save(new Ingresso(numero, cliente, qrcode, senha));
+		Ingresso novoIngresso = new Ingresso(numero, cliente, senha);
+		repository.save(novoIngresso);
+		String qrcode = gerarQrCode(novoIngresso.getId(), senha);
+		novoIngresso.setQrCodeUrl(qrcode);
+		repository.save(novoIngresso);
+		return novoIngresso;
 	}
 
-	private String gerarQrCode(int numero, int senha) {
-		return apiEndpoint + "/qr-code/verificar?numero=" + numero + "&senha=" + senha;
+	private String gerarQrCode(String id, int senha) {
+		return apiEndpoint + "/verificar?id=" + id + "&senha=" + senha;
 	}
 	
 }

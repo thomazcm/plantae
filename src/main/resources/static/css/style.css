@@ -1,9 +1,49 @@
 @charset "UTF-8";
 [v-cloak] { display: none; }
 
+body {
+	background-color: #FBF3EA !important;
+}
+.table input[type="text"] {
+    margin: 0;
+    padding: 0;
+}
 .logo-container {
 	color: #FBF3EA;
 	background-color: #AA4E3B;
+}
+
+.input-field {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#confirm-box {
+	background-color: rgb(247, 231, 212);
+    text-align: center;
+    margin-top: 260px;
+    width: 90%;
+    margin-left: 5%;
+}
+
+.brown-bg {
+    background-color:#AA4E3B;
+}
+
+.plantae-text {
+	color: #84312e;
+	font-weight: 600;
+}
+
+.plantae-button {
+	background-color: #AA4E3B !important;
+	color: #FBF3EA !important;
+}
+
+.plantae-form {
+    background-color: #f7e7d4;
 }
 
 .logo {
@@ -11,14 +51,6 @@
 	font-size: 2.5rem
 }
 
-.ano-atual {
-	background-color: lightgrey;
-}
-
 .display-4 {
 	font-family: 'Handlee', cursive;
-}
-
-.error-message {
-	color: #ff0000;
 }
