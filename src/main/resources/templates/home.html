@@ -9,10 +9,15 @@
 	apiEndpoint = /*[[${apiEndpoint}]]*/
 </script>
 </head>
-<body onload="onLoad()">
+<body style="background-color: #FBF3EA;" onload="onLoad()">
 
-	<div th:replace="~{base :: header}"}></div>
-	<div th:replace="~{homeview}" ></div>
+	<div th:replace="~{base :: header}"></div>
+	<div id="ingresso" style="background-color: #FBF3EA;">
+        <div class="container">
+            <div th:replace="~{formulario-ingresso}"></div>
+            <div th:replace="~{tabela-ingressos}"></div>
+        </div>
+    </div>
 	
 	<script type="application/javascript" src="js/main.js"></script>
 </body>

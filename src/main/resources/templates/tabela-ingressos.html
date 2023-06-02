@@ -1,0 +1,27 @@
+<div th:fragment class="row mt-3">
+    <div class="col">
+        <h4>Ingressos Vendidos: {{ ingressos.length }}</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Data da Compra</th>
+                        <th style="text-align: center;">Nome</th>
+                        <th>Validar ou Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="ingresso in ingressos" :key="ingresso.numero">
+                        <td style="width: 8%;">{{ ingresso.data }}</td>
+                        <td style="width: 65%;">{{ ingresso.cliente }}</td>
+                        <td style="width: 25%;">
+                            <span v-if="!ingresso.valid" class="text-danger">❌</span>
+                            <button v-else class="btn btn-sm btn-success">✅</span>
+                            <button class="btn btn-sm btn-warning">✏️</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

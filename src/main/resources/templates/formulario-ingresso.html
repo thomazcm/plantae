@@ -1,0 +1,17 @@
+<div th:fragment class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card mt-3">
+            <div class="card-body" style="background-color: #f7e7d4;">
+                <form>
+                    <div class="form-group">
+                        <label for="inputField">Informe o nome do cliente para gerar o ingresso:</label>
+                        <input type="text" class="form-control" id="inputField" placeholder="nome do cliente"
+                            v-model="clienteDto.nome">
+                    </div>
+                    <button type="button" class="btn" style="color:#FBF3EA;background-color:#AA4E3B"
+                        v-on:click="gerarIngresso()">Gerar Ingresso</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

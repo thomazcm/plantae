@@ -1,53 +1,9 @@
 @charset "UTF-8";
 [v-cloak] { display: none; }
-#titulo-home {
-	max-height: 11rem;
-}
-
-.anos-dropdown {
-    font-size: 1.15rem;
-    font-weight: bold;
-}
-
-.mesAtual {
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-#mesLista{
-	margin-top: 3px;
-    padding-right: 0rem;
-    padding-left: 0rem;
-    font-size: 0.95rem;
-}
-
-#col-registros {
-    padding-right: 0px;
-   	margin-left: -4px;
-   	min-width: 480px;
-}
-
-
-.card-resumo {
-	min-width: 480px;
-}
-
-#myChartGoogle {
-	height: 30rem;
-}
-
-.valor-resumo {
-	font-family: cabin, sans-serif;
-	padding-top: 0.4rem;
-	padding-bottom: 0.5rem;
-	font-size: 1.15rem;
-	text-align-last: center;
-}
-
 
 .logo-container {
-	background-color: #008040;
-	color: #FFF;
+	color: #FBF3EA;
+	background-color: #AA4E3B;
 }
 
 .logo {
@@ -63,68 +19,6 @@
 	font-family: 'Handlee', cursive;
 }
 
-#login-form {
-	width: 400px;
-}
-
-#cadastro-form {
-	min-width: 450px;
-	max-width: 650px;
-}
-
-
 .error-message {
 	color: #ff0000;
-}
-
-.header-tabela-receitas {
-	background-color: #c3e6cb;
-}
-
-.header-tabela-despesas {
-	background-color: #e0a8ad;
-}
-
-.titulo-formulario {
-	text-align: center;
-}
-
-.texto-tabela {
-	font-size: 1.15rem;
-}
-
-.lista-registros {
-	
-}
-
-.texto-registro {
-	font-family: cabin, sans-serif;
-	text-align: center;
-}
-
-.texto-menor {
-	font-size: 1.05rem;
-}
-
-.dropdown-form {
-	min-width: 15rem;
-}
-
-.descricao-registro {
-	text-align: left;
-}
-
-.valor-registro {
-	text-align: right;
-}
-
-.select-categoria {
-	max-width: 20rem;
-}
-
-.botoes-editar-excluir {
-	width: 8rem;
-	text-align: center;
-	padding-left: 0;
-	padding-right: 0;
 }

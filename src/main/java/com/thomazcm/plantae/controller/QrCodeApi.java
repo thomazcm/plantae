@@ -27,35 +27,43 @@ import com.thomazcm.plantae.repository.IngressoRepository;
 @RestController
 @RequestMapping("/qr-code")
 public class QrCodeApi {
-	
-	@Autowired IngressoGenerator ingressoGenerator;
-	@Autowired QRCodeGenerator qrCodeGenerator;
-	@Autowired IngressoRepository repository;
-	@Autowired PdfGenerator pdfGenerator;
-	
+
+	@Autowired
+	IngressoGenerator ingressoGenerator;
+	@Autowired
+	QRCodeGenerator qrCodeGenerator;
+	@Autowired
+	IngressoRepository repository;
+	@Autowired
+	PdfGenerator pdfGenerator;
+
 	@PostMapping(value = "/novo", produces = MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<byte[]> QRCode(@RequestBody RequestPayload payload)
-	throws Exception{
-		
+	public ResponseEntity<byte[]> QRCode(@RequestBody RequestPayload payload) throws Exception {
+
 		String nome = payload.getClienteDto().getNome();
+		String nomeIngresso;
+		try {
+			nomeIngresso = "entrada-" + nome.substring(0, nome.indexOf(" "))+"-plantae.pdf";
+		} catch (IndexOutOfBoundsException e) {
+			nomeIngresso = "entrada-" + nome +"-plantae.pdf";
+		}
 		var ingresso = ingressoGenerator.novoIngresso(nome);
 		var qrCodeImage = qrCodeGenerator.generateQRCodeImage(ingresso.getQrCodeUrl());
 		ByteArrayOutputStream baos = pdfGenerator.createPDF(qrCodeImage, nome);
-		
+
 		HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_PDF);
-	    headers.setContentDisposition(ContentDisposition.attachment()
-	    		.filename("ingresso-plantae.pdf").build());
-	    
-	    return ResponseEntity.ok().headers(headers).body(baos.toByteArray());
+		headers.setContentType(MediaType.APPLICATION_PDF);
+		headers.setContentDisposition(ContentDisposition.attachment().filename(nomeIngresso).build());
+
+		return ResponseEntity.ok().headers(headers).body(baos.toByteArray());
 	}
-	
+
 	@GetMapping("/verificar")
-	public ResponseEntity<VerificacaoDto> verificarQrCode(
-			@RequestParam(required = false) String numero, @RequestParam(required = false) String senha){
-		
+	public ResponseEntity<VerificacaoDto> verificarQrCode(@RequestParam(required = false) String numero,
+			@RequestParam(required = false) String senha) {
+
 		Optional<Ingresso> ingressoOptional = repository.findByNumero(Integer.parseInt(numero));
-		
+
 		Ingresso ingresso;
 		try {
 			ingresso = ingressoOptional.get();

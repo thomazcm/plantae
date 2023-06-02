@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Ingresso {
 
-	private int numero;
+	private Integer numero;
 	private String cliente;
 	private LocalDate data;
 	private final String qrCodeUrl;
