@@ -1,0 +1,21 @@
+<div id="ingresso" :key="ingresso">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 offset-md-3">
+				<div class="card mt-5">
+					<div class="card-body">
+						<form>
+							<div class="form-group">
+								<label for="inputField">Informe o nome do cliente que fez a compra:</label> 
+								<input type="text" class="form-control" id="inputField" placeholder="nome do cliente"
+								v-model="clienteDto.nome">
+							</div>
+							<button type="button" class="btn btn-primary"
+								v-on:click="gerarIngresso()">Gerar Ingresso</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

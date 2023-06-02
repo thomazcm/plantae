@@ -1,31 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<div th:replace="~{base :: head('Plantae Cozinha Vegetal')}"></div>
-	<script th:inline="javascript">
-		apiEndpoint = /*[[${apiEndpoint}]]*/
-	</script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<div th:replace="~{base :: head('Plantae')}"></div>
+<script th:inline="javascript">
+	apiEndpoint = /*[[${apiEndpoint}]]*/
+</script>
 </head>
-<body>
-    <div th:replace="~{base :: header}"}></div>
-    
-	<div class="card mt-3 ml-2 mr-2" id="cadastro-form">
-    <form th:object="${clienteDto}" class="card-body" th:action="@{/qr-code/novo}" method="POST">
+<body onload="onLoad()">
 
-        <div class="form-group">
-            <label for="nome">Informe o nome do cliente que está comprando o Ingresso</label>
-            <input th:field="*{nome}" class="form-control" th:errorclass="is-invalid" placeholder="nome do cliente" />
-            <div th:errors="*{nome}" class="invalid-feedback">
-                Erros do nome do nome de usuario
-            </div>
-        </div>
-
-        <button  class="btn btn-primary" type="submit">Gerar Ingresso</button>
-    </form>
-</div>
+	<div th:replace="~{base :: header}"}></div>
+	<div th:replace="~{homeview}" ></div>
 	
+	<script type="application/javascript" src="js/main.js"></script>
 </body>
 </html>

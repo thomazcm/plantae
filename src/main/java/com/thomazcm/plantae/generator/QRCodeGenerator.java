@@ -13,9 +13,14 @@ import net.glxn.qrgen.javase.QRCode;
 public class QRCodeGenerator {
 	
 	public BufferedImage generateQRCodeImage(String barcodeText) throws Exception {
+		
+		int color = 0xFFAA4E3B;
+		int darkerColor = (color & 0xFF000000) | ((color & 0x00FFFFFF) - 0x00101010);
+		
 	    ByteArrayOutputStream stream = QRCode
 	      .from(barcodeText)
 	      .withSize(250, 250)
+	      .withColor(darkerColor, 0xFFFBF3EA)
 	      .stream();
 	    ByteArrayInputStream bis = new ByteArrayInputStream(stream.toByteArray());
 

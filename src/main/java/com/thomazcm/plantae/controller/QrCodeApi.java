@@ -1,21 +1,25 @@
 package com.thomazcm.plantae.controller;
 
-import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.thomazcm.plantae.controller.dto.ClienteDto;
+import com.thomazcm.plantae.controller.dto.RequestPayload;
 import com.thomazcm.plantae.controller.dto.VerificacaoDto;
 import com.thomazcm.plantae.generator.IngressoGenerator;
+import com.thomazcm.plantae.generator.PdfGenerator;
 import com.thomazcm.plantae.generator.QRCodeGenerator;
 import com.thomazcm.plantae.model.Ingresso;
 import com.thomazcm.plantae.repository.IngressoRepository;
@@ -27,12 +31,23 @@ public class QrCodeApi {
 	@Autowired IngressoGenerator ingressoGenerator;
 	@Autowired QRCodeGenerator qrCodeGenerator;
 	@Autowired IngressoRepository repository;
+	@Autowired PdfGenerator pdfGenerator;
 	
-	@PostMapping(value = "/novo", produces = MediaType.IMAGE_PNG_VALUE)
-	public ResponseEntity<BufferedImage> QRCode(ClienteDto cliente)
+	@PostMapping(value = "/novo", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<byte[]> QRCode(@RequestBody RequestPayload payload)
 	throws Exception{
-		var ingresso = ingressoGenerator.novoIngresso(cliente.getNome());
-		return ResponseEntity.ok(qrCodeGenerator.generateQRCodeImage(ingresso.getQrCodeUrl()));
+		
+		String nome = payload.getClienteDto().getNome();
+		var ingresso = ingressoGenerator.novoIngresso(nome);
+		var qrCodeImage = qrCodeGenerator.generateQRCodeImage(ingresso.getQrCodeUrl());
+		ByteArrayOutputStream baos = pdfGenerator.createPDF(qrCodeImage, nome);
+		
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_PDF);
+	    headers.setContentDisposition(ContentDisposition.attachment()
+	    		.filename("ingresso-plantae.pdf").build());
+	    
+	    return ResponseEntity.ok().headers(headers).body(baos.toByteArray());
 	}
 	
 	@GetMapping("/verificar")

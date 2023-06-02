@@ -19,7 +19,7 @@
                 p-3 
                 d-flex justify-content-between">
 
-        <span class="logo ml-3">Plantae Cozinha Vegetal</span>
+        <span class="logo ml-3">Plantae</span>
         <span class="mt-3 mr-3">
             <a href="/login" sec:authorize="!isAuthenticated()" class="text-light">login</a>
             <a href="#" class="text-light" sec:authorize="isAuthenticated()"
@@ -28,8 +28,4 @@
             <form id="form-logout" th:action="@{/logout}" method="POST"></form>
         </span>
     </div>
-</div>
-
-<div th:fragment="titulo(valor)" class="jumbotron">
-        <h1 class="display-4" th:text="${valor}"></h1>
 </div>
