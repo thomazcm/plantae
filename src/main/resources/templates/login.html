@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <div th:replace="~{base :: head('Faça Login')}"></div>
+</head>
+<body>
+    <div th:replace="~{base :: header}"></div>
+    <div class="ml-2">
+        <div class="card  ml-4" id="login-form">
+            <form th:action="@{/login}" class="card-body" method="post">
+                <div class="form-group">
+                    <label for="username">E-mail</label>
+                    <input name="username" class="form-control" placeholder="login" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input name="password" type="password" class="form-control" placeholder="senha"/>
+                </div>
+                <button class="btn btn-primary" type="submit">Login</button>
+        </div>
+    </div>
+</body>
+</html>
