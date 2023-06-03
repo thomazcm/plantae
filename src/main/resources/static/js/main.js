@@ -15,6 +15,7 @@ function onLoad() {
             ingressos: [],
             clienteDto: {
                 nome: '',
+                email: ''
             },
             clienteModal: '',
             idModal: '',
@@ -51,7 +52,7 @@ function onLoad() {
                 })
                     .catch(error => console.log(error));
             },
-            validar(ingresso) {
+            validar() {
                 axios.get(`${apiEndpoint}/ingressos/validar/${this.idModal}`)
                     .then(res => {
                         ingresso.editando = false;
@@ -70,8 +71,8 @@ function onLoad() {
                     })
                     .catch(error => console.log(error))
             },
-            excluir(ingresso) {
-                axios.delete(`${apiEndpoint}/ingressos/${ingresso.id}`)
+            excluir() {
+                axios.delete(`${apiEndpoint}/ingressos/${this.idModal}`)
                     .then(res => {
                         ingresso.editando = false;
                         this.getIngressos();
@@ -105,6 +106,7 @@ function onLoad() {
                 $('#confirmationModalNovoIngresso').modal('show')
             },
             confirmarExcluirIngresso(ingresso) {
+				this.idModal = ingresso.id;
                 this.clienteModal = ingresso.cliente;
                 $('#confirmationModalExcluirIngresso').modal('show')
             },
