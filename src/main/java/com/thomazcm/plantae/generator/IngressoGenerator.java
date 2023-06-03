@@ -1,7 +1,5 @@
 package com.thomazcm.plantae.generator;
 
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,10 +19,9 @@ public class IngressoGenerator {
 		
 		int numero = repository.findAll().size()+1;
 		String cliente = nomeCliente;
-		int senha = new Random().nextInt(1, Integer.MAX_VALUE);
-		Ingresso novoIngresso = new Ingresso(numero, cliente, senha);
+		Ingresso novoIngresso = new Ingresso(numero, cliente);
 		repository.save(novoIngresso);
-		String qrcode = gerarQrCode(novoIngresso.getId(), senha);
+		String qrcode = gerarQrCode(novoIngresso.getId(), novoIngresso.getSenha());
 		novoIngresso.setQrCodeUrl(qrcode);
 		repository.save(novoIngresso);
 		return novoIngresso;
