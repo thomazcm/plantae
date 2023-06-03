@@ -37,8 +37,8 @@ public class Ingresso {
 		this.id = id;
 	}
 
-	public Boolean validar(String senha) {
-		if (this.valid && this.senha == Integer.parseInt(senha)) {
+	public Boolean validar(int senha) {
+		if (this.valid && this.senha == senha) {
 			this.valid = false;
 			return true;
 		}
@@ -72,10 +72,6 @@ public class Ingresso {
 
 	public Boolean getValid() {
 		return valid;
-	}
-
-	public void setValid(Boolean valid) {
-		this.valid = valid;
 	}
 
 	public String getQrCodeUrl() {

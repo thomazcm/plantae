@@ -5,20 +5,29 @@
 </head>
 <body>
     <div th:replace="~{base :: header}"></div>
-    <div class="ml-2">
-        <div class="card  ml-4" id="login-form">
-            <form th:action="@{/login}" class="card-body" method="post">
-                <div class="form-group">
-                    <label for="username">Login</label>
-                    <input name="username" value="plantae" class="form-control" placeholder="login" />
-                </div>
+    <div class="d-flex justify-content-center align-items-center mt-4">
+    <div class="card col-10 col-sm-6 col-md-5 plantae-form" id="login-form" style="max-width: 90%; max-width: 600px;">
+        <form th:action="@{/login}" class="card-body" method="post">
+            <div class="form-group">
+                <label for="username" class="plantae-text">Login</label>
+                <input name="username" value="plantae" class="form-control plantae-field" placeholder="login" />
+            </div>
 
-                <div class="form-group">
-                    <label for="password">Senha</label>
-                    <input name="password" type="password" class="form-control" placeholder="senha"/>
+            <div class="form-group">
+                <label for="password" class="plantae-text">Senha</label>
+                <div class="input-group">
+                    <input name="password" type="password" class="form-control plantae-field" placeholder="senha" id="password-input"/>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="show-password-btn">👁️</button>
+                    </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Login</button>
-        </div>
+            </div>
+            <button class="btn plantae-button" type="submit">Login</button>
+        </form>
     </div>
+</div>
+
+
+    <script type="application/javascript" src="js/login.js"></script>
 </body>
 </html>

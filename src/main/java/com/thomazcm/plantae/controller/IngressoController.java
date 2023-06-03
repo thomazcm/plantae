@@ -37,7 +37,7 @@ public class IngressoController {
 	public ResponseEntity<IngressoDto> validarPorNome(@PathVariable String id) {
 		try {
 			Ingresso ingresso = repository.findById(id).get();
-			ingresso.setValid(false);
+			ingresso.validar(ingresso.getSenha());
 			repository.save(ingresso);
 			return ResponseEntity.ok(new IngressoDto(ingresso));
 		} catch (NoSuchElementException e) {

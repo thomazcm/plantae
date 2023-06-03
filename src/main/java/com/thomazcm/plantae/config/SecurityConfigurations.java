@@ -29,7 +29,10 @@ public class SecurityConfigurations {
                 .and()
                 .csrf().disable()
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+		                .invalidSessionUrl("/login") 
+		                .maximumSessions(1) 
+		                .expiredUrl("/login"))
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/", true)

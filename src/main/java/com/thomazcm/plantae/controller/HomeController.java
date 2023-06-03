@@ -19,9 +19,10 @@ public class HomeController {
 
 	@Value("${plantae.endpoint.apiEndpoint}")
 	private String apiEndpoint;
-	
-	@Autowired IngressoRepository repository;
-	
+
+	@Autowired
+	IngressoRepository repository;
+
 	@GetMapping
 	public String home(Model model) {
 		model.addAttribute("apiEndpoint", apiEndpoint);
@@ -30,12 +31,11 @@ public class HomeController {
 
 	@GetMapping("/verificar")
 	public String verificarQrCode(@RequestParam(required = false) String id,
-			@RequestParam(required = false) String senha,
-			Model model) {
+			@RequestParam(required = false) String senha, Model model) {
 		try {
 			Ingresso ingresso = repository.findById(id).get();
 			model.addAttribute("nomeValidado", ingresso.getCliente());
-			if (!ingresso.validar(senha)) {
+			if (!ingresso.validar(Integer.parseInt(senha))) {
 				model.addAttribute("expirado", true);
 				return "forward:/";
 			}
@@ -47,5 +47,5 @@ public class HomeController {
 			return "forward:/";
 		}
 	}
-	
+
 }

@@ -40,10 +40,23 @@ body {
 .plantae-button {
 	background-color: #AA4E3B !important;
 	color: #FBF3EA !important;
+	transition: transform 0.2s;
+}
+
+.plantae-button:hover,
+.plantae-button:active {
+  background-color: #66534b !important;
+  transform: scale(1.1);
 }
 
 .plantae-form {
-    background-color: #f7e7d4;
+    background-color: #f7e7d4 !important;
+}
+
+.plantae-field {
+    background-color: #FBF3EA !important;
+    color: #84312e !important;
+    font-weight: 400 !important;
 }
 
 .logo {
