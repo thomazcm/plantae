@@ -59,6 +59,24 @@ body {
     font-weight: 400 !important;
 }
 
+.table-buttons {
+	width: 32%;     
+    padding-left: 2px !important;
+    padding-right: 0 !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.btn-table{
+	transition: transform 0.15s;
+}
+
+.btn-table:hover,
+.btn-table:active {
+	background-color: #66534b;
+    transform: scale(1.1);
+}
+
 .logo {
 	font-family: 'Handlee', cursive;
 	font-size: 2.5rem
