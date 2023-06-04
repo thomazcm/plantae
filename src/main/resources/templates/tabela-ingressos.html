@@ -24,27 +24,32 @@
                             <div v-if="!ingresso.editando" style="width: 32%;">
 
                                 <div v-if="ingresso.valid" class="d-flex justify-content-between">
-                                    <button class="btn btn-md flex-fill m-0 btn-table" style="background-color: #ca6b68;"
-                                    v-on:click="confirmarValidarIngresso(ingresso)">🎟️</button>
-                                    <button class="btn btn-md flex-fill m-0 btn-table" style="background-color: #85adad;"
-                                    v-on:click="baixarIngresso(ingresso)">📥</button>
-                                    <button class="btn btn-md btn-warning flex-fill m-0 btn-table" v-on:click="editar(ingresso)">📝</button>
+                                    <button class="btn btn-md flex-fill m-0 btn-table"
+                                        style="background-color: #ca6b68;"
+                                        v-on:click="confirmarValidarIngresso(ingresso)">🎟️</button>
+                                    <button class="btn btn-md flex-fill m-0 btn-table"
+                                        style="background-color: #85adad;"
+                                        v-on:click="baixarIngresso(ingresso)">📥</button>
+                                    <button class="btn btn-md btn-warning flex-fill m-0 btn-table"
+                                        v-on:click="editar(ingresso)">📝</button>
                                     <div th:replace="~{confirmar-ingresso::validar}"></div>
                                 </div>
 
-                               <div v-else class="d-flex justify-content-between align-items-center">
-								  <span class="text-success ml-1 mr-3">Validado</span>
-								  <button class="btn btn-md btn-danger flex-fill m-0 btn-table" v-on:click="confirmarExcluirIngresso(ingresso)">🗑️</button>
-								  <div th:replace="~{confirmar-ingresso::excluir}"></div>
-								</div>
+                                <div v-else class="d-flex justify-content-between align-items-center">
+                                    <span class="text-success ml-1 mr-3">Validado</span>
+                                    <button class="btn btn-md btn-danger flex-fill m-0 btn-table"
+                                        v-on:click="confirmarExcluirIngresso(ingresso)">🗑️</button>
+                                    <div th:replace="~{confirmar-ingresso::excluir}"></div>
+                                </div>
                             </div>
 
                             <div v-else class="d-flex justify-content-between">
                                 <span v-if="!ingresso.valid" class="text-danger">❌</span>
                                 <button v-else class="btn btn-md btn-danger flex-fill m-0 btn-table"
-                                v-on:click="confirmarExcluirIngresso(ingresso)">🗑️</span>
-                                <button class="btn btn-md btn-success ml-1 flex-fill m- 0 btn-table" v-on:click="ok(ingresso)">✅</button>
-                                <div th:replace="~{confirmar-ingresso::excluir}"></div>
+                                    v-on:click="confirmarExcluirIngresso(ingresso)">🗑️</span>
+                                    <button class="btn btn-md btn-success ml-1 flex-fill m- 0 btn-table"
+                                        v-on:click="ok(ingresso)">✅</button>
+                                    <div th:replace="~{confirmar-ingresso::excluir}"></div>
                             </div>
                         </td>
                     </tr>

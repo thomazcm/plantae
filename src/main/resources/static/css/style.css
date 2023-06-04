@@ -1,6 +1,24 @@
 @charset "UTF-8";
 [v-cloak] { display: none; }
 
+.plantae-checkbox {
+	width : 1.4rem !important;
+	height: 1.4rem !important;
+}
+
+.plantae-checkbox:checked {
+    background-color: #84312e;
+    border-color: #84312e;
+  }
+  
+.plantae-checkbox:check+.form-check-label::before {
+	box-shadow: 0 0 0 0.2rem #84312e;
+  }
+
+.form-check-label {
+	margin-left: 12px;
+}
+
 body {
 	background-color: #FBF3EA !important;
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,14 +38,15 @@ public class QrCodeApi {
 	@Autowired PdfGenerator pdfGenerator;
 	@Autowired EmailService emailSender;
 	
-	@GetMapping("/mail")
-	public ResponseEntity<?> sendMail (){
-		emailSender.sendEmail("contato.plantaecozinhavegetal@gmail.com", "email vindo do app...", "testando email pelo app");
-		return ResponseEntity.ok().build();
-	}
+//	@GetMapping("/deleteAll")
+//	public ResponseEntity<?> sendMail (){
+//		repository.deleteAll();
+//		return ResponseEntity.ok().build();
+//	}
 
 	@PostMapping(value = "/novo", produces = MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<byte[]> novoIngresso(@RequestBody RequestPayload payload) throws Exception {
+	public ResponseEntity<byte[]> novoIngresso(@RequestBody RequestPayload payload,
+			@RequestHeader("Enviar-Email") String enviarEmail) throws Exception {
 		
 		ClienteDto clienteDto = payload.getClienteDto();
 		String email = clienteDto.getEmail();
@@ -62,7 +64,7 @@ public class QrCodeApi {
 		String nomePdf = ajustarNomeArquivo(nomes, ingressos.get(0).getId());
 		ByteArrayOutputStream ingressoPdf = pdfGenerator.createPDF(ingressos);
 		
-		if(email != null && !email.isEmpty()) {
+		if(Boolean.parseBoolean(enviarEmail) && email != null && !email.isEmpty()) {
 			emailSender.sendPdfEmail(email, ingressoPdf, nomePdf, ingressos.get(0).getCliente());
 		}
 		return ResponseEntity.ok().headers(pdfDownloadHeaders(nomePdf)).body(ingressoPdf.toByteArray());

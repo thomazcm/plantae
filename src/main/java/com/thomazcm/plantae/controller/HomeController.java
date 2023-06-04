@@ -28,7 +28,7 @@ public class HomeController {
 		model.addAttribute("apiEndpoint", apiEndpoint);
 		return "home";
 	}
-
+	
 	@GetMapping("/verificar")
 	public String verificarQrCode(@RequestParam(required = false) String id,
 			@RequestParam(required = false) String senha, Model model) {

@@ -12,10 +12,10 @@ class Cliente {
 }
 
 class ClienteDto {
-	constructor() {
-		this.clientes = [];
+    constructor() {
+        this.clientes = [];
         this.email = '';
-	}
+    }
 }
 
 function onLoad() {
@@ -37,7 +37,9 @@ function onLoad() {
             loading: false,
             loadingMessage: '',
             nomeOriginal: '',
-            textoConfirmarIngressos : null
+            textoConfirmarIngressos: null,
+            downloadTickets: true,
+            sendEmail: true
         },
         mounted() {
             this.addClienteInput();
@@ -65,19 +67,19 @@ function onLoad() {
                 $('#confirmationModalNovoIngresso').modal('show');
             },
             definirTexto() {
-				if (this.clientesIndex == 1){
-					this.textoConfirmarIngressos = 'Gerar 1 ingresso para:';
-				} else {
-					this.textoConfirmarIngressos = `Gerar ${this.clientesIndex} ingressos para:`
-				}
-			},
+                if (this.clientesIndex == 1) {
+                    this.textoConfirmarIngressos = 'Gerar 1 ingresso para:';
+                } else {
+                    this.textoConfirmarIngressos = `Gerar ${this.clientesIndex} ingressos para:`
+                }
+            },
             gerarIngresso() {
                 this.ingressoGerado = true;
                 if (this.clienteDto.clientes.some(cliente => cliente.nome === '')
                     || !this.isEmailValid(this.clienteDto.email)) {
                     return
                 }
-                this.loadingMessage = 'Gerando ingresso e enviando email,'
+                this.loadingMessage = 'Gerando ingresso,'
                 this.loading = true;
                 const payload = {
                     clienteDto: this.clienteDto
@@ -86,6 +88,7 @@ function onLoad() {
                     responseType: 'arraybuffer',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Enviar-Email': this.sendEmail.toString(),
                     },
                 })
                     .then(response => {
@@ -95,7 +98,9 @@ function onLoad() {
                         link.href = url;
                         const nomeIngresso = response.headers['file-pdf-name'];
                         link.download = nomeIngresso;
-                        link.click();
+                        if (this.downloadTickets) {
+                            link.click();
+                        }
                         this.ingressoGerado = false;
                         this.clienteDto = new ClienteDto();
                         this.clientesIndex = 0;
@@ -126,9 +131,9 @@ function onLoad() {
                 this.clienteDto.clientes.push(newCliente);
             },
             removerClienteInput(index) {
-		        this.clienteDto.clientes.pop();
-		        this.clientesIndex--;
-		    },
+                this.clienteDto.clientes.pop();
+                this.clientesIndex--;
+            },
             home() {
                 window.location.href = '/';
             },
@@ -194,14 +199,14 @@ function onLoad() {
                 this.listaKey++;
             },
             clearErrorMessage(event) {
-			  const target = event.target;
-			  const inputField = document.getElementById('inputField');
-			  const gerarIngressoButton = document.querySelector('#gerar-ingresso-button');
-			
-			  if (target !== inputField && target !== gerarIngressoButton) {
-			    this.ingressoGerado = false;
-			  }
-			},
+                const target = event.target;
+                const inputField = document.getElementById('inputField');
+                const gerarIngressoButton = document.querySelector('#gerar-ingresso-button');
+
+                if (target !== inputField && target !== gerarIngressoButton) {
+                    this.ingressoGerado = false;
+                }
+            },
             confirmarExcluirIngresso(ingresso) {
                 this.idModal = ingresso.id;
                 this.clienteModal = ingresso.cliente;

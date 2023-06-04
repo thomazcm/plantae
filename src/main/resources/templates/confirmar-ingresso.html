@@ -1,19 +1,35 @@
-<div th:fragment="novo" class="modal fade" id="confirmationModalNovoIngresso" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content mt-10" id="confirm-box">
-            <div class="modal-body">
-                <h3 class="modal-title" style="color: #84312e;">{{textoConfirmarIngressos}}<br></h3>
-                <div v-for="cliente in clienteDto.clientes">
-	                <p class="plantae-text" style="font-size: 1.5rem; margin: 5px"> {{ cliente.nome }} </p>
-                </div>
-            </div>
-            <div class="modal-footer d-flex justify-content-between">
-                <button type="button" class="btn btn-lg btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button v-on:click="gerarIngresso" type="submit" class="btn btn-lg plantae-button" data-dismiss="modal">Confirmar</button>
-            </div>
-        </div>
+<div th:fragment="novo" class="modal fade" id="confirmationModalNovoIngresso" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content mt-10" id="confirm-box">
+    <div class="modal-body">
+      <h3 class="modal-title" style="color: #84312e;">{{ textoConfirmarIngressos }}</h3>
+      <div v-for="cliente in clienteDto.clientes">
+        <p class="plantae-text" style="font-size: 1.5rem; margin: 10px">{{ cliente.nome }}</p>
+      </div>
+
+      <div class="form-check mt-3 text-left" v-if="clienteDto.email != ''">
+        <input class="form-check-input plantae-checkbox" type="checkbox" id="sendEmailCheckbox" v-model="sendEmail">
+        <label class="form-check-label " for="sendEmailCheckbox" style="color: #84312e; font-size: 1.3rem;">
+          Enviar Ingressos por email para: 
+          <p style="font-size: 1.4rem; font-weight: 600">{{ clienteDto.email }}</p>
+        </label>
+      </div>
+
+      <div class="form-check mt-3 text-left">
+        <input class="form-check-input plantae-checkbox" type="checkbox" id="downloadCheckbox" v-model="downloadTickets">
+        <label class="form-check-label" for="downloadCheckbox" style="color: #84312e; font-size: 1.3rem;">
+          Fazer download dos ingressos
+        </label>
+      </div>
     </div>
+
+    <div class="modal-footer d-flex justify-content-between">
+      <button type="button" class="btn btn-lg btn-secondary" data-dismiss="modal">Cancelar</button>
+      <button v-on:click="gerarIngresso" type="submit" class="btn btn-lg plantae-button" data-dismiss="modal">Confirmar</button>
+    </div>
+  </div>
+</div>
+
 </div>
 
 <div th:fragment="excluir" class="modal fade" id="confirmationModalExcluirIngresso" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
