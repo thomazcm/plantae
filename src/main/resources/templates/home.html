@@ -15,7 +15,7 @@
 <body onload="onLoad()">
 
 	<div th:replace="~{base :: header}"></div>
-     <div class="container"  id="ingresso">
+     <div class="container"  id="ingresso" v-cloak>
 	     <div class="loading" v-if="loading">
 		  <div class="loading-content">
 		    <div class="loading-spinner"></div>
