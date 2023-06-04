@@ -68,6 +68,7 @@ public class PdfGenerator {
 		String titulo = "Brunch PLANTAE - 1ª Edição";
 		String endereco = "Espaço Vitruvie - Rua Professor José Renault, 67 \n São Bento - Belo Horizonte";
 		String data = "Domingo, 2 de julho de 2023 \n10:00-14:00";
+		String convite = "Este convite concede acesso ao nosso buffet livre e a uma seleção de bebidas não alcoólicas.";
 
 		Image logoImage = Image.getInstance("logo.png");
         logoImage.scaleAbsolute(390, 180);
@@ -104,7 +105,7 @@ public class PdfGenerator {
         font.setColor(170, 78, 60);
         Paragraph paragraph4 = new Paragraph(nomeNoIngresso, font);
         paragraph4.setAlignment(Element.ALIGN_CENTER);
-        paragraph4.setSpacingBefore(8);
+        paragraph4.setSpacingBefore(5);
         document.add(paragraph4);
         
         float qrCodeWidth = PageSize.HALFLETTER.getWidth() * 0.72f;
@@ -113,10 +114,19 @@ public class PdfGenerator {
         Image qrCode = Image.getInstance(qrCodeImage, null);
         qrCode.scaleToFit(qrCodeWidth, qrCodeHeight);
         float qrCodeX = (PageSize.HALFLETTER.getWidth() - qrCode.getScaledWidth()) / 2; 
-        float qrCodeY = 15; 
+        float qrCodeY = 42; 
         qrCode.setAbsolutePosition(qrCodeX, qrCodeY);
         
 		document.add(qrCode);
+		
+		font = FontFactory.getFont("Montserrat-Bold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 8);
+        font.setColor(170, 78, 60);
+        Paragraph paragraph5 = new Paragraph(convite, font);
+        paragraph5.setAlignment(Element.ALIGN_CENTER);
+        paragraph5.setExtraParagraphSpace(5);
+        paragraph5.setSpacingBefore(240);
+        paragraph5.setIndentationLeft(0);
+        document.add(paragraph5);
 	}
 
 	private static class BackgroundColorEvent extends PdfPageEventHelper {
