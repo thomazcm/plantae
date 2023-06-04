@@ -21,7 +21,9 @@ function onLoad() {
             idModal: '',
             ingressoGerado: false,
             nomeValidado: '',
-            loading : false
+            loading : false,
+            loadingMessage: '',
+            nomeOriginal: ''
         },
         mounted() {
             this.getIngressos();
@@ -54,6 +56,8 @@ function onLoad() {
                     .catch(error => console.log(error));
             },
             validar() {
+				this.loading = true;
+				this.loadingMessage = "Validando ingresso,";
                 axios.get(`${apiEndpoint}/ingressos/validar/${this.idModal}`)
                     .then(res => {
                         ingresso.editando = false;
@@ -62,17 +66,25 @@ function onLoad() {
                         this.listaKey++;
                     })
                     .catch(error => console.log(error))
+                    .finally(() => {
+						this.loading = false;
+						this.loadingMessage = '';
+					})
             },
             ok(ingresso) {
-                axios.put(`${apiEndpoint}/ingressos/${ingresso.id}`, ingresso)
+				if (ingresso.cliente != this.nomeOriginal) {
+					 axios.put(`${apiEndpoint}/ingressos/${ingresso.id}`, ingresso)
                     .then(res => {
-                        this.ingresso.editando = false;
-                        ingresso.editando = false;
-                        this.listaKey++;
                     })
                     .catch(error => console.log(error))
+				}
+                this.ingresso.editando = false;
+                ingresso.editando = false;
+                this.listaKey++;
             },
             excluir() {
+				this.loading = true;
+				this.loadingMessage = "Excluindo compra,";
                 axios.delete(`${apiEndpoint}/ingressos/${this.idModal}`)
                     .then(res => {
                         ingresso.editando = false;
@@ -81,11 +93,16 @@ function onLoad() {
                         this.listaKey++;
                     })
                     .catch(error => console.log(error))
+                    .finally(() => {
+						this.loading = false;
+						this.loadingMessage = '';
+					})
             },
             editar(ingresso) {
                 this.ingressos.forEach(i => {
                     i.editando = false;
                 })
+                this.nomeOriginal = ingresso.cliente; 
                 this.ingresso.editando = true;
                 ingresso.editando = true;
                 this.listaKey++;
@@ -141,6 +158,7 @@ function onLoad() {
                 if (!this.clienteDto.nome || !this.isEmailValid(this.clienteDto.email)) {
                     return;
                 }
+                this.loadingMessage = 'Gerando ingresso e enviando email,'
                 this.loading = true;
                 const payload = {
                     clienteDto: this.clienteDto
@@ -175,10 +193,13 @@ function onLoad() {
                     })
                     .finally(() => {
 						this.loading = false;
+						this.loadingMessage = '';
 					});
 
             },
             baixarIngresso(ingresso) {
+				this.loading = true;
+				this.loadingMessage = 'Fazendo download do ingresso,'
                 axios.get(`${apiEndpoint}/qr-code/pdf/${ingresso.id}`, {
                     responseType: 'arraybuffer',
                 })
@@ -198,7 +219,12 @@ function onLoad() {
                     })
                     .catch(error => {
                         console.error(error);
-                    });
+                    })
+                    .finally(() => {
+						this.loading = false;
+						this.loadingMessage = '';
+					}
+					);
 
             }
         }

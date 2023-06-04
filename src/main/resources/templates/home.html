@@ -19,7 +19,7 @@
 	     <div class="loading" v-if="loading">
 		  <div class="loading-content">
 		    <div class="loading-spinner"></div>
-		    <p class="plantae-text loading-text">Gerando ingresso e enviando email<br>aguarde...</p>
+		    <p class="plantae-text loading-text"> {{ loadingMessage }} <br>aguarde...</p>
 		  </div>
 		</div>
          <div th:replace="~{formulario-ingresso}"></div>
