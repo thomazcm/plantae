@@ -17,9 +17,9 @@
 	<!-- Project Information -->
 	<groupId>com.thomazcm</groupId>
 	<artifactId>plantae</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>plantae</name>
-	<description>QR code generator</description>
+	<description>Web app designed to create, send and verify tickets for an event</description>
 
 	<!-- Properties -->
 	<properties>
