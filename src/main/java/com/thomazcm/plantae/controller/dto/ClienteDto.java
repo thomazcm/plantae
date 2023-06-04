@@ -1,16 +1,23 @@
 package com.thomazcm.plantae.controller.dto;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.thomazcm.plantae.model.Cliente;
+
 public class ClienteDto {
 
-	private String nome;
+	@JsonProperty("clientes")
+	private List<Cliente> clientes;
 	private String email;
 	
-	public String getNome() {
-		return nome;
+
+	public List<Cliente> getClientes() {
+		return clientes;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
 	}
 
 	public String getEmail() {

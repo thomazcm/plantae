@@ -1,6 +1,9 @@
 package com.thomazcm.plantae.controller;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ContentDisposition;
@@ -14,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thomazcm.plantae.controller.dto.ClienteDto;
 import com.thomazcm.plantae.controller.dto.RequestPayload;
 import com.thomazcm.plantae.controller.service.EmailService;
 import com.thomazcm.plantae.generator.IngressoGenerator;
 import com.thomazcm.plantae.generator.PdfGenerator;
 import com.thomazcm.plantae.generator.QRCodeGenerator;
+import com.thomazcm.plantae.model.Cliente;
+import com.thomazcm.plantae.model.Ingresso;
 import com.thomazcm.plantae.repository.IngressoRepository;
 
 @RestController
@@ -39,27 +45,35 @@ public class QrCodeApi {
 
 	@PostMapping(value = "/novo", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<byte[]> novoIngresso(@RequestBody RequestPayload payload) throws Exception {
-
-		var ingresso = ingressoGenerator.novoIngresso(payload.getClienteDto());
-		String nome = ingresso.getCliente();
-		String nomeIngresso = ajustarNomeArquivo(nome);
-		var qrCodeImage = qrCodeGenerator.generateQRCodeImage(ingresso.getQrCodeUrl());
-		ByteArrayOutputStream baos = pdfGenerator.createPDF(qrCodeImage, nome);
 		
-		if(ingresso.getEmail() != null) {
-			emailSender.sendPdfEmail(ingresso, baos, nomeIngresso);
+		ClienteDto clienteDto = payload.getClienteDto();
+		String email = clienteDto.getEmail();
+		List<String> nomes = clienteDto.getClientes().stream()
+				.map(Cliente::getNome)
+				.collect(Collectors.toList());
+		
+		
+		List<Ingresso> ingressos = new ArrayList<Ingresso>();
+		nomes.forEach(nome -> {
+			Ingresso novoIngresso = ingressoGenerator.novoIngresso(nome, email);
+			ingressos.add(novoIngresso);
+		});
+		
+		String nomePdf = ajustarNomeArquivo(nomes, ingressos.get(0).getId());
+		ByteArrayOutputStream ingressoPdf = pdfGenerator.createPDF(ingressos);
+		
+		if(email != null && !email.isEmpty()) {
+			emailSender.sendPdfEmail(email, ingressoPdf, nomePdf, ingressos.get(0).getCliente());
 		}
-		return ResponseEntity.ok().headers(pdfDownloadHeaders(nomeIngresso)).body(baos.toByteArray());
+		return ResponseEntity.ok().headers(pdfDownloadHeaders(nomePdf)).body(ingressoPdf.toByteArray());
 	}
 
 	@GetMapping("/pdf/{id}")
 	public ResponseEntity<byte[]> baixarIngresso(@PathVariable String id) throws Exception {
 	
 		var ingresso = repository.findById(id).get();
-		String nome = ingresso.getCliente();
-		String nomeIngresso = ajustarNomeArquivo(nome);
-		var qrCodeImage = qrCodeGenerator.generateQRCodeImage(ingresso.getQrCodeUrl());
-		ByteArrayOutputStream baos = pdfGenerator.createPDF(qrCodeImage, nome);
+		String nomeIngresso = ajustarNomeArquivo(List.of(ingresso.getCliente()), ingresso.getId());
+		ByteArrayOutputStream baos = pdfGenerator.createPDF(List.of(ingresso));
 
 		return ResponseEntity.ok().headers(pdfDownloadHeaders(nomeIngresso)).body(baos.toByteArray());
 	}
@@ -68,16 +82,20 @@ public class QrCodeApi {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_PDF);
 		headers.setContentDisposition(ContentDisposition.attachment().filename(nomeIngresso).build());
+		headers.set("file-pdf-name", nomeIngresso);
 		return headers;
 	}
 
-	private String ajustarNomeArquivo(String nome) {
-		String nomeIngresso;
-		try {
-			nomeIngresso = "entrada-" + nome.substring(0, nome.indexOf(" "))+"-plantae.pdf";
-		} catch (IndexOutOfBoundsException e) {
-			nomeIngresso = "entrada-" + nome +"-plantae.pdf";
-		}
-		return nomeIngresso;
+	private String ajustarNomeArquivo(List<String> nomes, String id) {
+		StringBuilder builder = new StringBuilder("brunch-plantae-");
+		nomes.forEach(nome -> {
+			try {
+				String primeiroNome = nome.substring(0, nome.indexOf(" "));
+				builder.append(primeiroNome + ".");
+			} catch (IndexOutOfBoundsException e) {
+				builder.append(nome + ".");
+			}
+		});
+		return builder  + id.substring(id.length()-10) + ".pdf";
 	}
 }

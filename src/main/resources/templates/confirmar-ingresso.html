@@ -1,11 +1,12 @@
-<!-- Confirmation Dialog -->
 <div th:fragment="novo" class="modal fade" id="confirmationModalNovoIngresso" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content mt-10" id="confirm-box">
             <div class="modal-body">
-                <h3 class="modal-title" style="color: #84312e;">Gerar 1 ingresso para:</h3>
-                <p class="plantae-text" style="font-size:1.5rem">{{ clienteDto.nome }}</p>
+                <h3 class="modal-title" style="color: #84312e;">{{textoConfirmarIngressos}}<br></h3>
+                <div v-for="cliente in clienteDto.clientes">
+	                <p class="plantae-text" style="font-size: 1.5rem; margin: 5px"> {{ cliente.nome }} </p>
+                </div>
             </div>
             <div class="modal-footer d-flex justify-content-between">
                 <button type="button" class="btn btn-lg btn-secondary" data-dismiss="modal">Cancelar</button>

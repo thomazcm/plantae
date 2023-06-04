@@ -117,6 +117,10 @@ body {
   animation: spin 1s infinite linear;
 }
 
+.invalid-feedback {
+  color: red;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

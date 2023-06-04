@@ -4,6 +4,20 @@ function formatarData(data) {
     return `${dia}/${mes}`;
 }
 
+class Cliente {
+    constructor(nome, index) {
+        this.nome = nome;
+        this.index = index;
+    }
+}
+
+class ClienteDto {
+	constructor() {
+		this.clientes = [];
+        this.email = '';
+	}
+}
+
 function onLoad() {
     var ingresso = new Vue({
         el: '#ingresso',
@@ -12,38 +26,110 @@ function onLoad() {
                 editando: false
             },
             listaKey: 0,
+            formKey: 0,
             ingressos: [],
-            clienteDto: {
-                nome: '',
-                email: ''
-            },
+            clienteDto: new ClienteDto(),
+            clientesIndex: 0,
             clienteModal: '',
             idModal: '',
             ingressoGerado: false,
             nomeValidado: '',
-            loading : false,
+            loading: false,
             loadingMessage: '',
-            nomeOriginal: ''
+            nomeOriginal: '',
+            textoConfirmarIngressos : null
         },
         mounted() {
+            this.addClienteInput();
             this.getIngressos();
             document.addEventListener('click', this.clearErrorMessage);
-//            console.log('validado  ' + validado);
-//            console.log('nome validado  ' + nomeValidado);
-//            console.log('expirado  ' + expirado);
-            if (validado){
-				this.nomeValidado = nomeValidado;
+            if (validado) {
+                this.nomeValidado = nomeValidado;
                 $('#modalIngressoValidado').modal('show');
-			}else if (expirado){
-				this.nomeValidado = nomeValidado;
+            } else if (expirado) {
+                this.nomeValidado = nomeValidado;
                 $('#modalIngressoExpirado').modal('show');
-			}
+            }
         },
         beforeDestroy() {
             document.removeEventListener('click', this.clearErrorMessage);
         },
         methods: {
-            home(){
+            confirmarNovoIngresso() {
+                this.ingressoGerado = true;
+                let emptyCliente = this.clienteDto.clientes.some(cliente => cliente.nome.trim() === '');
+                if (emptyCliente || !this.isEmailValid(this.clienteDto.email)) {
+                    return;
+                }
+                this.definirTexto();
+                $('#confirmationModalNovoIngresso').modal('show');
+            },
+            definirTexto() {
+				if (this.clientesIndex == 1){
+					this.textoConfirmarIngressos = 'Gerar 1 ingresso para:';
+				} else {
+					this.textoConfirmarIngressos = `Gerar ${this.clientesIndex} ingressos para:`
+				}
+			},
+            gerarIngresso() {
+                this.ingressoGerado = true;
+                if (this.clienteDto.clientes.some(cliente => cliente.nome === '')
+                    || !this.isEmailValid(this.clienteDto.email)) {
+                    return
+                }
+                this.loadingMessage = 'Gerando ingresso e enviando email,'
+                this.loading = true;
+                const payload = {
+                    clienteDto: this.clienteDto
+                };
+                axios.post(`${apiEndpoint}/qr-code/novo`, payload, {
+                    responseType: 'arraybuffer',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => {
+                        const blob = new Blob([response.data], { type: 'application/pdf' });
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        const nomeIngresso = response.headers['file-pdf-name'];
+                        link.download = nomeIngresso;
+                        link.click();
+                        this.ingressoGerado = false;
+                        this.clienteDto = new ClienteDto();
+                        this.clientesIndex = 0;
+                        this.addClienteInput();
+                        this.getIngressos();
+                        this.formKey++;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                        this.loadingMessage = '';
+                    });
+
+            },
+            isEmailValid(email) {
+                if (!email) {
+                    return true;
+                } else {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return emailRegex.test(email);
+                }
+            },
+            addClienteInput() {
+                this.clientesIndex++;
+                const newCliente = new Cliente('', this.clientesIndex);
+                this.clienteDto.clientes.push(newCliente);
+            },
+            removerClienteInput(index) {
+		        this.clienteDto.clientes.pop();
+		        this.clientesIndex--;
+		    },
+            home() {
                 window.location.href = '/';
             },
             getIngressos() {
@@ -56,8 +142,8 @@ function onLoad() {
                     .catch(error => console.log(error));
             },
             validar() {
-				this.loading = true;
-				this.loadingMessage = "Validando ingresso,";
+                this.loading = true;
+                this.loadingMessage = "Validando ingresso,";
                 axios.get(`${apiEndpoint}/ingressos/validar/${this.idModal}`)
                     .then(res => {
                         ingresso.editando = false;
@@ -67,24 +153,24 @@ function onLoad() {
                     })
                     .catch(error => console.log(error))
                     .finally(() => {
-						this.loading = false;
-						this.loadingMessage = '';
-					})
+                        this.loading = false;
+                        this.loadingMessage = '';
+                    })
             },
             ok(ingresso) {
-				if (ingresso.cliente != this.nomeOriginal) {
-					 axios.put(`${apiEndpoint}/ingressos/${ingresso.id}`, ingresso)
-                    .then(res => {
-                    })
-                    .catch(error => console.log(error))
-				}
+                if (ingresso.cliente != this.nomeOriginal) {
+                    axios.put(`${apiEndpoint}/ingressos/${ingresso.id}`, ingresso)
+                        .then(res => {
+                        })
+                        .catch(error => console.log(error))
+                }
                 this.ingresso.editando = false;
                 ingresso.editando = false;
                 this.listaKey++;
             },
             excluir() {
-				this.loading = true;
-				this.loadingMessage = "Excluindo compra,";
+                this.loading = true;
+                this.loadingMessage = "Excluindo compra,";
                 axios.delete(`${apiEndpoint}/ingressos/${this.idModal}`)
                     .then(res => {
                         ingresso.editando = false;
@@ -94,37 +180,30 @@ function onLoad() {
                     })
                     .catch(error => console.log(error))
                     .finally(() => {
-						this.loading = false;
-						this.loadingMessage = '';
-					})
+                        this.loading = false;
+                        this.loadingMessage = '';
+                    })
             },
             editar(ingresso) {
                 this.ingressos.forEach(i => {
                     i.editando = false;
                 })
-                this.nomeOriginal = ingresso.cliente; 
+                this.nomeOriginal = ingresso.cliente;
                 this.ingresso.editando = true;
                 ingresso.editando = true;
                 this.listaKey++;
             },
             clearErrorMessage(event) {
-                const target = event.target;
-                const inputField = document.getElementById('inputField');
-                const button = document.querySelector('.plantae-button');
-
-                if (target !== inputField && target !== button) {
-                    this.ingressoGerado = false;
-                }
-            },
-            confirmarNovoIngresso() {
-                this.ingressoGerado = true;
-                if (!this.clienteDto.nome || !this.isEmailValid(this.clienteDto.email)) {
-                    return;
-                }
-                $('#confirmationModalNovoIngresso').modal('show')
-            },
+			  const target = event.target;
+			  const inputField = document.getElementById('inputField');
+			  const gerarIngressoButton = document.querySelector('#gerar-ingresso-button');
+			
+			  if (target !== inputField && target !== gerarIngressoButton) {
+			    this.ingressoGerado = false;
+			  }
+			},
             confirmarExcluirIngresso(ingresso) {
-				this.idModal = ingresso.id;
+                this.idModal = ingresso.id;
                 this.clienteModal = ingresso.cliente;
                 $('#confirmationModalExcluirIngresso').modal('show')
             },
@@ -145,61 +224,9 @@ function onLoad() {
                 ingresso.editando = false;
                 this.listaKey++;
             },
-            isEmailValid(email) {
-		        if (!email) {
-		            return true; 
-		        } else {
-		            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		            return emailRegex.test(email);
-		        }
-		    },
-            gerarIngresso() {
-                this.ingressoGerado = true;
-                if (!this.clienteDto.nome || !this.isEmailValid(this.clienteDto.email)) {
-                    return;
-                }
-                this.loadingMessage = 'Gerando ingresso e enviando email,'
-                this.loading = true;
-                const payload = {
-                    clienteDto: this.clienteDto
-                };
-                axios.post(`${apiEndpoint}/qr-code/novo`, payload, {
-                    responseType: 'arraybuffer',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                    .then(response => {
-                        const blob = new Blob([response.data], { type: 'application/pdf' });
-                        const url = URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.href = url;
-                        var nome = this.clienteDto.nome;
-                        if (nome.indexOf(" ") == -1) {
-                            var nomeIngresso = "entrada-" + nome + "-plantae.pdf";
-                        } else {
-                            var nomeIngresso = "entrada-" + nome.substring(0, nome.indexOf(" ")) + "-plantae.pdf";
-                        }
-                        link.download = nomeIngresso;
-                        link.click();
-                        this.ingressoGerado = false;
-                        this.clienteDto.nome = '';
-                        this.clienteDto.email ='';
-                        this.getIngressos();
-                        this.listaKey++;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
-                    .finally(() => {
-						this.loading = false;
-						this.loadingMessage = '';
-					});
-
-            },
             baixarIngresso(ingresso) {
-				this.loading = true;
-				this.loadingMessage = 'Fazendo download do ingresso,'
+                this.loading = true;
+                this.loadingMessage = 'Fazendo download do ingresso,'
                 axios.get(`${apiEndpoint}/qr-code/pdf/${ingresso.id}`, {
                     responseType: 'arraybuffer',
                 })
@@ -208,12 +235,7 @@ function onLoad() {
                         const url = URL.createObjectURL(blob);
                         const link = document.createElement('a');
                         link.href = url;
-                        var nome = ingresso.cliente;
-                        if (nome.indexOf(" ") == -1) {
-                            var nomeIngresso = "entrada-" + nome + "-plantae.pdf";
-                        } else {
-                            var nomeIngresso = "entrada-" + nome.substring(0, nome.indexOf(" ")) + "-plantae.pdf";
-                        }
+                        const nomeIngresso = response.headers['file-pdf-name'];
                         link.download = nomeIngresso;
                         link.click();
                     })
@@ -221,10 +243,10 @@ function onLoad() {
                         console.error(error);
                     })
                     .finally(() => {
-						this.loading = false;
-						this.loadingMessage = '';
-					}
-					);
+                        this.loading = false;
+                        this.loadingMessage = '';
+                    }
+                    );
 
             }
         }

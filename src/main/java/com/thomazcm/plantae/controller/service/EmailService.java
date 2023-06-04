@@ -10,8 +10,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.thomazcm.plantae.model.Ingresso;
-
 @Service
 public class EmailService {
     private final JavaMailSender javaMailSender;
@@ -29,19 +27,19 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
-	public void sendPdfEmail(Ingresso ingresso, ByteArrayOutputStream pdf, String nomeIngresso) {
+	public void sendPdfEmail(String to, ByteArrayOutputStream pdf, String nomeIngresso, String nomeCliente) {
 		try {
 	        MimeMessage message = javaMailSender.createMimeMessage();
 	        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 	        
 	        // Set the recipient email address
-	        helper.setTo(ingresso.getEmail());
+	        helper.setTo(to);
 	        
-	        //
+	        // Set the sender
 	        helper.setFrom("☘ Plantae - Cozinha Vegetal ☘<contato.plantaecozinhavegetal@gmail.com>");
 	        
 	        // Set the email subject
-	        helper.setSubject("Ingresso Brunch Plantae - " + ingresso.getCliente());
+	        helper.setSubject("Ingresso Brunch Plantae - " + nomeCliente);
 	        
 	        // Set the email body
 	        helper.setText(getHtmlBody(), true);
