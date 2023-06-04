@@ -38,12 +38,6 @@ public class QrCodeApi {
 	@Autowired PdfGenerator pdfGenerator;
 	@Autowired EmailService emailSender;
 	
-//	@GetMapping("/deleteAll")
-//	public ResponseEntity<?> sendMail (){
-//		repository.deleteAll();
-//		return ResponseEntity.ok().build();
-//	}
-
 	@PostMapping(value = "/novo", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<byte[]> novoIngresso(@RequestBody RequestPayload payload,
 			@RequestHeader("Enviar-Email") String enviarEmail) throws Exception {
