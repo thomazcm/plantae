@@ -11,6 +11,7 @@ public class Ingresso {
 
 	@Id
 	private String id;
+	private String email;
 	private Integer numero;
 	private String cliente;
 	private LocalDate data;
@@ -64,6 +65,14 @@ public class Ingresso {
 	}
 	public void setCliente(String cliente) {
 		this.cliente = cliente;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public LocalDate getData() {

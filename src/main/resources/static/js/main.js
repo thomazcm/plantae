@@ -20,7 +20,8 @@ function onLoad() {
             clienteModal: '',
             idModal: '',
             ingressoGerado: false,
-            nomeValidado
+            nomeValidado: '',
+            loading : false
         },
         mounted() {
             this.getIngressos();
@@ -100,7 +101,7 @@ function onLoad() {
             },
             confirmarNovoIngresso() {
                 this.ingressoGerado = true;
-                if (!this.clienteDto.nome) {
+                if (!this.clienteDto.nome || !this.isEmailValid(this.clienteDto.email)) {
                     return;
                 }
                 $('#confirmationModalNovoIngresso').modal('show')
@@ -127,11 +128,20 @@ function onLoad() {
                 ingresso.editando = false;
                 this.listaKey++;
             },
+            isEmailValid(email) {
+		        if (!email) {
+		            return true; 
+		        } else {
+		            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		            return emailRegex.test(email);
+		        }
+		    },
             gerarIngresso() {
                 this.ingressoGerado = true;
-                if (!this.clienteDto.nome) {
+                if (!this.clienteDto.nome || !this.isEmailValid(this.clienteDto.email)) {
                     return;
                 }
+                this.loading = true;
                 const payload = {
                     clienteDto: this.clienteDto
                 };
@@ -156,12 +166,16 @@ function onLoad() {
                         link.click();
                         this.ingressoGerado = false;
                         this.clienteDto.nome = '';
+                        this.clienteDto.email ='';
                         this.getIngressos();
                         this.listaKey++;
                     })
                     .catch(error => {
                         console.error(error);
-                    });
+                    })
+                    .finally(() => {
+						this.loading = false;
+					});
 
             },
             baixarIngresso(ingresso) {

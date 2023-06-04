@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thomazcm.plantae.controller.dto.RequestPayload;
+import com.thomazcm.plantae.controller.service.EmailService;
 import com.thomazcm.plantae.generator.IngressoGenerator;
 import com.thomazcm.plantae.generator.PdfGenerator;
 import com.thomazcm.plantae.generator.QRCodeGenerator;
@@ -28,16 +29,26 @@ public class QrCodeApi {
 	@Autowired QRCodeGenerator qrCodeGenerator;
 	@Autowired IngressoRepository repository;
 	@Autowired PdfGenerator pdfGenerator;
+	@Autowired EmailService emailSender;
+	
+	@GetMapping("/mail")
+	public ResponseEntity<?> sendMail (){
+		emailSender.sendEmail("contato.plantaecozinhavegetal@gmail.com", "email vindo do app...", "testando email pelo app");
+		return ResponseEntity.ok().build();
+	}
 
 	@PostMapping(value = "/novo", produces = MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<byte[]> QRCode(@RequestBody RequestPayload payload) throws Exception {
+	public ResponseEntity<byte[]> novoIngresso(@RequestBody RequestPayload payload) throws Exception {
 
-		String nome = payload.getClienteDto().getNome();
+		var ingresso = ingressoGenerator.novoIngresso(payload.getClienteDto());
+		String nome = ingresso.getCliente();
 		String nomeIngresso = ajustarNomeArquivo(nome);
-		var ingresso = ingressoGenerator.novoIngresso(nome);
 		var qrCodeImage = qrCodeGenerator.generateQRCodeImage(ingresso.getQrCodeUrl());
 		ByteArrayOutputStream baos = pdfGenerator.createPDF(qrCodeImage, nome);
-
+		
+		if(ingresso.getEmail() != null) {
+			emailSender.sendPdfEmail(ingresso, baos, nomeIngresso);
+		}
 		return ResponseEntity.ok().headers(pdfDownloadHeaders(nomeIngresso)).body(baos.toByteArray());
 	}
 

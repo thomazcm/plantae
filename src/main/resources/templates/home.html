@@ -16,6 +16,12 @@
 
 	<div th:replace="~{base :: header}"></div>
      <div class="container"  id="ingresso">
+	     <div class="loading" v-if="loading">
+		  <div class="loading-content">
+		    <div class="loading-spinner"></div>
+		    <p class="plantae-text loading-text">Gerando ingresso e enviando email<br>aguarde...</p>
+		  </div>
+		</div>
          <div th:replace="~{formulario-ingresso}"></div>
          <div th:replace="~{tabela-ingressos}"></div>
      	 <div th:replace="~{modals-validacao}"></div>

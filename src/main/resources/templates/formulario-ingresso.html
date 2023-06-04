@@ -4,12 +4,18 @@
             <div class="card-body plantae-form">
                 <form @submit.prevent="confirmarIngresso" >
                     <div class="form-group">
-                        <label for="inputField" class="plantae-text">Informe o nome do cliente para gerar o ingresso:</label>
-                        <input type="text" class="form-control" id="inputField" placeholder="nome do cliente"
-                            v-model="clienteDto.nome" :class="{ 'is-invalid': ingressoGerado && !clienteDto.nome }">
-                            <div v-if="ingressoGerado && !clienteDto.nome" class="invalid-feedback">
-                                Por favor, preencha o nome do cliente.
-                            </div>
+                         <label for="inputField" class="plantae-text">Informe o nome do cliente para gerar o ingresso:</label>
+	                       <input type="text" class="form-control" id="inputField" placeholder="nome do cliente"
+	                           v-model="clienteDto.nome" :class="{ 'is-invalid': ingressoGerado && !clienteDto.nome }">
+	                       <div v-if="ingressoGerado && !clienteDto.nome" class="invalid-feedback">
+	                           Preencha o nome do cliente.
+                        </div>
+                        <label for="inputFieldMail" class="plantae-text mt-2">Email para envio do ingresso: (opcional)</label>
+                        <input type="email" class="form-control" id="inputFieldMail" placeholder="vegano@gmail.com"
+                            v-model="clienteDto.email" :class="{ 'is-invalid': ingressoGerado && !isEmailValid(clienteDto.email) }">
+                        <div v-if="ingressoGerado && !isEmailValid(clienteDto.email)" class="invalid-feedback">
+					        Por favor, informe um email válido ou deixe o campo vazio.
+					    </div>
                     </div>
                     <button type="button" class="plantae-button btn"
                         v-on:click="confirmarNovoIngresso()">Gerar Ingresso</button>
