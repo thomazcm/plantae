@@ -36,7 +36,7 @@ public class EmailService {
 	        helper.setTo(to);
 	        
 	        // Set the sender
-	        helper.setFrom("☘ Plantae - Cozinha Vegetal ☘<contato.plantaecozinhavegetal@gmail.com>");
+	        helper.setFrom("🌱Plantae - Cozinha Vegetal <contato.plantaecozinhavegetal@gmail.com>");
 	        
 	        // Set the email subject
 	        helper.setSubject("Ingresso Brunch Plantae - " + nomeCliente);
@@ -45,7 +45,7 @@ public class EmailService {
 	        helper.setText(getHtmlBody(), true);
 	        
 	        // Attach the PDF to the email
-	        helper.addAttachment("ingresso-plantae", new ByteArrayDataSource(pdf.toByteArray(), "application/pdf"));
+	        helper.addAttachment(nomeIngresso, new ByteArrayDataSource(pdf.toByteArray(), "application/pdf"));
 	        
 	        // Send the email
 	        javaMailSender.send(message);
