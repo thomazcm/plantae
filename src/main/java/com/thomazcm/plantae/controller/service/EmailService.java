@@ -2,7 +2,10 @@ package com.thomazcm.plantae.controller.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Scanner;
 
 import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
@@ -55,8 +58,9 @@ public class EmailService {
 
 	private String getHtmlBody() {
 		Resource resource = new ClassPathResource("templates/emailTemplate.html");
-		try {
-			return new String(Files.readAllBytes(resource.getFile().toPath()));
+		try (InputStream inputStream = resource.getInputStream(); 
+		     Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name())) {
+		     return scanner.useDelimiter("\\A").next();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
