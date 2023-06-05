@@ -19,7 +19,7 @@ import com.thomazcm.plantae.controller.dto.ClienteDto;
 import com.thomazcm.plantae.controller.dto.RequestPayload;
 import com.thomazcm.plantae.controller.service.EmailService;
 import com.thomazcm.plantae.generator.IngressoGenerator;
-import com.thomazcm.plantae.generator.PDFGenerator;
+import com.thomazcm.plantae.generator.PdfGenerator;
 import com.thomazcm.plantae.generator.QRCodeGenerator;
 import com.thomazcm.plantae.model.Cliente;
 import com.thomazcm.plantae.model.Ingresso;
@@ -32,11 +32,11 @@ public class QrCodeApi {
     IngressoGenerator ingressoGenerator;
     QRCodeGenerator qrCodeGenerator;
     IngressoRepository repository;
-    PDFGenerator pdfGenerator;
+    PdfGenerator pdfGenerator;
     EmailService emailSender;
 
     public QrCodeApi(IngressoGenerator ingressoGenerator, QRCodeGenerator qrCodeGenerator,
-            IngressoRepository repository, PDFGenerator pdfGenerator, EmailService emailSender) {
+            IngressoRepository repository, PdfGenerator pdfGenerator, EmailService emailSender) {
         this.ingressoGenerator = ingressoGenerator;
         this.qrCodeGenerator = qrCodeGenerator;
         this.repository = repository;

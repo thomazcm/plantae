@@ -30,7 +30,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.thomazcm.plantae.model.Ingresso;
 
 @Service
-public class PDFGenerator {
+public class PdfGenerator {
 
     @Autowired
     QRCodeGenerator qrCodeGenerator;
