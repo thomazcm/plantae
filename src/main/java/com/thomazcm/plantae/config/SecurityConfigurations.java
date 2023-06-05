@@ -1,6 +1,7 @@
 package com.thomazcm.plantae.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +19,12 @@ public class SecurityConfigurations {
 
     @Autowired
     private AutenticacaoService autenticacaoService;
-    @Bean
     
+    @Value("${plantae.endpoint.apiEndpoint}")
+    private String apiEndpoint;
+    
+    
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
             http
@@ -35,7 +40,7 @@ public class SecurityConfigurations {
 		                .expiredUrl("/login"))
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl(apiEndpoint, true)
                         .failureUrl("/login")
                         .permitAll())
                 .headers().frameOptions().sameOrigin();
