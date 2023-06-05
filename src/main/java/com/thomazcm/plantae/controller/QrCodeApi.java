@@ -75,7 +75,7 @@ public class QrCodeApi {
 
         var ingresso = repository.findById(id).get();
         String nomeIngresso = ajustarNomeArquivo(List.of(ingresso.getCliente()), ingresso.getId());
-        ByteArrayOutputStream baos = pdfGenerator.createPDF(List.of(ingresso));
+        ByteArrayOutputStream baos = pdfGenerator.createPDF(ingresso);
 
         return ResponseEntity.ok().headers(pdfDownloadHeaders(nomeIngresso))
                 .body(baos.toByteArray());

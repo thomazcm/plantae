@@ -23,61 +23,65 @@ import com.thomazcm.plantae.repository.IngressoRepository;
 @RequestMapping("/ingressos")
 public class IngressoController {
 
-	@Autowired
-	private IngressoRepository repository;
+    @Autowired
+    private IngressoRepository repository;
 
-	@GetMapping
-	public ResponseEntity<List<IngressoDto>> listarIngressos() {
+    @GetMapping
+    public ResponseEntity<List<IngressoDto>> listarIngressos() {
 
-		var ingressos = repository.findAll().stream().map(IngressoDto::new).collect(Collectors.toList());
-		return ResponseEntity.ok(sortByValidoENumero(ingressos));
-	}
+        var ingressos =
+                repository.findAll().stream().map(IngressoDto::new).collect(Collectors.toList());
+        return ResponseEntity.ok(sortByValidoENumero(ingressos));
+    }
 
-	@GetMapping("/validar/{id}")
-	public ResponseEntity<IngressoDto> validarPorNome(@PathVariable String id) {
-		try {
-			Ingresso ingresso = repository.findById(id).get();
-			ingresso.validar(ingresso.getSenha());
-			repository.save(ingresso);
-			return ResponseEntity.ok(new IngressoDto(ingresso));
-		} catch (NoSuchElementException e) {
-			e.printStackTrace();
-			return ResponseEntity.notFound().build();
-		}
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<IngressoDto> atualizar(@RequestBody IngressoForm form, @PathVariable String id) {
-		try {
-			Ingresso ingresso = repository.findById(id).get();
-			ingresso.setCliente(form.getCliente());
-			repository.save(ingresso);
-			return ResponseEntity.ok(new IngressoDto(ingresso));
-		} catch (NoSuchElementException e) {
-			e.printStackTrace();
-			return ResponseEntity.notFound().build();
-		}
-	}
+    @GetMapping("/validar/{id}")
+    public ResponseEntity<IngressoDto> validarPorNome(@PathVariable String id) {
+        try {
+            Ingresso ingresso = repository.findById(id).get();
+            ingresso.validar(ingresso.getSenha());
+            repository.save(ingresso);
+            return ResponseEntity.ok(new IngressoDto(ingresso));
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<IngressoDto> excluir(@PathVariable String id) {
-		repository.deleteById(id);
-		return ResponseEntity.ok().build();
-	}
+    @PutMapping("/{id}")
+    public ResponseEntity<IngressoDto> atualizar(@RequestBody IngressoForm form,
+            @PathVariable String id) {
+        try {
+            Ingresso ingresso = repository.findById(id).get();
+            ingresso.setCliente(form.getCliente());
+            repository.save(ingresso);
+            return ResponseEntity.ok(new IngressoDto(ingresso));
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-	private List<IngressoDto> sortByValidoENumero(List<IngressoDto> ingressos) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<IngressoDto> excluir(@PathVariable String id) {
+        repository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 
-		List<IngressoDto> validos = ingressos.stream().filter(i -> i.getValid()).collect(Collectors.toList());
-		List<IngressoDto> invalidos = ingressos.stream().filter(i -> !i.getValid()).collect(Collectors.toList());
+    private List<IngressoDto> sortByValidoENumero(List<IngressoDto> ingressos) {
 
-		validos.sort((i1, i2) -> {
-			return i1.getCliente().compareTo(i2.getCliente());
-		});
-		invalidos.sort((i1, i2) -> {
-			return i1.getCliente().compareTo(i2.getCliente());
-		});
-		validos.addAll(invalidos);
-		return validos;
-	}
+        List<IngressoDto> validos =
+                ingressos.stream().filter(i -> i.getValid()).collect(Collectors.toList());
+        List<IngressoDto> invalidos =
+                ingressos.stream().filter(i -> !i.getValid()).collect(Collectors.toList());
+
+        validos.sort((i1, i2) -> {
+            return i1.getCliente().compareTo(i2.getCliente());
+        });
+        invalidos.sort((i1, i2) -> {
+            return i1.getCliente().compareTo(i2.getCliente());
+        });
+        validos.addAll(invalidos);
+        return validos;
+    }
 
 }
