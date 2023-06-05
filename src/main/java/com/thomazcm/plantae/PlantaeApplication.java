@@ -11,14 +11,14 @@ import org.springframework.http.converter.HttpMessageConverter;
 @SpringBootApplication
 public class PlantaeApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PlantaeApplication.class, args);
-	}
-	
-	@Bean
-	public HttpMessageConverter<BufferedImage> createImageHttpMessageConverter() {
-	    return new BufferedImageHttpMessageConverter();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PlantaeApplication.class, args);
+    }
+
+    @Bean
+    public HttpMessageConverter<BufferedImage> createImageHttpMessageConverter() {
+        return new BufferedImageHttpMessageConverter();
+    }
 
 }
 

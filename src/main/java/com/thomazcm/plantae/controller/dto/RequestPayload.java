@@ -2,14 +2,14 @@ package com.thomazcm.plantae.controller.dto;
 
 public class RequestPayload {
 
-	private ClienteDto clienteDto;
+    private ClienteDto clienteDto;
 
-	public ClienteDto getClienteDto() {
-		return clienteDto;
-	}
+    public ClienteDto getClienteDto() {
+        return clienteDto;
+    }
 
-	public void setClienteDto(ClienteDto clienteDto) {
-		this.clienteDto = clienteDto;
-	}
-	
+    public void setClienteDto(ClienteDto clienteDto) {
+        this.clienteDto = clienteDto;
+    }
+
 }

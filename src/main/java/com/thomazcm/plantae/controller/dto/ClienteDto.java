@@ -7,25 +7,25 @@ import com.thomazcm.plantae.model.Cliente;
 
 public class ClienteDto {
 
-	@JsonProperty("clientes")
-	private List<Cliente> clientes;
-	private String email;
-	
+    @JsonProperty("clientes")
+    private List<Cliente> clientes;
+    private String email;
 
-	public List<Cliente> getClientes() {
-		return clientes;
-	}
 
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

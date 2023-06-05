@@ -4,12 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.Scanner;
-
-import javax.mail.internet.MimeMessage;
+import javax.mail.MessagingException;
 import javax.mail.util.ByteArrayDataSource;
-
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.SimpleMailMessage;
@@ -20,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
     private final JavaMailSender javaMailSender;
-    
+
     public EmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
@@ -34,36 +31,39 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
-	public void sendPdfEmail(String to, ByteArrayOutputStream pdf, String nomeIngresso, String nomeCliente) {
-		try {
-	        MimeMessage message = javaMailSender.createMimeMessage();
-	        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-	        
-	        helper.setTo(to);
-	        
-	        helper.setFrom("Plantae - Cozinha Vegetal <contato.plantaecozinhavegetal@gmail.com>");
-	        
-	        helper.setSubject("Ingresso Brunch Plantae - " + nomeCliente);
-	        
-	        helper.setText(getHtmlBody(), true);
-	        
-	        helper.addAttachment(nomeIngresso, new ByteArrayDataSource(pdf.toByteArray(), "application/pdf"));
-	        
-	        javaMailSender.send(message);
-	        
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    }
-	}
+    public void sendPdfEmail(String to, ByteArrayOutputStream pdf, String nomeIngresso,
+            String nomeCliente) {
+        try {
+            var message = javaMailSender.createMimeMessage();
+            var messageHelper = new MimeMessageHelper(message, true);
 
-	private String getHtmlBody() {
-		Resource resource = new ClassPathResource("templates/emailTemplate.html");
-		try (InputStream inputStream = resource.getInputStream(); 
-		     Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name())) {
-		     return scanner.useDelimiter("\\A").next();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+            messageHelper.setTo(to);
+            messageHelper
+                    .setFrom("Plantae - Cozinha Vegetal <contato.plantaecozinhavegetal@gmail.com>");
+            messageHelper.setSubject("Ingresso Brunch Plantae - " + nomeCliente);
+            messageHelper.setText(getHtmlBody(), true);
+
+            messageHelper.addAttachment(nomeIngresso,
+                    new ByteArrayDataSource(pdf.toByteArray(), "application/pdf"));
+
+            javaMailSender.send(message);
+
+        } catch (MessagingException e) {
+            System.out.println("Failed to send ticket email");
+            e.printStackTrace();
+        }
+    }
+
+    private String getHtmlBody() {
+        Resource resource = new ClassPathResource("templates/emailTemplate.html");
+        try (InputStream inputStream = resource.getInputStream();
+                var scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name())) {
+
+            return scanner.useDelimiter("\\A").next();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error accessing the HTML email template");
+            return null;
+        }
+    }
 }
