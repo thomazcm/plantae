@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.thomazcm.plantae.controller.dto.ClienteDto;
 import com.thomazcm.plantae.controller.dto.RequestPayload;
-import com.thomazcm.plantae.controller.service.EmailService;
-import com.thomazcm.plantae.generator.IngressoGenerator;
-import com.thomazcm.plantae.generator.PdfGenerator;
-import com.thomazcm.plantae.generator.QRCodeGenerator;
 import com.thomazcm.plantae.model.Cliente;
 import com.thomazcm.plantae.model.Ingresso;
 import com.thomazcm.plantae.repository.IngressoRepository;
+import com.thomazcm.plantae.service.EmailService;
+import com.thomazcm.plantae.service.IngressoGenerator;
+import com.thomazcm.plantae.service.PdfGenerator;
+import com.thomazcm.plantae.service.QRCodeGenerator;
 
 @RestController
 @RequestMapping("/qr-code")
@@ -93,12 +93,14 @@ public class QrCodeApi {
     private String ajustarNomeArquivo(List<String> nomes, String id) {
         StringBuilder builder = new StringBuilder("brunch-plantae-");
         nomes.forEach(nome -> {
-            try {
-                String primeiroNome = nome.substring(0, nome.indexOf(" "));
-                builder.append(primeiroNome + ".");
-            } catch (IndexOutOfBoundsException e) {
-                builder.append(nome + ".");
+            int spaceIndex = nome.indexOf(" ");
+            if (spaceIndex != -1) {
+                String primeiroNome = nome.substring(0, spaceIndex);
+                builder.append(primeiroNome);
+            } else {
+                builder.append(nome);
             }
+            builder.append(".");
         });
         return builder + id.substring(id.length() - 10) + ".pdf";
     }

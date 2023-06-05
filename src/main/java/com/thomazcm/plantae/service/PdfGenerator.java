@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.thomazcm.plantae.generator;
+package com.thomazcm.plantae.service;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -9,10 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -27,13 +24,23 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.thomazcm.plantae.config.properties.PdfProperties;
 import com.thomazcm.plantae.model.Ingresso;
 
 @Service
 public class PdfGenerator {
 
-    @Autowired
-    QRCodeGenerator qrCodeGenerator;
+    private final QRCodeGenerator qrCodeGenerator;
+    private final PdfProperties properties;
+
+    public PdfGenerator(QRCodeGenerator qrCodeGenerator, PdfProperties properties) {
+        this.qrCodeGenerator = qrCodeGenerator;
+        this.properties = properties;
+    }
+
+    public ByteArrayOutputStream createPDF(Ingresso ingresso) {
+        return createPDF(List.of(ingresso));
+    }
 
     public ByteArrayOutputStream createPDF(List<Ingresso> ingressos) {
         try {
@@ -41,81 +48,62 @@ public class PdfGenerator {
             Document document = new Document(PageSize.HALFLETTER);
             PdfWriter writer = PdfWriter.getInstance(document, baos);
 
-            writer.setPageEvent(new BackgroundColorEvent(Color.decode("#FBF3EA")));
+            String backgroundColor = properties.getBackgroundColor();
+            writer.setPageEvent(new BackgroundColorEvent(Color.decode(backgroundColor)));
 
             document.open();
 
             ingressos.forEach(ingresso -> {
                 try {
                     var qrCodeImage = qrCodeGenerator.generateQRCodeImage(ingresso.getQrCodeUrl());
-                    String nomeNoIngresso = "Entrada - " + ingresso.getCliente();
-                    writePage(document, qrCodeImage, nomeNoIngresso);
+                    String nomeCliente = ingresso.getCliente();
+                    writePage(document, qrCodeImage, nomeCliente);
                     document.newPage();
+
                 } catch (Exception e) {
+                    System.out
+                            .println("Error generating PDF contents for " + ingresso.getCliente());
                     e.printStackTrace();
                 }
             });
-
             document.close();
 
             return baos;
         } catch (Exception e) {
+            System.out.println("Failed to create PDF file");
             e.printStackTrace();
             return null;
         }
     }
 
-    private void writePage(Document document, BufferedImage qrCodeImage, String nomeNoIngresso)
+    private void writePage(Document document, BufferedImage qrCodeImage, String nomeCliente)
             throws DocumentException, MalformedURLException, IOException {
-        String titulo = "Brunch PLANTAE - 1ª Edição";
-        String endereco =
-                "Espaço Vitruvie - Rua Professor José Renault, 67 \n São Bento - Belo Horizonte";
-        String data = "Domingo, 2 de julho de 2023 \n10:00-14:00";
-        String convite =
-                "Este convite concede acesso ao nosso buffet livre e a uma seleção de bebidas não alcoólicas.";
 
-        Image logoImage = Image.getInstance("logo.png");
+        Image logoImage = Image.getInstance("classpath:static/png/logo.png");
         logoImage.scaleAbsolute(390, 180);
         logoImage.setAbsolutePosition(0,
                 PageSize.HALFLETTER.getHeight() - logoImage.getScaledHeight());
         document.add(logoImage);
 
-
-        Font font = FontFactory.getFont("Montserrat-SemiBold.ttf", BaseFont.IDENTITY_H,
-                BaseFont.EMBEDDED, 16);
-        font.setColor(170, 78, 60);
-
-        Paragraph paragraph1 = new Paragraph(titulo.toUpperCase(), font);
-        paragraph1.setAlignment(Element.ALIGN_CENTER);
-        paragraph1.setSpacingBefore(logoImage.getScaledHeight() - 40);
-        document.add(paragraph1);
-
-        font = FontFactory.getFont("Montserrat-Medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED,
-                12);
-        font.setColor(170, 78, 60);
-
-        Paragraph paragraph2 = new Paragraph(endereco, font);
-        paragraph2.setAlignment(Element.ALIGN_CENTER);
-        paragraph2.setSpacingBefore(3);
-        document.add(paragraph2);
-
-        font = FontFactory.getFont("Montserrat-Bold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED,
-                14);
-        font.setColor(170, 78, 60);
-        Paragraph paragraph3 = new Paragraph(data, font);
-        paragraph3.setAlignment(Element.ALIGN_CENTER);
-        paragraph3.setExtraParagraphSpace(5);
-        paragraph3.setSpacingBefore(3);
-        document.add(paragraph3);
-
-
-        font = FontFactory.getFont("Montserrat-Medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED,
-                11);
-        font.setColor(170, 78, 60);
-        Paragraph paragraph4 = new Paragraph(nomeNoIngresso, font);
-        paragraph4.setAlignment(Element.ALIGN_CENTER);
-        paragraph4.setSpacingBefore(5);
-        document.add(paragraph4);
+        document.add(
+                createParagraph(properties.getTitulo().toUpperCase(), 
+                    "static/fonts/Montserrat-SemiBold.ttf", 16,
+                    Element.ALIGN_CENTER, logoImage.getScaledHeight() - 50, 0 
+                ));
+        document.add(
+                createParagraph(properties.getEndereco(), 
+                    "static/fonts/Montserrat-Medium.ttf", 12,
+                    Element.ALIGN_CENTER, 
+                    3, 0
+                ));
+        document.add(
+                createParagraph(properties.getData(), 
+                    "static/fonts/Montserrat-Bold.ttf", 14,
+                    Element.ALIGN_CENTER, 3, 5));
+        document.add(
+                createParagraph(properties.getPrefixoNomeNoIngresso() + nomeCliente,
+                    "static/fonts/Montserrat-Medium.ttf", 11, 
+                    Element.ALIGN_CENTER, 5, 0));
 
         float qrCodeWidth = PageSize.HALFLETTER.getWidth() * 0.72f;
         float qrCodeHeight = qrCodeWidth;
@@ -127,16 +115,23 @@ public class PdfGenerator {
         qrCode.setAbsolutePosition(qrCodeX, qrCodeY);
 
         document.add(qrCode);
+        document.add(
+                createParagraph(properties.getRodape(), 
+                    "static/fonts/Montserrat-Bold.ttf", 8,
+                    Element.ALIGN_CENTER, 260, 5));
+    }
 
-        font = FontFactory.getFont("Montserrat-Bold.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED,
-                8);
+    private Paragraph createParagraph(String content, String fontName, int fontSize, int alignment,
+            float spacingBefore, float extraSpace) {
+        Font font = FontFactory.getFont(fontName, BaseFont.IDENTITY_H, BaseFont.EMBEDDED, fontSize);
         font.setColor(170, 78, 60);
-        Paragraph paragraph5 = new Paragraph(convite, font);
-        paragraph5.setAlignment(Element.ALIGN_CENTER);
-        paragraph5.setExtraParagraphSpace(5);
-        paragraph5.setSpacingBefore(240);
-        paragraph5.setIndentationLeft(0);
-        document.add(paragraph5);
+
+        Paragraph paragraph = new Paragraph(content, font);
+        paragraph.setAlignment(alignment);
+        paragraph.setSpacingBefore(spacingBefore);
+        paragraph.setExtraParagraphSpace(extraSpace);
+
+        return paragraph;
     }
 
     private static class BackgroundColorEvent extends PdfPageEventHelper {

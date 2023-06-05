@@ -51,11 +51,6 @@
 	    </dependency>
 	
 	    <dependency>
-	      <groupId>org.springframework.boot</groupId>
-	      <artifactId>spring-boot-starter-test</artifactId>
-	      <scope>test</scope>
-	    </dependency>
-	    <dependency>
 	      <groupId>org.springframework.security</groupId>
 	      <artifactId>spring-security-test</artifactId>
 	      <scope>test</scope>
@@ -78,13 +73,6 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- Email sending dependecies -->
-		<dependency>
-		    <groupId>javax.mail</groupId>
-		    <artifactId>mail</artifactId>
-		    <version>1.4.7</version>
-		</dependency>
-
 		<!-- QR Code Generation Dependencies -->
 		<dependency>
 			<groupId>com.github.kenglxn.qrgen</groupId>

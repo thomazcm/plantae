@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.controller.service;
+package com.thomazcm.plantae.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,12 +13,15 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import com.thomazcm.plantae.config.properties.MailProperties;
 
 @Service
 public class EmailService {
     private final JavaMailSender javaMailSender;
-
-    public EmailService(JavaMailSender javaMailSender) {
+    private final MailProperties mailProperties;
+    
+    public EmailService(JavaMailSender javaMailSender, MailProperties mailProperties) {
+        this.mailProperties = mailProperties;
         this.javaMailSender = javaMailSender;
     }
 
@@ -31,16 +34,15 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
-    public void sendPdfEmail(String to, ByteArrayOutputStream pdf, String nomeIngresso,
+    public void sendPdfEmail(String emailCliente, ByteArrayOutputStream pdf, String nomeIngresso,
             String nomeCliente) {
         try {
             var message = javaMailSender.createMimeMessage();
             var messageHelper = new MimeMessageHelper(message, true);
 
-            messageHelper.setTo(to);
-            messageHelper
-                    .setFrom("Plantae - Cozinha Vegetal <contato.plantaecozinhavegetal@gmail.com>");
-            messageHelper.setSubject("Ingresso Brunch Plantae - " + nomeCliente);
+            messageHelper.setTo(emailCliente);
+            messageHelper.setFrom(mailProperties.getSender());
+            messageHelper.setSubject(mailProperties.getSubject() + nomeCliente);
             messageHelper.setText(getHtmlBody(), true);
 
             messageHelper.addAttachment(nomeIngresso,

@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.generator;
+package com.thomazcm.plantae.service;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
