@@ -105,11 +105,13 @@ $ mvn install
 # Run the app
 $ mvn spring-boot:run
 
+```
+
 Open http://localhost:8080 to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
 <p align="right">(<a href="#readme-top">back to the top</a>)</p>
-```
 
+<p align="right">(<a href="#readme-top">back to the top</a>)</p>
 
 ## License
 
