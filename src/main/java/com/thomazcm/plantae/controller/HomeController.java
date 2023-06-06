@@ -47,5 +47,11 @@ public class HomeController {
 			return "forward:/";
 		}
 	}
+	
+	@GetMapping("/link-pix")
+	public String linkPix() {
+	    return "link-pagamento";
+	}
+	
 
 }

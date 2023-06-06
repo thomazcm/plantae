@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -26,8 +27,9 @@ public class SecurityConfigurations {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().antMatchers("/login/**", "/logout/**", "/js/**", "/css/**")
-                .permitAll().anyRequest().authenticated().and().csrf().disable()
+        http.authorizeRequests().antMatchers("/login/**", "/logout/**", "/js/**", "/css/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/link-pix").permitAll()
+                .anyRequest().authenticated().and().csrf().disable()
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                         .invalidSessionUrl("/login").maximumSessions(1).expiredUrl("/login"))
