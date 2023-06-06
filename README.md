@@ -24,6 +24,8 @@
 
 :small_blue_diamond: [Features](#features)
 
+:small_blue_diamond: [Running the Project](#running-the-project)
+
 :small_blue_diamond: [Author](#author)
 
 | :placard: Vitrine.Dev |     |
@@ -86,7 +88,29 @@ These features work together to make this application a comprehensive solution f
 
 <p align="right">(<a href="#readme-top">back to the top</a>)</p>
 
-#
+## Setting Up and Running the Project Locally
+
+To clone and run this project locally, you'll need to have [Git](https://git-scm.com), [Java](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html), and [Maven](https://maven.apache.org/) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/thomazcm/plantae
+
+# Go into the repository
+$ cd plantae
+
+# Install dependencies
+$ mvn install
+
+# Run the app
+$ mvn spring-boot:run
+
+Open http://localhost:8080 to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
+
+<p align="right">(<a href="#readme-top">back to the top</a>)</p>
+```
+
+
 ## License
 
 This project is under the [MIT](./LICENSE) License. Refer to the LICENSE.md file for more details.
