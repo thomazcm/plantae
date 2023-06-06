@@ -20,11 +20,17 @@
 
 :small_blue_diamond: [About the Project](#about-the-project)
 
-:small_blue_diamond: [Technology Stack](#technology-stack)
+:small_blue_diamond: [Backend](#backend)
 
-:small_blue_diamond: [Features](#features)
+:small_blue_diamond: [Frontend](#frontend)
 
-:small_blue_diamond: [Running the Project](#running-the-project)
+:small_blue_diamond: [Database](#database)
+
+:small_blue_diamond: [Functionality](#functionality)
+
+:small_blue_diamond: [Setting Up and Running the Project Locally](#setting-up-and-running-the-project-locally)
+
+:small_blue_diamond: [License](#license)
 
 :small_blue_diamond: [Author](#author)
 
@@ -40,6 +46,9 @@
 This project is a robust web application designed to streamline event ticket management and distribution, using Maven, Spring Boot, Vue.js, Bootstrap, and MongoDB. 
 
 The core functionality of the web application revolves around generating PDF files for event tickets, managing the list of sold tickets, sending the tickets directly to the customer's email, and ticket validation via QR Code scanning on the event day. 
+
+<p align="right">(<a href="#readme-top">back to the top</a>)</p>
+
 ## Technology Stack
 
 This application is built using a variety of technologies, each chosen for its strengths and compatibility with the others.
@@ -71,6 +80,8 @@ This application is built using a variety of technologies, each chosen for its s
 - **MongoDB**: The primary database management system. MongoDB is a source-available cross-platform document-oriented database program, classified as a NoSQL database program, using JSON-like documents with optional schemas.
 
 This combination of technologies allows the application to handle complex tasks with ease, while remaining scalable and maintainable.
+
+<p align="right">(<a href="#readme-top">back to the top</a>)</p>
 
 ## Functionality
 
@@ -108,8 +119,6 @@ $ mvn spring-boot:run
 ```
 
 Open http://localhost:8080 to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
-
-<p align="right">(<a href="#readme-top">back to the top</a>)</p>
 
 <p align="right">(<a href="#readme-top">back to the top</a>)</p>
 
