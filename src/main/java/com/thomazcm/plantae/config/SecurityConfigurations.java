@@ -28,7 +28,7 @@ public class SecurityConfigurations {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeRequests().antMatchers("/login/**", "/logout/**", "/js/**", "/css/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/link-pix").permitAll()
+                .antMatchers("/link-pix/**").permitAll()
                 .anyRequest().authenticated().and().csrf().disable()
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
