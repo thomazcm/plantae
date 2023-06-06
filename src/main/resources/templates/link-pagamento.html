@@ -20,7 +20,7 @@
           <div class="input-group">
             <textarea class="form-control" id="copy-textarea" rows="3" readonly>00020126480014br.gov.bcb.pix0126lauramirandalima@gmail.com520400005303986540578.005802BR5918Laura Miranda Lima6009Sao Paulo62070503***6304277B</textarea>
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" id="copy-button" data-toggle="tooltip" data-placement="bottom" title="Copiar link">
+              <button class="btn btn-outline-secondary" type="button" id="copy-button" data-toggle="tooltip" data-placement="bottom" title="Copiar Link">
                 <span class="material-icons">
 				content_copy
 				</span>
@@ -31,21 +31,23 @@
       </div>
     </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script>
-      $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
 
-        $("#copy-button").click(function(){
-          var copyText = document.getElementById("copy-textarea");
-          navigator.clipboard.writeText(copyText.value);
-        });
+      $("#copy-button").click(function(){
+        var copyText = document.getElementById("copy-textarea");
+        navigator.clipboard.writeText(copyText.value);
+
+        $(this).tooltip('dispose');  
+        $(this).attr('title', 'Link Copiado!').tooltip();  
+        $(this).tooltip('show');
       });
+    });
     </script>
   </body>
 </html>
