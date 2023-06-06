@@ -1,18 +1,3 @@
-$(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
-
-      $("#copy-button").click(function(){
-        var copyText = document.getElementById("copy-textarea");
-        navigator.clipboard.writeText(copyText.value);
-
-        $(this).tooltip('dispose');  
-        $(this).attr('title', 'Link Copiado!').tooltip();  
-        $(this).tooltip('show');
-      });
-    });
-    
-    
-
 function onLoad() {
     var pix = new Vue({
         el: '#pix',
@@ -30,6 +15,18 @@ function onLoad() {
 			]
         },
         mounted(){
+			$(document).ready(function(){
+			      $('[data-toggle="tooltip"]').tooltip();
+			
+			      $("#copy-button").click(function(){
+			        var copyText = document.getElementById("copy-textarea");
+			        navigator.clipboard.writeText(copyText.value);
+			
+			        $(this).tooltip('dispose');  
+			        $(this).attr('title', 'Link Copiado!').tooltip();  
+			        $(this).tooltip('show');
+			      });
+			});
 			
 		},
 		methods : {
