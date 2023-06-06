@@ -1,53 +1,50 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
+    <div th:replace="~{base :: head('Comprar Convite Plantae')}"></div>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="/css/style.css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Comprar Convite Plantae</title>
   </head>
-  <body>
-    <div class="container">
-      <div class="row mt-5">
-          	<label for="copy-textarea" class="ml-4 mr-4 plantae-text"> Copie o link do pix copia e cola para comprar sua entrada para o Brunch Vegetal:</label>
+  <body onload="onLoad()">
+    <div th:replace="~{base :: header}"></div>
+    <div class="container" id="pix">
+      <div class="row mt-4">
+          	<label for="copy-textarea" class="ml-4 mr-4 plantae-text"> Copie o link do <b>pix copia e cola</b> para comprar sua entrada para o Brunch Vegetal:</label>
         <div class="col-12">
           <div class="input-group">
-            <textarea class="form-control" id="copy-textarea" rows="3" readonly>00020126480014br.gov.bcb.pix0126lauramirandalima@gmail.com520400005303986540578.005802BR5918Laura Miranda Lima6009Sao Paulo62070503***6304277B</textarea>
+            <textarea class="form-control" id="copy-textarea" rows="3" readonly v-model="links[quantity-1]"></textarea>
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" id="copy-button" data-toggle="tooltip" data-placement="bottom" title="Copiar Link">
+              <button class="btn btn-outline-secondary" type="button" id="copy-button" data-toggle="tooltip" data-placement="bottom" title="Copiar Link" style="width: 75px">
                 <span class="material-icons">
 				content_copy
 				</span>
               </button>
             </div>
-          </div>
-        </div>
+    	</div>
+        <div class="input-group mt-2" style="width: 60%; margin-left: 17%">
+            <div class="input-group-prepend">
+              <button v-if="quantity > 1" 
+              class="btn btn-outline-secondary" @click="decrease()" type="button" id="minus-button">
+                <i class="fas fa-minus"></i>
+              </button>
+            </div>
+            <input type="text" class="form-control text-center" v-model="display" readonly
+            style="background-color: transparent; color: #84312e; font-weight: 600; font-size: 1.2rem">
+            <div class="input-group-append">
+              <button v-if="quantity < 4" class="btn btn-outline-secondary" @click="increase()" type="button" id="plus-button">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+         </div>
+         <input type="text" class="form-control text-center" v-model="displayTotal" readonly 
+         style="background-color: transparent; color: #84312e; font-weight: 600; font-size: 1.2rem;
+         width: 38%; margin-left: 28%; 
+         ">
       </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <script>
-    $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
-
-      $("#copy-button").click(function(){
-        var copyText = document.getElementById("copy-textarea");
-        navigator.clipboard.writeText(copyText.value);
-
-        $(this).tooltip('dispose');  
-        $(this).attr('title', 'Link Copiado!').tooltip();  
-        $(this).tooltip('show');
-      });
-    });
-    </script>
+      </div>
+    </div>
+	<script type="application/javascript" src="js/pix.js"></script>
   </body>
 </html>
