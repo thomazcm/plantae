@@ -64,6 +64,8 @@ The core functionalities of this web application include:
 
 - **QR Code Ticket Validation**: On the event day, tickets can be validated quickly and efficiently by scanning a QR Code, streamlining entry and reducing the chance of fraudulent tickets.
 
+<img src="https://raw.githubusercontent.com/thomazcm/plantae/master/github/event-ticket.png" width="200" height="400">
+
 These features work together to make this application a comprehensive solution for event ticket generation, distribution, and validation.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
