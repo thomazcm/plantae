@@ -18,7 +18,7 @@
 
 ![Two young women cooking plant-based food](https://github.com/thomazcm/plantae/blob/master/src/main/resources/static/png/girls-cooking.png)
 
-### Tópicos 
+### Index 
 
 :small_blue_diamond: [About the Project](#about-the-project)
 
