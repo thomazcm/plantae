@@ -12,7 +12,7 @@
   <img src="http://img.shields.io/static/v1?label=axios&message=1.3.4&color=blue&style=for-the-badge&logo=axios"/>
   <img src="http://img.shields.io/static/v1?label=Thymeleaf&message=3.0.15&color=green&style=for-the-badge&logo=thymeleaf"/>
   <img src="http://img.shields.io/static/v1?label=Bootstrap&message=4&color=purple&style=for-the-badge&logo=bootstrap"/>
-  <img src="http://img.shields.io/static/v1?label=STATUS&message=CONCLUIDO&color=GREEN&style=for-the-badge"/>
+  <img src="http://img.shields.io/static/v1?label=STATUS&message=DEPLOYED&color=GREEN&style=for-the-badge"/>
   <img src="http://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/>
 
 
@@ -50,6 +50,10 @@ The core functionality of the web application revolves around generating PDF fil
 ## Functionality
 
 The core functionalities of this web application include:
+
+- **Personalized PIX payment link sharing**: The application has a public section that customers can use to easily copy the event's organizer payment details for ticket purchase. This page can be easily configured and customized for number of tickets, prices and the links themselves.
+
+<img src="https://raw.githubusercontent.com/thomazcm/plantae/master/github/gif-pix-link.gif" width="300" height="400">
 
 - **PDF Ticket Generation**: This application generates tickets for an event in PDF format. These tickets can be easily printed or stored on a mobile device.
 
