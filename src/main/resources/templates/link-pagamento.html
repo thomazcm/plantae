@@ -11,8 +11,37 @@
   <body onload="onLoad()">
     <div th:replace="~{base :: header}"></div>
     <div class="container" id="pix">
+	    <div  class="modal fade" id="modalInstagramDirect" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content mt-6" id="confirm-box">
+	                <h3 class="modal-title mt-4" style="color: #84312e;">Instruções</h3>
+	            <div class="modal-body" style="text-align: left">
+	                 <ol class="plantae-text">
+					    <li>Efetue o pagamento do pix em qualquer aplicativo habilitado</li>
+					    <a href="https://www.instagram.com/direct/t/109143857141954" class="text-reset">
+					    <li><u>Envie para o nosso direct: </u><i class="fas fa-paper-plane"></i></li></a>
+					      <ul style="font-size: 0.9rem;  text-align: left;
+										    margin-left: -20px;
+										    margin-bottom: 10px;
+										    margin-top: 5px;
+										">
+					        <li>O comprovante do pix</li>
+					        <li>O nome do titular de cada convite</li>
+					        <li>Seu email para envio dos convites</li>
+					      </ul>
+					    
+					    <li>Você receberá seus convites pelo email.</li>
+					    <li>No dia do evento, é só apresentá-los na entrada!</li>
+					  </ol>
+	            </div>
+	            <div class="modal-footer" style="justify-content : center">
+	                <button data-dismiss="modal" class="btn btn-lg plantae-button">Voltar</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
       <div class="row mt-4">
-          	<label for="copy-textarea" class="ml-4 mr-4 plantae-text"> Copie o link do <b>pix copia e cola</b> para comprar sua entrada para o Brunch Vegetal:</label>
+          	<label for="copy-textarea" class="ml-4 mr-4 plantae-text" style="margin-botton:12px;"> Copie o link do <b>pix copia e cola</b> para comprar sua entrada para o Brunch Vegetal:</label>
         <div class="col-12">
           <div class="input-group">
             <textarea class="form-control" id="copy-textarea" rows="3" readonly v-model="links[quantity-1]"></textarea>
@@ -41,7 +70,7 @@
          </div>
          <input type="text" class="form-control text-center" v-model="displayTotal" readonly 
          style="background-color: transparent; color: #84312e; font-weight: 600; font-size: 1.3rem;
-         width: 38%; margin-left: 28%; 
+         width: 38%; margin-left: 28%;
          ">
       </div>
     </div>

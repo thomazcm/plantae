@@ -21,8 +21,7 @@ function onLoad() {
 			        $(this).tooltip('dispose');  
 			        $(this).attr('title', 'Link Copiado!').tooltip();  
 			        $(this).tooltip('show');
-			        
-			        this.vueLoaded = true;
+			        $('#modalInstagramDirect').modal('show')
 			      });
 			});
 			

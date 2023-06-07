@@ -1,34 +1,48 @@
 @charset "UTF-8";
-[v-cloak] { display: none; }
+
+[v-cloak] {
+    display: none;
+}
 
 .plantae-checkbox {
-	width : 1.4rem !important;
-	height: 1.4rem !important;
+    width: 1.4rem !important;
+    height: 1.4rem !important;
+}
+
+.bottom-image {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
 }
 
 .plantae-checkbox:checked {
     background-color: #84312e;
     border-color: #84312e;
-  }
-  
+}
+
 .plantae-checkbox:check+.form-check-label::before {
-	box-shadow: 0 0 0 0.2rem #84312e;
-  }
+    box-shadow: 0 0 0 0.2rem #84312e;
+}
 
 .form-check-label {
-	margin-left: 12px;
+    margin-left: 12px;
 }
 
 body {
-	background-color: #FBF3EA !important;
+    background-color: #FBF3EA !important;
 }
+
 .table input[type="text"] {
     margin: 0;
     padding: 0;
 }
+
 .logo-container {
-	color: #FBF3EA;
-	background-color: #AA4E3B;
+    color: #FBF3EA;
+    background-color: #AA4E3B;
 }
 
 .input-field {
@@ -37,7 +51,7 @@ body {
 }
 
 #confirm-box {
-	background-color: rgb(247, 231, 212);
+    background-color: rgb(247, 231, 212);
     text-align: center;
     margin-top: 260px;
     width: 90%;
@@ -45,24 +59,24 @@ body {
 }
 
 .brown-bg {
-    background-color:#AA4E3B;
+    background-color: #AA4E3B;
 }
 
 .plantae-text {
-	color: #84312e;
-	font-weight: 600;
+    color: #84312e;
+    font-weight: 600;
 }
 
 .plantae-button {
-	background-color: #AA4E3B !important;
-	color: #FBF3EA !important;
-	transition: transform 0.2s;
+    background-color: #AA4E3B !important;
+    color: #FBF3EA !important;
+    transition: transform 0.2s;
 }
 
 .plantae-button:hover,
 .plantae-button:active {
-  background-color: #66534b !important;
-  transform: scale(1.1);
+    background-color: #66534b !important;
+    transform: scale(1.1);
 }
 
 .plantae-form {
@@ -76,72 +90,71 @@ body {
 }
 
 .table-buttons {
-	width: 32%;     
+    width: 32%;
     padding-left: 2px !important;
     padding-right: 0 !important;
     padding-top: 5px !important;
     padding-bottom: 5px !important;
 }
 
-.btn-table{
-	transition: transform 0.15s;
+.btn-table {
+    transition: transform 0.15s;
 }
 
 .btn-table:hover,
 .btn-table:active {
-	background-color: #66534b;
+    background-color: #66534b;
     transform: scale(1.1);
 }
 
 .logo {
-	font-family: 'Dancing Script', cursive;
-	font-size: 2.8rem
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.8rem
 }
 
 .display-4 {
-	font-family: 'Handlee', cursive;
+    font-family: 'Handlee', cursive;
 }
 
 .loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
 }
 
 .loading-content {
-   display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .loading-text {
-	font-size: 1.5rem;
+    font-size: 1.5rem;
     text-align: center;
 }
 
 .loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #ccc;
-  border-top-color: #3498db;
-  border-radius: 50%;
-  animation: spin 1s infinite linear;
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top-color: #3498db;
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
 }
 
 .invalid-feedback {
-  color: red;
+    color: red;
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+    to {
+        transform: rotate(360deg);
+    }
 }
-
