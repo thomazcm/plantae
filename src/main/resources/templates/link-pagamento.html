@@ -42,12 +42,21 @@
          ">
       </div>
     </div>
-    <div style="display: flex; justify-content: center;  margin-top: 30px">
-    <img v-if="quantity == 1" src="png/plantae-hand-drawn-sm-1.png" style="max-width: 400px; width: 100%; height: auto;">
-    <img v-if="quantity == 2" src="png/plantae-hand-drawn-sm-2.png" style="max-width: 400px; width: 100%; height: auto;">
-    <img v-if="quantity == 3" src="png/plantae-hand-drawn-sm-3.png" style="max-width: 400px; width: 100%; height: auto;">
-    <img v-if="quantity == 4" src="png/plantae-hand-drawn-sm-4.png" style="max-width: 400px; width: 100%; height: auto;">
+    <div style="display: flex; justify-content: center; width: 100%" v-cloak>
+		<div style="display: flex; flex-direction: column; justify-content: center;  width: 400px; padding: 0; margin: 0;">
+		    <div style="display: flex; justify-content: center; padding: 0; margin: 0;">
+		        <img src="png/plantae-hand-drawn-sm-top.png" style="width: 320px; height: auto; display: block; margin: 0; padding: 0;">
+		    </div>
+		    <div style="display: flex; justify-content: center; padding: 0; margin: 0;">
+		        <img v-if="quantity == 1" src="png/plantae-hand-drawn-sm-b1.png" style="width: 320px; height: auto; display: block; margin: 0; padding: 0;">
+		        <img v-if="quantity == 2" src="png/plantae-hand-drawn-sm-b2.png" style="width: 320px; height: auto; display: block; margin: 0; padding: 0;">
+		        <img v-if="quantity == 3" src="png/plantae-hand-drawn-sm-b3.png" style="width: 320px; height: auto; display: block; margin: 0; padding: 0;">
+		        <img v-if="quantity == 4" src="png/plantae-hand-drawn-sm-b4.png" style="width: 320px; height: auto; display: block; margin: 0; padding: 0;">
+		    </div>
+		</div>
+
     </div>
+
     </div>
 	<script type="application/javascript" src="js/pix.js"></script>
   </body>
