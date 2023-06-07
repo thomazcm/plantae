@@ -16,17 +16,15 @@
   <img src="http://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/>
 
 
+![Two young women cooking plant-based food](https://github.com/thomazcm/plantae/blob/master/src/main/resources/static/png/girls-cooking.png)
+
 ### Tópicos 
 
 :small_blue_diamond: [About the Project](#about-the-project)
 
-:small_blue_diamond: [Backend](#backend)
-
-:small_blue_diamond: [Frontend](#frontend)
-
-:small_blue_diamond: [Database](#database)
-
 :small_blue_diamond: [Functionality](#functionality)
+
+:small_blue_diamond: [Technology Stack](#technology-stack)
 
 :small_blue_diamond: [Setting Up and Running the Project Locally](#setting-up-and-running-the-project-locally)
 
@@ -43,11 +41,27 @@
 
 # About the Project
 
-This project is a robust web application designed to streamline event ticket management and distribution, using Maven, Spring Boot, Vue.js, Bootstrap, and MongoDB. 
+This project is a robust web application designed to streamline event ticket management and distribution, using Maven, Spring Boot, Vue.js, Bootstrap, and MongoDB. Initially developed as a solution for managing tickets and guests for a plant-based food event, it offers a range of functionalities suitable for any type of event.
 
 The core functionality of the web application revolves around generating PDF files for event tickets, managing the list of sold tickets, sending the tickets directly to the customer's email, and ticket validation via QR Code scanning on the event day. 
 
-<p align="right">(<a href="#readme-top">back to the top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Functionality
+
+The core functionalities of this web application include:
+
+- **PDF Ticket Generation**: This application generates tickets for an event in PDF format. These tickets can be easily printed or stored on a mobile device.
+
+- **Ticket Sales Management**: This application manages a list of sold tickets, keeping track of sales and remaining inventory.
+
+- **Email Ticket Distribution**: Once a ticket is sold, the application sends the ticket directly to the customer's email, ensuring a smooth delivery process.
+
+- **QR Code Ticket Validation**: On the event day, tickets can be validated quickly and efficiently by scanning a QR Code, streamlining entry and reducing the chance of fraudulent tickets.
+
+These features work together to make this application a comprehensive solution for event ticket generation, distribution, and validation.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Technology Stack
 
@@ -81,23 +95,7 @@ This application is built using a variety of technologies, each chosen for its s
 
 This combination of technologies allows the application to handle complex tasks with ease, while remaining scalable and maintainable.
 
-<p align="right">(<a href="#readme-top">back to the top</a>)</p>
-
-## Functionality
-
-The core functionalities of this web application include:
-
-- **PDF Ticket Generation**: This application generates tickets for an event in PDF format. These tickets can be easily printed or stored on a mobile device.
-
-- **Ticket Sales Management**: This application manages a list of sold tickets, keeping track of sales and remaining inventory.
-
-- **Email Ticket Distribution**: Once a ticket is sold, the application sends the ticket directly to the customer's email, ensuring a smooth delivery process.
-
-- **QR Code Ticket Validation**: On the event day, tickets can be validated quickly and efficiently by scanning a QR Code, streamlining entry and reducing the chance of fraudulent tickets.
-
-These features work together to make this application a comprehensive solution for event ticket generation, distribution, and validation.
-
-<p align="right">(<a href="#readme-top">back to the top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Setting Up and Running the Project Locally
 
@@ -120,13 +118,13 @@ $ mvn spring-boot:run
 
 Open http://localhost:8080 to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
-<p align="right">(<a href="#readme-top">back to the top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## License
 
 This project is under the [MIT](./LICENSE) License. Refer to the LICENSE.md file for more details.
 
-<p align="right">(<a href="#readme-top">back to the top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Author
 <b>Thomaz Machado</b>🚀<br />
@@ -136,5 +134,5 @@ Project developed by Thomaz Machado. Get in touch!!
 [![Linkedin Badge](https://img.shields.io/badge/-Thomaz-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/thomazcm)](https://www.linkedin.com/in/thomazcm) 
 [![Gmail Badge](https://img.shields.io/badge/-thomazcm@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:thomazcm@gmail.com)](mailto:thomazcm@gmail.com)
  
- <p align="right">(<a href="#readme-top">back to the top
+ <p align="right">(<a href="#readme-top">back to top
 </a>)</p>
