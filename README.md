@@ -41,7 +41,7 @@
 
 # About the Project
 
-This project is a robust web application designed to streamline event ticket management and distribution, using Maven, Spring Boot, Vue.js, Bootstrap, and MongoDB. Initially developed as a solution for managing tickets and guests for a plant-based food event, it offers a range of functionalities suitable for any type of event.
+This project is a robust web application designed to streamline event ticket management and distribution, using Maven, Spring Boot, Vue.js, Bootstrap, and MongoDB. Initially developed as a solution for managing tickets and guests for a plant-based food event, it offers a range of functionalities suitable for any type of event. The entire application, from conceptualization to deployment, was developed in just five days, showcasing a rapid development process without compromising on quality or functionality.
 
 The core functionality of the web application revolves around generating PDF files for event tickets, managing the list of sold tickets, sending the tickets directly to the customer's email, and ticket validation via QR Code scanning on the event day. 
 
