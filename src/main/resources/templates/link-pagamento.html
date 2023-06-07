@@ -4,6 +4,9 @@
     <div th:replace="~{base :: head('Comprar Convite Plantae')}"></div>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script th:inline="javascript">
+    pixLinks = /*[[${pixLinks}]]*/
+</script>
   </head>
   <body onload="onLoad()">
     <div th:replace="~{base :: header}"></div>
