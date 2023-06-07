@@ -29,7 +29,7 @@ public class SecurityConfigurations {
 
         http.authorizeRequests().antMatchers("/login/**", "/logout/**", "/js/**", "/css/**").permitAll()
                 .antMatchers("/link-pix/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/png/**").permitAll()
+                .antMatchers("/png/**").permitAll()
                 .anyRequest().authenticated().and().csrf().disable()
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
