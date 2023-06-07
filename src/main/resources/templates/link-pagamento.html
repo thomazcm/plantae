@@ -23,16 +23,16 @@
     	</div>
         <div class="input-group mt-2" style="width: 60%; margin-left: 17%">
             <div class="input-group-prepend">
-              <button v-if="quantity > 1" 
+              <button style="min-width: 40px;"
               class="btn btn-outline-secondary" @click="decrease()" type="button" id="minus-button">
-                <i class="fas fa-minus"></i>
+                <i v-if="quantity > 1" class="fas fa-minus"></i>
               </button>
             </div>
             <input type="text" class="form-control text-center" v-model="display" readonly
             style="background-color: transparent; color: #84312e; font-weight: 600; font-size: 1.2rem">
             <div class="input-group-append">
-              <button v-if="quantity < 4" class="btn btn-outline-secondary" @click="increase()" type="button" id="plus-button">
-                <i class="fas fa-plus"></i>
+              <button style="min-width: 40px;" class="btn btn-outline-secondary" @click="increase()" type="button" id="plus-button">
+                <i v-if="quantity < 4"  class="fas fa-plus"></i>
               </button>
             </div>
          </div>
@@ -42,7 +42,12 @@
          ">
       </div>
     </div>
-      </div>
+    <div style="display: flex; justify-content: center;  margin-top: 30px">
+    <img v-if="quantity == 1" src="png/plantae-hand-drawn-sm-1.png" style="max-width: 400px; width: 100%; height: auto;">
+    <img v-if="quantity == 2" src="png/plantae-hand-drawn-sm-2.png" style="max-width: 400px; width: 100%; height: auto;">
+    <img v-if="quantity == 3" src="png/plantae-hand-drawn-sm-3.png" style="max-width: 400px; width: 100%; height: auto;">
+    <img v-if="quantity == 4" src="png/plantae-hand-drawn-sm-4.png" style="max-width: 400px; width: 100%; height: auto;">
+    </div>
     </div>
 	<script type="application/javascript" src="js/pix.js"></script>
   </body>
