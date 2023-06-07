@@ -75,6 +75,8 @@ This application is built using a variety of technologies, each chosen for its s
 
 - **QRGen and iText**: These libraries are used for QR Code generation and PDF creation, respectively, essential for the ticketing functionality.
 
+- **Mailgun**: Mailgun is a powerful email service provider that allows you to send, receive and track emails effortlessly. It's built upon a RESTful API and includes SMTP relay and flexible IP deployment for maximum scalability and deliverability.
+
 ### Frontend
 
 - **Vue.js**: Used for building user interfaces. The Vue.js scripts are imported from the CDN, allowing for easier updates and performance improvements.
