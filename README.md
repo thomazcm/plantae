@@ -55,7 +55,6 @@ The core functionalities of this web application include:
 
 <img src="https://raw.githubusercontent.com/thomazcm/plantae/master/github/generating-tickets.gif" width="200" height="400">
 
-![ticket-example](https://raw.githubusercontent.com/thomazcm/plantae/master/github/event-ticket-image.png)
 
 - **Ticket Sales Management**: This application manages a list of sold tickets, keeping track of sales and remaining inventory.
 
