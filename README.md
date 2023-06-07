@@ -53,7 +53,13 @@ The core functionalities of this web application include:
 
 - **PDF Ticket Generation**: This application generates tickets for an event in PDF format. These tickets can be easily printed or stored on a mobile device.
 
+<img src="https://raw.githubusercontent.com/thomazcm/plantae/master/github/generating-tickets.gif" width="200" height="400">
+
+![ticket-example](https://raw.githubusercontent.com/thomazcm/plantae/master/github/event-ticket-image.png)
+
 - **Ticket Sales Management**: This application manages a list of sold tickets, keeping track of sales and remaining inventory.
+
+<img src="https://raw.githubusercontent.com/thomazcm/plantae/master/github/managing-tickets.gif" width="200" height="400">
 
 - **Email Ticket Distribution**: Once a ticket is sold, the application sends the ticket directly to the customer's email, ensuring a smooth delivery process.
 
