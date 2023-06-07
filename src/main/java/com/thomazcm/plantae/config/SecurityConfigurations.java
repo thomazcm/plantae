@@ -33,7 +33,7 @@ public class SecurityConfigurations {
                 .anyRequest().authenticated().and().csrf().disable()
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                        .invalidSessionUrl("/login").maximumSessions(1).expiredUrl("/login"))
+                        .invalidSessionUrl("/link-pix").maximumSessions(1).expiredUrl("/login"))
                 .formLogin(form -> form.loginPage("/login").defaultSuccessUrl(apiEndpoint, true)
                         .failureUrl("/login").permitAll())
                 .headers().frameOptions().sameOrigin();
