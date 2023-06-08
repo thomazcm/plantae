@@ -12,7 +12,7 @@
   <img src="http://img.shields.io/static/v1?label=axios&message=1.3.4&color=blue&style=for-the-badge&logo=axios"/>
   <img src="http://img.shields.io/static/v1?label=Thymeleaf&message=3.0.15&color=green&style=for-the-badge&logo=thymeleaf"/>
   <img src="http://img.shields.io/static/v1?label=Bootstrap&message=4&color=purple&style=for-the-badge&logo=bootstrap"/>
-  <img src="http://img.shields.io/static/v1?label=STATUS&message=CONCLUIDO&color=GREEN&style=for-the-badge"/>
+  <img src="http://img.shields.io/static/v1?label=STATUS&message=DEPLOYED&color=GREEN&style=for-the-badge"/>
   <img src="http://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/>
 
 
@@ -41,7 +41,7 @@
 
 # About the Project
 
-This project is a robust web application designed to streamline event ticket management and distribution, using Maven, Spring Boot, Vue.js, Bootstrap, and MongoDB. Initially developed as a solution for managing tickets and guests for a plant-based food event, it offers a range of functionalities suitable for any type of event.
+This project is a robust web application designed to streamline event ticket management and distribution, using Maven, Spring Boot, Vue.js, Bootstrap, and MongoDB. Initially developed as a solution for managing tickets and guests for a plant-based food event, it offers a range of functionalities suitable for any type of event. The entire application, from conceptualization to deployment, was developed in just five days, showcasing a rapid development process without compromising on quality or functionality.
 
 The core functionality of the web application revolves around generating PDF files for event tickets, managing the list of sold tickets, sending the tickets directly to the customer's email, and ticket validation via QR Code scanning on the event day. 
 
@@ -50,6 +50,10 @@ The core functionality of the web application revolves around generating PDF fil
 ## Functionality
 
 The core functionalities of this web application include:
+
+- **Personalized PIX payment link sharing**: The application has a public section that customers can use to easily copy the event's organizer payment details for ticket purchase. This page can be easily configured and customized for number of tickets, prices and the links themselves.
+
+<img src="https://raw.githubusercontent.com/thomazcm/plantae/master/github/gif-pix-link.gif" width="300" height="400">
 
 - **PDF Ticket Generation**: This application generates tickets for an event in PDF format. These tickets can be easily printed or stored on a mobile device.
 
