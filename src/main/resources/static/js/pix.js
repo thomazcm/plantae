@@ -11,21 +11,30 @@ function onLoad() {
             links: pixLinks
         },
         mounted(){
-			$(document).ready(function(){
-			      $('[data-toggle="tooltip"]').tooltip();
-			
-			      $("#copy-button").click(function(){
-			        var copyText = document.getElementById("copy-textarea");
-			        navigator.clipboard.writeText(copyText.value);
-			
-			        $(this).tooltip('dispose');  
-			        $(this).attr('title', 'Link Copiado!').tooltip();  
-			        $(this).tooltip('show');
-			        $('#modalInstagramDirect').modal('show')
-			      });
+			$("#copy-button").click(function(){
+			    var copyText = document.getElementById("copy-textarea");
+			    if (document.queryCommandSupported('copy')) {
+			        copyText.select();
+			        document.execCommand('copy');
+			        var copied = document.queryCommandSupported('copy');
+			        if (copied) {
+			            $(this).tooltip('dispose');  
+			            $(this).attr('title', 'Link Copiado!').tooltip();  
+			            $(this).tooltip('show');
+			            $('#modalInstagramDirect').modal('show');
+			        }
+			    } else {
+			        navigator.clipboard.writeText(copyText.value).then(() => {
+			            $(this).tooltip('dispose');  
+			            $(this).attr('title', 'Link Copiado!').tooltip();  
+			            $(this).tooltip('show');
+			            $('#modalInstagramDirect').modal('show');
+			        }).catch(err => {
+			            console.error('Failed to copy text: ', err);
+			        });
+			    }
 			});
-			
-		},
+					},
 		methods : {
 			isVueLoaded() {
 				return this.vueLoaded;

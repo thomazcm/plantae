@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script th:inline="javascript">
-    pixLinks = /*[[${pixLinks}]]*/
-</script>
+    	pixLinks = /*[[${pixLinks}]]*/
+	</script>
+	<script type="application/module" src="bundle.js"></script>
   </head>
   <body onload="onLoad()">
     <div th:replace="~{base :: header}"></div>
@@ -46,7 +47,8 @@
           <div class="input-group">
             <textarea class="form-control" id="copy-textarea" rows="3" readonly v-model="links[quantity-1]"></textarea>
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" id="copy-button" data-toggle="tooltip" data-placement="bottom" title="Copiar Link" style="width: 75px">
+              <button class="btn btn-outline-secondary" type="button" id="copy-button"
+              data-toggle="tooltip" data-placement="bottom" title="Copiar Link" style="width: 75px">
                 <span class="material-icons">
 				content_copy
 				</span>
