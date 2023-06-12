@@ -8,12 +8,14 @@ public class UserConfigurationDto {
 
     private List<String> pixLinks;
     private Double unitPrice;
+    private Integer maxTickets;
     
     public UserConfigurationDto() {};
     
     public UserConfigurationDto(UserConfiguration userConfig) {
         this.pixLinks = new ArrayList<>(userConfig.getPixLinks());
         this.unitPrice = userConfig.getUnitPrice().doubleValue();
+        this.maxTickets = userConfig.getMaxTickets();
     }
     public List<String> getPixLinks() {
         return this.pixLinks;
@@ -21,5 +23,8 @@ public class UserConfigurationDto {
     public Double getUnitPrice() {
         return this.unitPrice;
     }
-    
+
+    public Integer getMaxTickets() {
+        return maxTickets;
+    }
 }

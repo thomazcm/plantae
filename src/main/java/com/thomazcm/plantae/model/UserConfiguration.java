@@ -13,6 +13,15 @@ public class UserConfiguration {
     private String id;
     private List<String> pixLinks;
     private BigDecimal unitPrice;
+    private Integer maxTickets;
+    
+    public Integer getMaxTickets() {
+        return this.maxTickets;
+    }
+
+    public void setMaxTickets(Integer maxTickets) {
+        this.maxTickets = maxTickets;
+    }
 
     public BigDecimal getUnitPrice() {
         return this.unitPrice;
