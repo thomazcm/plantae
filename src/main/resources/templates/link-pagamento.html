@@ -6,6 +6,7 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script th:inline="javascript">
     	apiEndpoint = /*[[${apiEndpoint}]]*/
+    	remainingTickets = /*[[${remainingTickets}]]*/
 	</script>
   </head>
   <body onload="onLoad()">
@@ -79,6 +80,9 @@
          style="background-color: transparent; color: #84312e; font-weight: 600; font-size: 1.3rem;
          width: 38%; margin-left: 28%;
          ">
+      </div>
+      <div v-if="soldOut" >
+        <span class="text-danger ml-5">{{soldOutMessage}}</span>
       </div>
     </div>
    <div style="display: flex; justify-content: center; width: 100%" v-cloak>

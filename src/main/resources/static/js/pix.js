@@ -10,7 +10,10 @@ function onLoad() {
             unitPrice: 0,
             total: null,
             vueLoaded : false,
-            links: ['', '', '', '']
+            links: ['', '', '', ''],
+            remainingTickets: remainingTickets,
+            soldOut : false,
+            soldOutMessage: ''
         },
         mounted(){
 			axios.get(`${apiEndpoint}/configurations`)
@@ -54,6 +57,16 @@ function onLoad() {
 			},
 			increase() {
 				if (this.quantity >= 4) {
+					return;
+				} else if (this.quantity >= this.remainingTickets) {
+					this.soldOut = true;
+					this.soldOutMessage = `Só temos mais ${this.quantity} ingresso`;
+					if (this.quantity == 1) {
+						this.soldOutMessage+=' disponível!';
+					} else {
+						this.soldOutMessage+='s disponíveis!';
+					}
+					console.log(this.soldOutMessage);
 					return;
 				}
 				this.quantity++;

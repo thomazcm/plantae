@@ -32,26 +32,28 @@ public class PixController {
     @GetMapping("/link-pix")
     public String linkPix(Model model) {
         model.addAttribute("apiEndpoint", apiEndpoint);
-        String returnString = "link-pagamento";
         
         if (statsRepository.findAll().size() == 0) {
             statsRepository.save(new Stats());
         }
-        Stats stats = statsRepository.findAll().get(0);
-
-        stats.setAcessosPaginaDeCompraTotal(stats.getAcessosPaginaDeCompraTotal()+1);
         
-        if (ingressoRepository.findAll().size() >= configRepository.findAll().get(0).getMaxTickets()) {
-            
+        Integer maxTickets = configRepository.findAll().get(0).getMaxTickets();
+        int totalTickets = ingressoRepository.findAll().size();
+        
+        Stats stats = statsRepository.findAll().get(0);
+        String returnString = "link-pagamento";
+        if (totalTickets >= maxTickets) {
             stats.setAcessosPaginaDeCompraEsgotados(stats.getAcessosPaginaDeCompraEsgotados()+1);
             returnString = "sold-out";
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.getName().compareTo("plantae") != 0) {
+            stats.setAcessosPaginaDeCompraTotal(stats.getAcessosPaginaDeCompraTotal()+1);
             stats.getDatas().add(LocalDateTime.now().minus(Duration.ofHours(3L)));
             statsRepository.save(stats);
         }
+        model.addAttribute("remainingTickets", maxTickets-totalTickets);
         return returnString;
     }
 }
