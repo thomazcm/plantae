@@ -81,7 +81,7 @@
          width: 38%; margin-left: 28%;
          ">
       </div>
-      <div v-if="soldOut" >
+      <div v-if="soldOut" v-cloak>
         <span class="text-danger ml-5">{{soldOutMessage}}</span>
       </div>
     </div>
