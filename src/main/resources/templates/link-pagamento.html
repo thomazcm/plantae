@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<script th:inline="javascript">
-    	pixLinks = /*[[${pixLinks}]]*/
+    	apiEndpoint = /*[[${apiEndpoint}]]*/
 	</script>
 	<script type="application/module" src="bundle.js"></script>
   </head>
   <body onload="onLoad()">
     <div th:replace="~{base :: header}"></div>
     <div class="container" id="pix">
+    <div class="loading" v-if="loading == null">
+        <div class="loading-content">
+          <div class="loading-spinner"></div>
+          <p class="plantae-text loading-text"> <br>Carregando...</p>
+        </div>
+    </div>
 	    <div  class="modal fade" id="modalInstagramDirect" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
 	    <div class="modal-dialog" role="document">
 	        <div class="modal-content mt-6" id="confirm-box">

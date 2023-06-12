@@ -31,6 +31,12 @@
         <span class="logo ml-3">Plantae</span>
         <span class="mt-3 mr-3">
        		<a href="/login" sec:authorize="!isAuthenticated()" class="text-light">login</a>
+            <a href="/user-configuration" class="text-light" sec:authorize="isAuthenticated()"
+             th:if="${#httpServletRequest.requestURI == '/'}">
+                configurações   |</a>
+            <a href="/" class="text-light" sec:authorize="isAuthenticated()"
+             th:if="${#httpServletRequest.requestURI != '/'}">
+                home   |</a>
             <a href="#" class="text-light" sec:authorize="isAuthenticated()"
                 onclick="document.querySelector('#form-logout').submit();">
                 logout</a>

@@ -3,14 +3,27 @@ function onLoad() {
         el: '#pix',
         data: {
             pix : '',
+            loading: null,
             display : '1 convite',
             quantity: 1,
-            displayTotal: 'R$ 78',
-            total: 78,
+            displayTotal: 'R$ ',
+            unitPrice: 0,
+            total: null,
             vueLoaded : false,
-            links: pixLinks
+            links: ['', '', '', '']
         },
         mounted(){
+			axios.get(`${apiEndpoint}/configurations`)
+				.then(res => {
+					this.links = res.data.pixLinks;
+					this.unitPrice = res.data.unitPrice;
+					this.total = this.unitPrice;
+					this.displayTotal = `R$ ${this.total}`;
+					this.loading = true;
+				})
+				.catch(err => {
+					console.log(err)
+				});
 			$("#copy-button").click(function(){
 			    var copyText = document.getElementById("copy-textarea");
 			    if (document.queryCommandSupported('copy')) {
@@ -44,7 +57,7 @@ function onLoad() {
 					return;
 				}
 				this.quantity++;
-				this.total += 78;
+				this.total += this.unitPrice;
 				this.display = `${this.quantity} convite`;
 				this.displayTotal = `R$ ${this.total}`;
 				if (this.quantity > 1) {
@@ -56,7 +69,7 @@ function onLoad() {
 					return;
 				}
 				this.quantity--;
-				this.total -= 78;
+				this.total -= this.unitPrice;
 				this.display = `${this.quantity} convite`;
 				this.displayTotal = `R$ ${this.total}`;
 				if (this.quantity > 1) {

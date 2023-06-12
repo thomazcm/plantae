@@ -4,17 +4,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class PixController {
-
+@RequestMapping("user-configuration")
+public class ConfigurationController {
+    
     @Value("${plantae.endpoint.apiEndpoint}")
     private String apiEndpoint;
-    
-    @GetMapping("/link-pix")
-    public String linkPix(Model model) {
+
+    @GetMapping
+    public String userConfiguration(Model model) {
         model.addAttribute("apiEndpoint", apiEndpoint);
-        return "link-pagamento";
+        return "user-configuration";
     }
     
 }

@@ -1,0 +1,35 @@
+<div th:fragment class="row" v-cloak>
+    <div class="col-md-6 offset-md-3">
+        <div class="card mt-3">
+            <div class="card-body plantae-form">
+                <form @submit.prevent="salvarConfiguracoes">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-12 row  mb-4">
+                                <label for="unitPrice" class="plantae-text col-12">Preço unitário do ingresso:</label>
+                                <div class="input-group col-12" style="max-width: 160px">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">R$</span>
+                                    </div>
+                                    <input id="unitPrice" v-model="unitPrice" type="number" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                            <div v-for="(link, index) in pixLinks" :key="index">
+                                <label for="inputField" class="plantae-text mt-1">Link pix para {{index+1}} ingresso(s):</label>
+                                <div class="input-group">
+                                    <textarea type="text" v-model="pixLinks[index]" @focus="selectText"
+                                     class="form-control" style="font-size: small; height: 75px">
+                                    </textarea>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <button type="submit" class="plantae-button btn" id="gerar-ingresso-button">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

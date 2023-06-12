@@ -30,6 +30,7 @@ public class SecurityConfigurations {
         http.authorizeRequests().antMatchers("/login/**", "/logout/**", "/js/**", "/css/**").permitAll()
                 .antMatchers("/link-pix/**").permitAll()
                 .antMatchers("/png/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/configurations/**").permitAll()
                 .anyRequest().authenticated().and().csrf().disable()
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<div th:replace="~{base :: head('Plantae - Configurações')}"></div>
+<script th:inline="javascript">
+	apiEndpoint = /*[[${apiEndpoint}]]*/
+</script>
+</head>
+<body onload="onLoad()">
+
+	<div th:replace="~{base :: header}"></div>
+     <div class="container"  id="config" v-cloak>
+	     <div class="loading" v-if="loading == null">
+		    <div class="loading-content">
+		      <div class="loading-spinner"></div>
+		      <p class="plantae-text loading-text"> <br>Carregando...</p>
+		    </div>
+		</div>
+         <div th:replace="~{formularios/config}"></div>
+         <div th:replace="~{modals/config}"></div>
+         
+         <div style="display: flex; justify-content: center; margin-top: 0px;">
+            <img src="png/configuration.png"
+                 style="min-width: 487px; max-width: 1019px; width: 100%; height: auto;">
+        </div>
+        
+     </div>
+	<script type="application/javascript" src="js/config.js"></script>
+</body>
+</html>
