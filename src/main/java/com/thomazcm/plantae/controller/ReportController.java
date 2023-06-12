@@ -35,9 +35,7 @@ public class ReportController {
             int hour = data.getHour();
             String key = hour + ":00 as " + (hour + 1) + ":00";
             String time = timeFormatter.format(data);
-
             report.putIfAbsent(key, new ArrayList<>());
-
             report.get(key).add(time);
         }
         StringBuilder builder = new StringBuilder();

@@ -15,6 +15,7 @@ public class Stats {
     private Integer acessosPaginaDeCompraTotal = 0;
     private Integer acessosPaginaDeCompraEsgotados = 0;
     private List<LocalDateTime> datas = new ArrayList<>();
+    private List<String> requestIps = new ArrayList<>();
     
     
     public List<LocalDateTime> getDatas() {
@@ -22,6 +23,12 @@ public class Stats {
     }
     public String getId() {
         return this.id;
+    }
+    public void setRequestIps(List<String> requestIps) {
+        this.requestIps = requestIps;
+    }
+    public List<String> getRequestIps() {
+        return this.requestIps;
     }
     public Integer getAcessosPaginaDeCompraTotal() {
         return this.acessosPaginaDeCompraTotal;

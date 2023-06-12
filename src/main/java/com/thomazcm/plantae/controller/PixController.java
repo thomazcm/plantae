@@ -1,7 +1,9 @@
 package com.thomazcm.plantae.controller;
 
 import java.time.Duration;
-import java.time.LocalDateTime;import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +32,7 @@ public class PixController {
     }
 
     @GetMapping("/link-pix")
-    public String linkPix(Model model) {
+    public String linkPix(Model model, HttpServletRequest request) {
         model.addAttribute("apiEndpoint", apiEndpoint);
         
         if (statsRepository.findAll().size() == 0) {
@@ -51,6 +53,15 @@ public class PixController {
         if (auth.getName().compareTo("plantae") != 0) {
             stats.setAcessosPaginaDeCompraTotal(stats.getAcessosPaginaDeCompraTotal()+1);
             stats.getDatas().add(LocalDateTime.now().minus(Duration.ofHours(3L)));
+            
+            if (stats.getRequestIps() == null) {
+                stats.setRequestIps(new ArrayList<String>());   
+            }
+            String clientIp = request.getHeader("X-Forwarded-For");
+            if (clientIp == null || clientIp.isEmpty()) {
+                clientIp = request.getRemoteAddr();
+            }
+            stats.getRequestIps().add(clientIp);
             statsRepository.save(stats);
         }
         model.addAttribute("remainingTickets", maxTickets-totalTickets);
