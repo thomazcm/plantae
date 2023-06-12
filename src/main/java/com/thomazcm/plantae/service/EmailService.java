@@ -33,7 +33,7 @@ public class EmailService {
 
         javaMailSender.send(message);
     }
-
+    
     public void sendPdfEmail(String emailCliente, ByteArrayOutputStream pdf, String nomeIngresso,
             String nomeCliente) {
         try {

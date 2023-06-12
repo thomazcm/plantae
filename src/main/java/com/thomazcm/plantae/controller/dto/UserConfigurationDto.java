@@ -27,4 +27,9 @@ public class UserConfigurationDto {
     public Integer getMaxTickets() {
         return maxTickets;
     }
+
+    public void setMaxTickets(int maxTickets) {
+        this.maxTickets = maxTickets;
+        
+    }
 }

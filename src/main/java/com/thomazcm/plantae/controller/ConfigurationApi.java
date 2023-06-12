@@ -3,6 +3,7 @@ package com.thomazcm.plantae.controller;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,15 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.thomazcm.plantae.controller.dto.UserConfigurationDto;
 import com.thomazcm.plantae.model.UserConfiguration;
 import com.thomazcm.plantae.repository.ConfigurationRepository;
+import com.thomazcm.plantae.service.EmailService;
 
 @RestController
 @RequestMapping("/configurations")
 public class ConfigurationApi {
     
     private ConfigurationRepository repository;
+    private EmailService mailService;
     
-    public ConfigurationApi(ConfigurationRepository repository) {
+    @Value("${plantae.email.adminMail1}")
+    private String adminMail1;
+    @Value("${plantae.email.adminMail2}")
+    private String adminMail2;
+    
+    public ConfigurationApi(ConfigurationRepository repository, EmailService mailService) {
         this.repository = repository;
+        this.mailService = mailService;
     }
 
     @GetMapping
@@ -51,9 +60,27 @@ public class ConfigurationApi {
             newConfig = currentConfigList.get(0);
         }
         
+        StringBuilder builder = new StringBuilder("Alguém alterou as configurações Plantae:\n");
+        if (newConfig.getUnitPrice().doubleValue() != form.getUnitPrice()) {
+            builder.append(" -Preço do ingresso\n");
+        }
+        if (newConfig.getMaxTickets() != form.getMaxTickets()) {
+            builder.append(" -Número máximo de ingressos\n");
+        }
+        for (int i = 0; i < newConfig.getPixLinks().size(); i++) {
+            if (newConfig.getPixLinks().get(i).compareTo(form.getPixLinks().get(i)) != 0) {
+                builder.append(" -Link Pix "+ (i+1) +"\n");
+            }
+        }
+        if (builder.toString().compareTo("Alguém alterou as configurações Plantae:\n") != 0) {
+            System.out.println(builder.toString());
+            mailService.sendEmail(adminMail1, "Alerta - Configurações Alteradas Plantae", builder.toString());
+            mailService.sendEmail(adminMail2, "Alerta - Configurações Alteradas Plantae", builder.toString());
+        }
+        
         newConfig.setPixLinks(form.getPixLinks());
         newConfig.setUnitPrice(BigDecimal.valueOf(form.getUnitPrice()));
-        newConfig.setMaxTickets(32);
+        newConfig.setMaxTickets(form.getMaxTickets());
         repository.save(newConfig);
         
         return ResponseEntity.ok(new UserConfigurationDto(newConfig));

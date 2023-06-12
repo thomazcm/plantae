@@ -1,7 +1,8 @@
 class UserConfigurationDto {
-    constructor(pixLinks, unitPrice) {
+    constructor(pixLinks, unitPrice, maxTickets) {
         this.pixLinks = pixLinks;
         this.unitPrice = unitPrice;
+        this.maxTickets = maxTickets;
     }
 }
 
@@ -14,7 +15,8 @@ function onLoad() {
 			loading: null,
 			loadingMessage: '',
 			pixLinks: ['', '', '', ''],
-			unitPrice: 0
+			unitPrice: 0,
+			maxTickets: null
         },
         mounted(){
 			
@@ -22,6 +24,7 @@ function onLoad() {
 				.then(res => {
 					this.pixLinks = res.data.pixLinks;
 					this.unitPrice = res.data.unitPrice;
+					this.maxTickets = res.data.maxTickets;
 					this.loading=true;
 				})
 				.catch(err => {
@@ -30,11 +33,13 @@ function onLoad() {
 		},
 		methods : {
 			salvarConfiguracoes(){
-				const newConfig = new UserConfigurationDto(this.pixLinks, this.unitPrice);
+				this.loading = null;
+				const newConfig = new UserConfigurationDto(this.pixLinks, this.unitPrice, this.maxTickets);
 //				console.log(newConfig);
 				axios.put(`${apiEndpoint}/configurations`, newConfig)
 				.then(res =>{
 //					console.log(res.data);
+					this.loading = true;
 					$('#modalConfig').modal('show');
 				})
 				.catch(err => {

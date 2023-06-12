@@ -5,13 +5,17 @@
                 <form @submit.prevent="salvarConfiguracoes">
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-12 row  mb-4">
+                            <div class="col-12 row  mb-3">
                                 <label for="unitPrice" class="plantae-text col-12">Preço unitário do ingresso:</label>
                                 <div class="input-group col-12" style="max-width: 160px">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">R$</span>
                                     </div>
                                     <input id="unitPrice" v-model="unitPrice" type="number" class="form-control">
+                                </div>
+                                <label for="unitPrice" class="plantae-text col-12 mt-3">Número Máximo de Ingressos:</label>
+                                <div class="input-group col-12" style="max-width: 120px">
+                                    <input id="unitPrice" v-model="maxTickets" type="number" class="form-control">
                                 </div>
                             </div>
                             <div class="col-12">
