@@ -73,8 +73,6 @@ public class ConfigurationApi {
             }
         }
         if (builder.toString().compareTo("Alguém alterou as configurações Plantae:\n") != 0) {
-            System.out.println(builder.toString());
-            System.out.println(adminMail1);
             mailService.sendEmail(adminMail1, "Alerta - Configurações Alteradas Plantae", builder.toString());
             mailService.sendEmail(adminMail2, "Alerta - Configurações Alteradas Plantae", builder.toString());
         }

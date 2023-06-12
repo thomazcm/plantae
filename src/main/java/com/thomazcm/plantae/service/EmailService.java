@@ -30,6 +30,7 @@ public class EmailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
+        message.setFrom(mailProperties.getSender());
 
         javaMailSender.send(message);
     }
