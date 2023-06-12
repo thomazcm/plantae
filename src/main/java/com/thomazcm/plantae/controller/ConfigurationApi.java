@@ -53,7 +53,7 @@ public class ConfigurationApi {
         
         newConfig.setPixLinks(form.getPixLinks());
         newConfig.setUnitPrice(BigDecimal.valueOf(form.getUnitPrice()));
-        
+        newConfig.setMaxTickets(32);
         repository.save(newConfig);
         
         return ResponseEntity.ok(new UserConfigurationDto(newConfig));
