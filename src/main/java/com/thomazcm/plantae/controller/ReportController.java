@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.thomazcm.plantae.model.Stats;
 import com.thomazcm.plantae.repository.StatsRepository;
 
 @RestController
@@ -23,7 +24,9 @@ public class ReportController {
     
     @GetMapping
     public ResponseEntity<String> getReport() {
-        List<LocalDateTime> datas = repository.findAll().get(0).getDatas();
+        Stats stats = repository.findAll().get(0);
+        Long totalUsers = stats.getRequestIps().stream().distinct().count();
+        List<LocalDateTime> datas = stats.getDatas();
         Map<String, List<String>> report = new HashMap<>();
         datas = datas.stream()
                 .filter(data -> data.compareTo(LocalDateTime.now().minus(Duration.ofHours(27)))> 0)
@@ -38,7 +41,7 @@ public class ReportController {
             report.putIfAbsent(key, new ArrayList<>());
             report.get(key).add(time);
         }
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder("Acessos de IPs Diferentes: " + totalUsers + "<br/>");
         
         report.forEach((key, values) -> {
             builder.append("======== " +key + " ==========");
