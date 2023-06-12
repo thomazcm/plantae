@@ -16,7 +16,7 @@
   <img src="http://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/>
 
 
-![Two young women cooking plant-based food](https://github.com/thomazcm/plantae/blob/master/src/main/resources/static/png/girls-cooking.png)
+![Two young women cooking plant-based food](https://github.com/thomazcm/plantae/blob/master/src/main/resources/static/png/girls-cooking.png#vitrinedev)
 
 ### Index 
 
