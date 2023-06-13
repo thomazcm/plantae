@@ -2,6 +2,7 @@ package com.thomazcm.plantae.model;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,13 +15,23 @@ public class UserConfiguration {
     private List<String> pixLinks;
     private BigDecimal unitPrice;
     private Integer maxTickets;
+    private HashMap<String, String> textConfigurations;
 
     public UserConfiguration() {}
     
-    public UserConfiguration(List<String> pixLinks, BigDecimal unitPrice, Integer maxTickets) {
+    public UserConfiguration(List<String> pixLinks, BigDecimal unitPrice, Integer maxTickets, HashMap<String, String> textConfigurations) {
         this.pixLinks = pixLinks;
         this.unitPrice = unitPrice;
         this.maxTickets = maxTickets;
+        this.textConfigurations = textConfigurations;
+    }
+
+    public HashMap<String, String> getTextConfigurations() {
+        return this.textConfigurations;
+    }
+
+    public void setTextConfigurations(HashMap<String, String> textConfigurations) {
+        this.textConfigurations = textConfigurations;
     }
 
     public Integer getMaxTickets() {

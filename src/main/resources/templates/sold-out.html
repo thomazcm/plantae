@@ -4,25 +4,27 @@
     <div th:replace="~{base :: head('Ingressos Esgotados')}"></div>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script th:inline="javascript"> config = /*[[${config}]]*/ </script>
   </head>
   <body>
     <div th:replace="~{base :: header}"></div>
     <div class="container">
         <div class="row" style="display: flex; justify-content: center;">
             <div class="col-12" style="text-align: center">
-                <h1 class="texto-plantae mt-4" style="color: #84312e; font-size: 1.85rem">Ingressos Esgotados!</h1>
+                <h1 class="texto-plantae mt-4 mb-4" style="color: #84312e; font-size: 1.85rem">Ingressos Esgotados!</h1>
             </div>
             <div class="col-12" style="text-align: center; font-weight: 600; color: #84312e">
-                <p class="texto-plantae"> 
-                <br/>Poxa! Os ingressos para o 1º lote do Brunch Vegetal da Plantae esgotaram!</p>
-                <p class="texto-plantae">
-                <a class="text-reset" href="https://instagram.com/plantae_cozinhavegetal"><u>Fiquem de olho nos nossos stories!</u> </a></br> Em breve abriremos o 2º lote.
-                </p>
+                <p id="soldOutText1" class="texto-plantae"></p>
+                <span class="texto-plantae" id="soldOutText2"></span>
         </div>
         <div style="display: flex; justify-content: center; margin-top: 0px;">
             <img src="png/ingressos-esgotados.png"
                  style="min-width: 200px; max-width: 400px; width: 100%; height: auto;">
         </div>
     </div>
+    <script>
+		 document.getElementById('soldOutText1').innerText = config.textConfigurations.soldOutText1;
+		 document.getElementById('soldOutText2').innerText = config.textConfigurations.soldOutText2;
+    </script>
     </body>
 </html>

@@ -1,8 +1,6 @@
 package com.thomazcm.plantae.api;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,14 +49,8 @@ public class ConfigurationApi {
     
     @PutMapping
     public ResponseEntity<?> updateConfig(@RequestBody UserConfigurationDto form) {
-        List<UserConfiguration> currentConfigList = repository.findAll();
         
-        UserConfiguration newConfig;
-        if (repository.findAll().size() < 1) {
-            newConfig = new UserConfiguration();
-        } else {
-            newConfig = currentConfigList.get(0);
-        }
+        UserConfiguration newConfig = repository.getConfig();
         
         StringBuilder builder = new StringBuilder("Alguém alterou as configurações Plantae:\n");
         if (newConfig.getUnitPrice().doubleValue() != form.getUnitPrice()) {

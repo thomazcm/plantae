@@ -1,6 +1,7 @@
 package com.thomazcm.plantae.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import com.thomazcm.plantae.model.UserConfiguration;
 
@@ -9,6 +10,7 @@ public class UserConfigurationDto {
     private List<String> pixLinks;
     private Double unitPrice;
     private Integer maxTickets;
+    private HashMap<String, String> textConfigurations;
     
     public UserConfigurationDto() {};
     
@@ -17,6 +19,15 @@ public class UserConfigurationDto {
         this.unitPrice = userConfig.getUnitPrice().doubleValue();
         this.maxTickets = userConfig.getMaxTickets();
     }
+    
+    public void setTextConfigurations(HashMap<String, String> textConfigurations) {
+        this.textConfigurations = textConfigurations;
+    }
+
+    public HashMap<String, String> getTextConfigurations() {
+        return this.textConfigurations;
+    }
+
     public List<String> getPixLinks() {
         return this.pixLinks;
     }
