@@ -35,11 +35,15 @@ public class PixController {
         var stats = statsRepository.getStats();
         var config = configRepository.getConfig();
         int remaining = calculateRemaniningTickets(config);
+        var publicConfig = new PublicConfigurationDto(remaining, config);
         
         String returnString = "link-pagamento";
         if (remaining <= 0) {
             returnString = "sold-out";
             stats.novoAcessoEsgotado();
+            
+            publicConfig.addConfig("soldOutText1", config);
+            publicConfig.addConfig("soldOutText2", config);
         }
         
         if (isAuthenticated()) {
@@ -47,7 +51,7 @@ public class PixController {
             statsRepository.save(stats);
         }
         
-        model.addAttribute("config", new PublicConfigurationDto(remaining, config));
+        model.addAttribute("config", publicConfig);
         return returnString;
     }
 

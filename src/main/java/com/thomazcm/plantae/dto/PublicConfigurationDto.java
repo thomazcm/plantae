@@ -9,14 +9,13 @@ public class PublicConfigurationDto {
     private Double unitPrice;
     private Integer remainingTickets;
     private List<String> pixLinks;
-    private HashMap<String, String> textConfigurations;
+    private HashMap<String, String> textConfigurations = new HashMap<String, String>();
     
     public PublicConfigurationDto(Integer remainingTickets, UserConfiguration userConfig) {
         
         this.unitPrice = userConfig.getUnitPrice().doubleValue();
         this.remainingTickets = remainingTickets > 4 ? 4 : remainingTickets;
         this.pixLinks = userConfig.getPixLinks();
-        this.textConfigurations = userConfig.getTextConfigurations();
         
     }
 
@@ -35,6 +34,10 @@ public class PublicConfigurationDto {
     public HashMap<String, String> getTextConfigurations() {
         return this.textConfigurations;
     }
-    
+
+    public void addConfig(String key, UserConfiguration config) {
+       String value = config.getTextConfigurations().get(key);
+       this.textConfigurations.put(key, value);
+    }
     
 }
