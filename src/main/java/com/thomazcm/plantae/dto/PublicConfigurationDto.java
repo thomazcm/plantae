@@ -12,10 +12,12 @@ public class PublicConfigurationDto {
     private HashMap<String, String> textConfigurations;
     
     public PublicConfigurationDto(Integer remainingTickets, UserConfiguration userConfig) {
+        
         this.unitPrice = userConfig.getUnitPrice().doubleValue();
-        this.remainingTickets = remainingTickets;
+        this.remainingTickets = remainingTickets > 4 ? 4 : remainingTickets;
         this.pixLinks = userConfig.getPixLinks();
         this.textConfigurations = userConfig.getTextConfigurations();
+        
     }
 
     public Double getUnitPrice() {
