@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -29,6 +30,7 @@ public class SecurityConfigurations {
         http.authorizeRequests().antMatchers("/login/**", "/logout/**", "/js/**", "/css/**").permitAll()
                 .antMatchers("/link-pix/**").permitAll()
                 .antMatchers("/png/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/report/**").permitAll()
                 .anyRequest().authenticated().and().csrf().disable()
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
