@@ -9,6 +9,16 @@
     height: 1.4rem !important;
 }
 
+#divisao-ingressos{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 6px;
+    font-family: sans-serif;
+    font-weight: bold;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
 .bottom-image {
     position: absolute;
     width: 100%;

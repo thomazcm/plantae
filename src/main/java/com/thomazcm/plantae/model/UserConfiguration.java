@@ -15,6 +15,11 @@ public class UserConfiguration {
     private List<String> pixLinks;
     private BigDecimal unitPrice;
     private Integer maxTickets;
+    private Integer cortesias;
+    
+    
+    
+
     private HashMap<String, String> textConfigurations;
 
     public UserConfiguration() {}
@@ -64,6 +69,20 @@ public class UserConfiguration {
 
     public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
+    }
+    
+    public Integer getCortesias() {
+        if (this.cortesias == null) {
+            this.cortesias = 0;
+        }
+        return this.cortesias;
+    }
+
+    public void addCortesia(Integer numero) {
+        if (this.cortesias == null) {
+            this.cortesias = 0;
+        }
+        this.cortesias+= numero;
     }
     
 }

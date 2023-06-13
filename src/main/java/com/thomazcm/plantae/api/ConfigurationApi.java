@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,8 +34,22 @@ public class ConfigurationApi {
 
     @GetMapping
     public ResponseEntity<UserConfigurationDto> getConfig() {
-        var userConfiguration = repository.findAll().get(0);
-        return ResponseEntity.ok(new UserConfigurationDto(userConfiguration));
+        return ResponseEntity.ok(new UserConfigurationDto(repository.getConfig()));
+    }
+    
+    @GetMapping("/cortesias/{numero}")
+    public ResponseEntity<?> novaCortesia(@PathVariable Integer numero) {
+        
+        UserConfiguration config = repository.getConfig();
+        config.addCortesia(numero);
+        repository.save(config);
+        
+        return ResponseEntity.ok().build();
+    }
+    
+    @GetMapping("/totalCortesias")
+    public ResponseEntity<Integer> totalCortesias() {
+        return ResponseEntity.ok(repository.getConfig().getCortesias());
     }
     
     @PostMapping

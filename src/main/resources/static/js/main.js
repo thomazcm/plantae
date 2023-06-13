@@ -39,9 +39,15 @@ function onLoad() {
             nomeOriginal: '',
             textoConfirmarIngressos: null,
             downloadTickets: true,
-            sendEmail: true
+            sendEmail: true,
+            cortesias: null,
+            primeiroLote: 0,
+            segundoLote: 0,
+            gerarCortesia: false
         },
         mounted() {
+			
+			
             this.addClienteInput();
             this.getIngressos();
             document.addEventListener('click', this.clearErrorMessage);
@@ -81,6 +87,12 @@ function onLoad() {
                 }
                 this.loadingMessage = 'Gerando ingresso,'
                 this.loading = true;
+                
+                if (this.gerarCortesia) {
+					axios.get(`${apiEndpoint}/configurations/cortesias/${this.clientesIndex}`)
+					.catch(err => console.log(err));
+				}
+                
                 const payload = {
                     clienteDto: this.clienteDto
                 };
@@ -140,9 +152,27 @@ function onLoad() {
             getIngressos() {
                 axios.get(`${apiEndpoint}/ingressos`).then(res => {
                     this.ingressos = res.data;
+                    this.primeiroLote = 0;
+                    this.segundoLote = 0;
                     this.ingressos.forEach(ingresso => {
                         ingresso.data = formatarData(ingresso.data);
+                        var data = ingresso.data;
+                        
+                        var dia = parseInt(data.split('/')[0]);
+                        var mes = parseInt(data.substring(data.length-2));
+                        
+                        
+						if (dia >= 13 || mes > 6) {
+							this.segundoLote++;
+						} else {
+							this.primeiroLote++;
+						}  
                     })
+                    axios.get(`${apiEndpoint}/configurations/totalCortesias`)
+		            .then(res => {
+						this.cortesias = res.data;
+						this.segundoLote-= this.cortesias;
+					})
                 })
                     .catch(error => console.log(error));
             },
