@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.controller;
+package com.thomazcm.plantae.api;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -13,15 +13,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.thomazcm.plantae.controller.dto.IngressoDto;
-import com.thomazcm.plantae.controller.dto.IngressoForm;
+import com.thomazcm.plantae.dto.IngressoDto;
+import com.thomazcm.plantae.dto.IngressoForm;
 import com.thomazcm.plantae.model.Ingresso;
 import com.thomazcm.plantae.repository.IngressoRepository;
 
 @RestController
 @RequestMapping("/ingressos")
-public class IngressoController {
+public class IngressoApi {
 
     @Autowired
     private IngressoRepository repository;

@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.controller;
+package com.thomazcm.plantae.api;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.thomazcm.plantae.controller.dto.ClienteDto;
-import com.thomazcm.plantae.controller.dto.RequestPayload;
+import com.thomazcm.plantae.dto.ClienteDto;
+import com.thomazcm.plantae.dto.RequestPayload;
 import com.thomazcm.plantae.model.Cliente;
 import com.thomazcm.plantae.model.Ingresso;
 import com.thomazcm.plantae.repository.IngressoRepository;

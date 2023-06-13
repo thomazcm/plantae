@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.controller.dto;
+package com.thomazcm.plantae.dto;
 
 import java.time.LocalDate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

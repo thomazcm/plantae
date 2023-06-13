@@ -51,7 +51,10 @@ function onLoad() {
 			},
 			home() {
                 window.location.href = '/';
-            }
+            },
+            report(){
+				window.location.href= '/report';
+			}
 		}
 	    });
 }

@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.controller;
+package com.thomazcm.plantae.api;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.thomazcm.plantae.controller.dto.UserConfigurationDto;
+import com.thomazcm.plantae.dto.UserConfigurationDto;
 import com.thomazcm.plantae.model.UserConfiguration;
 import com.thomazcm.plantae.repository.ConfigurationRepository;
 import com.thomazcm.plantae.service.EmailService;

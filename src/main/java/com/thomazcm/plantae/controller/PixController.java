@@ -1,8 +1,5 @@
 package com.thomazcm.plantae.controller;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -10,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.thomazcm.plantae.model.Stats;
+import com.thomazcm.plantae.model.UserConfiguration;
 import com.thomazcm.plantae.repository.ConfigurationRepository;
 import com.thomazcm.plantae.repository.IngressoRepository;
 import com.thomazcm.plantae.repository.StatsRepository;
@@ -33,38 +30,35 @@ public class PixController {
 
     @GetMapping("/link-pix")
     public String linkPix(Model model, HttpServletRequest request) {
-        model.addAttribute("apiEndpoint", apiEndpoint);
         
-        if (statsRepository.findAll().size() == 0) {
-            statsRepository.save(new Stats());
-        }
+        var stats = statsRepository.getStats();
+        var config = configRepository.getConfig();
+        int remaining = calculateRemaniningTickets(config);
         
-        Integer maxTickets = configRepository.findAll().get(0).getMaxTickets();
-        int totalTickets = ingressoRepository.findAll().size();
-        
-        Stats stats = statsRepository.findAll().get(0);
         String returnString = "link-pagamento";
-        if (totalTickets >= maxTickets) {
-            stats.setAcessosPaginaDeCompraEsgotados(stats.getAcessosPaginaDeCompraEsgotados()+1);
+        if (remaining <= 0) {
             returnString = "sold-out";
+            stats.novoAcessoEsgotado();
         }
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.getName().compareTo("plantae") != 0) {
-            stats.setAcessosPaginaDeCompraTotal(stats.getAcessosPaginaDeCompraTotal()+1);
-            stats.getDatas().add(LocalDateTime.now().minus(Duration.ofHours(3L)));
-            
-            if (stats.getRequestIps() == null) {
-                stats.setRequestIps(new ArrayList<String>());   
-            }
-            String clientIp = request.getHeader("X-Forwarded-For");
-            if (clientIp == null || clientIp.isEmpty()) {
-                clientIp = request.getRemoteAddr();
-            }
-            stats.getRequestIps().add(clientIp);
+        
+        if (isAuthenticated()) {
+            stats.novoAcesso(request);
             statsRepository.save(stats);
         }
-        model.addAttribute("remainingTickets", maxTickets-totalTickets);
+        
+        model.addAttribute("config", config);
+        model.addAttribute("remainingTickets", remaining);
         return returnString;
+    }
+
+    private int calculateRemaniningTickets(UserConfiguration config) {
+        int totalTicketsSold = ingressoRepository.findAll().size();
+        int maxTickets = config.getMaxTickets();
+        return maxTickets - totalTicketsSold;
+    }
+    
+    private Boolean isAuthenticated() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName().compareTo("plantae") != 0;
     }
 }

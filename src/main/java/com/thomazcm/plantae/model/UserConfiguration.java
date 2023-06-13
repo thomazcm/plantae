@@ -14,7 +14,15 @@ public class UserConfiguration {
     private List<String> pixLinks;
     private BigDecimal unitPrice;
     private Integer maxTickets;
+
+    public UserConfiguration() {}
     
+    public UserConfiguration(List<String> pixLinks, BigDecimal unitPrice, Integer maxTickets) {
+        this.pixLinks = pixLinks;
+        this.unitPrice = unitPrice;
+        this.maxTickets = maxTickets;
+    }
+
     public Integer getMaxTickets() {
         return this.maxTickets;
     }

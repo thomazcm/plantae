@@ -1,7 +1,8 @@
-package com.thomazcm.plantae.controller;
+package com.thomazcm.plantae.api;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import com.thomazcm.plantae.repository.StatsRepository;
 
 @RestController
 @RequestMapping("/report")
-public class ReportController {
+public class ReportApi {
     
     @Autowired StatsRepository repository;
     
@@ -29,7 +30,8 @@ public class ReportController {
         List<LocalDateTime> datas = stats.getDatas();
         Map<String, List<String>> report = new HashMap<>();
         datas = datas.stream()
-                .filter(data -> data.compareTo(LocalDateTime.now().minus(Duration.ofHours(27)))> 0)
+                .filter(data -> data.compareTo
+                        (LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).minus(Duration.ofHours(24)))> 0)
                 .collect(Collectors.toList());
         
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("mm:ss");
