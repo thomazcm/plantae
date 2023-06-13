@@ -10,7 +10,7 @@ function onLoad() {
             total: config.unitPrice,
             links: config.pixLinks,
             unitPrice: config.unitPrice,
-            remainingTickets: remainingTickets,
+            remainingTickets: config.remainingTickets,
             soldOut: false,
             soldOutMessage: ''
         },

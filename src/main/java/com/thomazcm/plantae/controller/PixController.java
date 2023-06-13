@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.thomazcm.plantae.dto.PublicConfigurationDto;
 import com.thomazcm.plantae.model.UserConfiguration;
 import com.thomazcm.plantae.repository.ConfigurationRepository;
 import com.thomazcm.plantae.repository.IngressoRepository;
@@ -46,8 +47,7 @@ public class PixController {
             statsRepository.save(stats);
         }
         
-        model.addAttribute("config", config);
-        model.addAttribute("remainingTickets", remaining);
+        model.addAttribute("config", new PublicConfigurationDto(remaining, config));
         return returnString;
     }
 
