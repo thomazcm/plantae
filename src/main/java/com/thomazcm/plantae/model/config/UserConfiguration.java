@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.model;
+package com.thomazcm.plantae.model.config;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -15,20 +15,26 @@ public class UserConfiguration {
     private List<String> pixLinks;
     private BigDecimal unitPrice;
     private Integer maxTickets;
-    private Integer cortesias;
-    
-    
-    
+    private Integer lote;
 
     private HashMap<String, String> textConfigurations;
 
     public UserConfiguration() {}
     
-    public UserConfiguration(List<String> pixLinks, BigDecimal unitPrice, Integer maxTickets, HashMap<String, String> textConfigurations) {
+    public UserConfiguration(List<String> pixLinks, BigDecimal unitPrice, Integer maxTickets, HashMap<String, String> textConfigurations, Integer lote) {
         this.pixLinks = pixLinks;
         this.unitPrice = unitPrice;
         this.maxTickets = maxTickets;
         this.textConfigurations = textConfigurations;
+        this.lote = lote;
+    }
+
+    public Integer getLote() {
+        return this.lote;
+    }
+
+    public void setLote(Integer lote) {
+        this.lote = lote;
     }
 
     public HashMap<String, String> getTextConfigurations() {
@@ -69,20 +75,6 @@ public class UserConfiguration {
 
     public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
-    }
-    
-    public Integer getCortesias() {
-        if (this.cortesias == null) {
-            this.cortesias = 0;
-        }
-        return this.cortesias;
-    }
-
-    public void addCortesia(Integer numero) {
-        if (this.cortesias == null) {
-            this.cortesias = 0;
-        }
-        this.cortesias+= numero;
     }
     
 }

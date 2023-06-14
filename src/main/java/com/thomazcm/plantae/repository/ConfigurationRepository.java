@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import com.thomazcm.plantae.model.UserConfiguration;
+import com.thomazcm.plantae.model.config.UserConfiguration;
 
 public interface ConfigurationRepository extends MongoRepository<UserConfiguration, String>{
 
@@ -18,11 +18,17 @@ public interface ConfigurationRepository extends MongoRepository<UserConfigurati
         
         var currentConfig = currentConfigList.get(0);
         
-        if (currentConfig.getTextConfigurations() == null) {
-            currentConfig.setTextConfigurations(new HashMap<String, String>());
-            currentConfig.getTextConfigurations().put("", "");
+        if (currentConfig.getLote() == null) {
+            var updatedConfig = new UserConfiguration();
+            updatedConfig.setId(currentConfig.getId());
+            updatedConfig.setMaxTickets(currentConfig.getMaxTickets());
+            updatedConfig.setPixLinks(currentConfig.getPixLinks());
+            updatedConfig.setUnitPrice(currentConfig.getUnitPrice());
+            updatedConfig.setTextConfigurations(currentConfig.getTextConfigurations());
+            updatedConfig.setLote(2);
+            
+            currentConfig = updatedConfig;
             this.save(currentConfig);
-            currentConfig = this.findAll().get(0);
         }
         return currentConfig;
     }
@@ -31,7 +37,8 @@ public interface ConfigurationRepository extends MongoRepository<UserConfigurati
         UserConfiguration defaultConfig = new UserConfiguration(
                 new ArrayList<String>(List.of("","","","")),
                 new BigDecimal(27), 
-                30, new HashMap<String, String>());
+                30, new HashMap<String, String>(), 1);
+        defaultConfig.getTextConfigurations().put("", "");
         this.save(defaultConfig);
     }
     

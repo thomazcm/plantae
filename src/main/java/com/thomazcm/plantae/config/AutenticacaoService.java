@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.thomazcm.plantae.model.Usuario;
+import com.thomazcm.plantae.model.config.Usuario;
 import com.thomazcm.plantae.repository.UsuarioRepository;
 
 @Service

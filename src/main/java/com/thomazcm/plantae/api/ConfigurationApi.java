@@ -4,14 +4,13 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.thomazcm.plantae.dto.UserConfigurationDto;
-import com.thomazcm.plantae.model.UserConfiguration;
+import com.thomazcm.plantae.dto.config.ConfigurationDto;
+import com.thomazcm.plantae.model.config.UserConfiguration;
 import com.thomazcm.plantae.repository.ConfigurationRepository;
 import com.thomazcm.plantae.service.EmailService;
 
@@ -33,37 +32,22 @@ public class ConfigurationApi {
     }
 
     @GetMapping
-    public ResponseEntity<UserConfigurationDto> getConfig() {
-        return ResponseEntity.ok(new UserConfigurationDto(repository.getConfig()));
-    }
-    
-    @GetMapping("/cortesias/{numero}")
-    public ResponseEntity<?> novaCortesia(@PathVariable Integer numero) {
-        
-        UserConfiguration config = repository.getConfig();
-        config.addCortesia(numero);
-        repository.save(config);
-        
-        return ResponseEntity.ok().build();
-    }
-    
-    @GetMapping("/totalCortesias")
-    public ResponseEntity<Integer> totalCortesias() {
-        return ResponseEntity.ok(repository.getConfig().getCortesias());
+    public ResponseEntity<ConfigurationDto> getConfig() {
+        return ResponseEntity.ok(new ConfigurationDto(repository.getConfig()));
     }
     
     @PostMapping
-    public ResponseEntity<?> creteConfig(@RequestBody UserConfigurationDto form) {
+    public ResponseEntity<?> creteConfig(@RequestBody ConfigurationDto form) {
         UserConfiguration userConfig = new UserConfiguration();
         userConfig.setPixLinks(form.getPixLinks());
         userConfig.setUnitPrice(BigDecimal.valueOf(form.getUnitPrice()));
         
         repository.save(userConfig);
-        return ResponseEntity.ok(new UserConfigurationDto(userConfig));
+        return ResponseEntity.ok(new ConfigurationDto(userConfig));
     }
     
     @PutMapping
-    public ResponseEntity<?> updateConfig(@RequestBody UserConfigurationDto form) {
+    public ResponseEntity<?> updateConfig(@RequestBody ConfigurationDto form) {
         
         UserConfiguration newConfig = repository.getConfig();
         
@@ -87,9 +71,10 @@ public class ConfigurationApi {
         newConfig.setPixLinks(form.getPixLinks());
         newConfig.setUnitPrice(BigDecimal.valueOf(form.getUnitPrice()));
         newConfig.setMaxTickets(form.getMaxTickets());
+        newConfig.setLote(form.getLote());
         repository.save(newConfig);
         
-        return ResponseEntity.ok(new UserConfigurationDto(newConfig));
+        return ResponseEntity.ok(new ConfigurationDto(newConfig));
     }
 
 }

@@ -7,12 +7,12 @@
 
                         <label for="inputField" class="plantae-text">Informe o nome do cliente para gerar o
                             ingresso:</label>
-                        <div v-for="(cliente, index) in clienteDto.clientes" :key="index">
+                        <div v-for="(cliente, index) in pedidoDto.clientes" :key="index">
                             <div class="input-group">
                                 <input type="text" class="form-control" :id="'inputField-' + cliente.index"
                                     placeholder="nome do cliente" v-model="cliente.nome"
                                     :class="{ 'is-invalid': ingressoGerado && !cliente.nome }">
-                                <div v-if="cliente.index == clienteDto.clientes.length && cliente.index > 1"
+                                <div v-if="cliente.index == pedidoDto.clientes.length && cliente.index > 1"
                                     class="input-group-append">
                                     <button type="button" class="btn btn-outline-danger"
                                         @click="removerClienteInput(index)">
@@ -25,16 +25,16 @@
                             </div>
                         </div>
 
-                        <button v-if="clienteDto.clientes.length <= 3" type="button" class="plantae-button btn mt-2"
+                        <button v-if="pedidoDto.clientes.length <= 3" type="button" class="plantae-button btn mt-2"
                             v-on:click="addClienteInput()">+ gerar mais ingressos neste pedido</button>
                         <br>
 
                         <label for="inputFieldMail" class="plantae-text mt-2">Email para envio do ingresso:
                             (opcional)</label>
                         <input type="email" class="form-control" id="inputFieldMail" placeholder="exemplo@mail.com"
-                            v-model="clienteDto.email"
-                            :class="{'is-invalid': ingressoGerado && !isEmailValid(clienteDto.email)}">
-                        <div v-if="ingressoGerado && !isEmailValid(clienteDto.email)" class="invalid-feedback">
+                            v-model="pedidoDto.email"
+                            :class="{'is-invalid': ingressoGerado && !isEmailValid(pedidoDto.email)}">
+                        <div v-if="ingressoGerado && !isEmailValid(pedidoDto.email)" class="invalid-feedback">
                             Por favor, informe um email válido ou deixe o campo vazio.
                         </div>
                     </div>

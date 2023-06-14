@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.model;
+package com.thomazcm.plantae.model.config;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

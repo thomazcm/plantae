@@ -11,10 +11,11 @@ class Cliente {
     }
 }
 
-class ClienteDto {
+class PedidoDto {
     constructor() {
         this.clientes = [];
         this.email = '';
+        this.cortesia = false;
     }
 }
 
@@ -28,7 +29,7 @@ function onLoad() {
             listaKey: 0,
             formKey: 0,
             ingressos: [],
-            clienteDto: new ClienteDto(),
+            pedidoDto: new PedidoDto(),
             clientesIndex: 0,
             clienteModal: '',
             idModal: '',
@@ -40,14 +41,12 @@ function onLoad() {
             textoConfirmarIngressos: null,
             downloadTickets: true,
             sendEmail: true,
-            cortesias: null,
+            cortesias: 0,
             primeiroLote: 0,
             segundoLote: 0,
             gerarCortesia: false
         },
         mounted() {
-			
-			
             this.addClienteInput();
             this.getIngressos();
             document.addEventListener('click', this.clearErrorMessage);
@@ -65,8 +64,8 @@ function onLoad() {
         methods: {
             confirmarNovoIngresso() {
                 this.ingressoGerado = true;
-                let emptyCliente = this.clienteDto.clientes.some(cliente => cliente.nome.trim() === '');
-                if (emptyCliente || !this.isEmailValid(this.clienteDto.email)) {
+                let emptyCliente = this.pedidoDto.clientes.some(cliente => cliente.nome.trim() === '');
+                if (emptyCliente || !this.isEmailValid(this.pedidoDto.email)) {
                     return;
                 }
                 this.definirTexto();
@@ -81,20 +80,17 @@ function onLoad() {
             },
             gerarIngresso() {
                 this.ingressoGerado = true;
-                if (this.clienteDto.clientes.some(cliente => cliente.nome === '')
-                    || !this.isEmailValid(this.clienteDto.email)) {
+                if (this.pedidoDto.clientes.some(cliente => cliente.nome === '')
+                    || !this.isEmailValid(this.pedidoDto.email)) {
                     return
                 }
                 this.loadingMessage = 'Gerando ingresso,'
                 this.loading = true;
                 
-                if (this.gerarCortesia) {
-					axios.get(`${apiEndpoint}/configurations/cortesias/${this.clientesIndex}`)
-					.catch(err => console.log(err));
-				}
                 
+                this.pedidoDto.cortesia = this.gerarCortesia;
                 const payload = {
-                    clienteDto: this.clienteDto
+                    pedidoDto: this.pedidoDto
                 };
                 axios.post(`${apiEndpoint}/qr-code/novo`, payload, {
                     responseType: 'arraybuffer',
@@ -114,7 +110,7 @@ function onLoad() {
                             link.click();
                         }
                         this.ingressoGerado = false;
-                        this.clienteDto = new ClienteDto();
+                        this.pedidoDto = new PedidoDto();
                         this.clientesIndex = 0;
                         this.addClienteInput();
                         this.getIngressos();
@@ -127,7 +123,6 @@ function onLoad() {
                         this.loading = false;
                         this.loadingMessage = '';
                     });
-
             },
             isEmailValid(email) {
                 if (!email) {
@@ -140,10 +135,10 @@ function onLoad() {
             addClienteInput() {
                 this.clientesIndex++;
                 const newCliente = new Cliente('', this.clientesIndex);
-                this.clienteDto.clientes.push(newCliente);
+                this.pedidoDto.clientes.push(newCliente);
             },
             removerClienteInput(index) {
-                this.clienteDto.clientes.pop();
+                this.pedidoDto.clientes.pop();
                 this.clientesIndex--;
             },
             home() {
@@ -154,25 +149,17 @@ function onLoad() {
                     this.ingressos = res.data;
                     this.primeiroLote = 0;
                     this.segundoLote = 0;
+                    this.cortesias = 0;
                     this.ingressos.forEach(ingresso => {
                         ingresso.data = formatarData(ingresso.data);
-                        var data = ingresso.data;
-                        
-                        var dia = parseInt(data.split('/')[0]);
-                        var mes = parseInt(data.substring(data.length-2));
-                        
-                        
-						if (dia >= 13 || mes > 6) {
-							this.segundoLote++;
-						} else {
-							this.primeiroLote++;
-						}  
+                        if (ingresso.lote == 'PRIMEIRO') {
+                            this.primeiroLote++;
+                        } else if (ingresso.lote == 'SEGUNDO') {
+                            this.segundoLote++;
+                        } else if (ingresso.lote == 'CORTESIA') {
+                            this.cortesias++;
+                        }
                     })
-                    axios.get(`${apiEndpoint}/configurations/totalCortesias`)
-		            .then(res => {
-						this.cortesias = res.data;
-						this.segundoLote-= this.cortesias;
-					})
                 })
                     .catch(error => console.log(error));
             },

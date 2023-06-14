@@ -1,23 +1,30 @@
-package com.thomazcm.plantae.dto;
+package com.thomazcm.plantae.dto.config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import com.thomazcm.plantae.model.UserConfiguration;
+import com.thomazcm.plantae.model.config.UserConfiguration;
 
-public class UserConfigurationDto {
+public class ConfigurationDto {
 
     private List<String> pixLinks;
     private Double unitPrice;
     private Integer maxTickets;
+    private Integer lote;
     private HashMap<String, String> textConfigurations;
     
-    public UserConfigurationDto() {};
+    public ConfigurationDto() {};
     
-    public UserConfigurationDto(UserConfiguration userConfig) {
+    public ConfigurationDto(UserConfiguration userConfig) {
         this.pixLinks = new ArrayList<>(userConfig.getPixLinks());
         this.unitPrice = userConfig.getUnitPrice().doubleValue();
         this.maxTickets = userConfig.getMaxTickets();
+        this.lote = userConfig.getLote();
+        this.textConfigurations = userConfig.getTextConfigurations();
+    }
+    
+    public Integer getLote() {
+        return this.lote;
     }
     
     public void setTextConfigurations(HashMap<String, String> textConfigurations) {

@@ -1,8 +1,8 @@
-package com.thomazcm.plantae.dto;
+package com.thomazcm.plantae.dto.config;
 
 import java.time.LocalDate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.thomazcm.plantae.model.Usuario;
+import com.thomazcm.plantae.model.config.Usuario;
 
 public class UsuarioForm {
 

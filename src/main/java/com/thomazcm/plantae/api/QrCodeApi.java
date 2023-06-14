@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.thomazcm.plantae.dto.ClienteDto;
-import com.thomazcm.plantae.dto.RequestPayload;
-import com.thomazcm.plantae.model.Cliente;
+import com.thomazcm.plantae.dto.PedidoDto;
+import com.thomazcm.plantae.dto.integration.RequestPayload;
 import com.thomazcm.plantae.model.Ingresso;
+import com.thomazcm.plantae.model.integration.Cliente;
 import com.thomazcm.plantae.repository.IngressoRepository;
 import com.thomazcm.plantae.service.EmailService;
 import com.thomazcm.plantae.service.IngressoGenerator;
@@ -48,15 +48,17 @@ public class QrCodeApi {
     public ResponseEntity<byte[]> novoIngresso(@RequestBody RequestPayload payload,
             @RequestHeader("Enviar-Email") String enviarEmail) throws Exception {
 
-        ClienteDto clienteDto = payload.getClienteDto();
-        String email = clienteDto.getEmail();
-        List<String> nomes = clienteDto.getClientes().stream().map(Cliente::getNome)
+        PedidoDto pedidtoDto = payload.getPedidoDto();
+        String email = pedidtoDto.getEmail();
+        Boolean cortesia = pedidtoDto.getCortesia();
+        List<String> nomes = pedidtoDto.getClientes()
+                .stream().map(Cliente::getNome)
                 .collect(Collectors.toList());
 
-
+        
         List<Ingresso> ingressos = new ArrayList<Ingresso>();
         nomes.forEach(nome -> {
-            Ingresso novoIngresso = ingressoGenerator.novoIngresso(nome, email);
+            Ingresso novoIngresso = ingressoGenerator.novoIngresso(nome, email, cortesia);
             ingressos.add(novoIngresso);
         });
 

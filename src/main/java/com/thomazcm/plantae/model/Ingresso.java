@@ -16,6 +16,7 @@ public class Ingresso {
     private String cliente;
     private LocalDate data;
     private String qrCodeUrl;
+    private LoteIngresso lote;
     private Boolean valid = true;
     private int senha;
 
@@ -93,4 +94,15 @@ public class Ingresso {
     public int getSenha() {
         return senha;
     }
+
+    public LoteIngresso getLote() {
+        return this.lote;
+    }
+
+    
+
+    public void setLote(LoteIngresso lote) {
+        this.lote = lote;
+    }
+    
 }

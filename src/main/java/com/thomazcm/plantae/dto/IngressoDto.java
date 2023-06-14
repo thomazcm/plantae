@@ -3,6 +3,7 @@ package com.thomazcm.plantae.dto;
 import java.time.LocalDate;
 
 import com.thomazcm.plantae.model.Ingresso;
+import com.thomazcm.plantae.model.LoteIngresso;
 
 public class IngressoDto {
 
@@ -11,6 +12,7 @@ public class IngressoDto {
     private String cliente;
     private LocalDate data;
     private Boolean valid;
+    private LoteIngresso lote;
 
     public IngressoDto(Ingresso ingresso) {
         this.id = ingresso.getId();
@@ -18,6 +20,7 @@ public class IngressoDto {
         this.cliente = ingresso.getCliente();
         this.data = ingresso.getData();
         this.valid = ingresso.getValid();
+        this.lote = ingresso.getLote();
     }
 
     public int getNumero() {
@@ -42,6 +45,10 @@ public class IngressoDto {
 
     public Boolean getValid() {
         return valid;
+    }
+    
+    public LoteIngresso getLote() {
+        return this.lote;
     }
 
 }

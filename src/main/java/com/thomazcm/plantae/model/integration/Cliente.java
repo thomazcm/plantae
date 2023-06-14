@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.model;
+package com.thomazcm.plantae.model.integration;
 
 public class Cliente {
 

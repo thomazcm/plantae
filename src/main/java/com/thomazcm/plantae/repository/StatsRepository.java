@@ -2,7 +2,7 @@ package com.thomazcm.plantae.repository;
 
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import com.thomazcm.plantae.model.Stats;
+import com.thomazcm.plantae.model.config.Stats;
 
 public interface StatsRepository extends MongoRepository<Stats, String>{
 

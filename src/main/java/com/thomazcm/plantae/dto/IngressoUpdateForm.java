@@ -1,6 +1,6 @@
 package com.thomazcm.plantae.dto;
 
-public class IngressoForm {
+public class IngressoUpdateForm {
 
     private String cliente;
 
