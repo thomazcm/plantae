@@ -6,24 +6,26 @@
 	apiEndpoint = /*[[${apiEndpoint}]]*/
 	validado = /*[[${validado}]]*/
 	nomeValidado = /*[[${nomeValidado}]]*/
-    expirado = /*[[${expirado}]]*/
+	expirado = /*[[${expirado}]]*/
 </script>
 </head>
 <body onload="onLoad()">
 
-	<div th:replace="~{base :: header}"></div>
-     <div class="container"  id="ingresso" v-cloak>
-	     <div class="loading" v-if="loading">
-		  <div class="loading-content">
-		    <div class="loading-spinner"></div>
-		    <p class="plantae-text loading-text"> {{ loadingMessage }} <br>aguarde...</p>
-		  </div>
-		</div>
-         <div th:replace="~{formularios/ingresso}"></div>
-         <div th:replace="~{tabelas/ingressos}"></div>
-     	 <div th:replace="~{modals/validacao}"></div>
-     </div>
-	
-	<script type="application/javascript" src="js/main.js"></script>
+    <div th:replace="~{base :: header}"></div>
+    <div class="container" id="ingresso" v-cloak>
+        <div class="loading" v-if="loading">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p class="plantae-text loading-text">
+                    {{ loadingMessage }} <br>aguarde...
+                </p>
+            </div>
+        </div>
+        <div th:replace="~{formularios/ingresso}"></div>
+        <div th:replace="~{tabelas/ingressos}"></div>
+        <div th:replace="~{modals/validacao}"></div>
+    </div>
+
+    <script type="application/javascript" src="js/main.js"></script>
 </body>
 </html>
