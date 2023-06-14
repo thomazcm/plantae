@@ -15,22 +15,21 @@ public interface ConfigurationRepository extends MongoRepository<UserConfigurati
             createDefaultConfig();
             currentConfigList = this.findAll();
         }
-        
         var currentConfig = currentConfigList.get(0);
-        
-        if (currentConfig.getLote() == null) {
-            var updatedConfig = new UserConfiguration();
-            updatedConfig.setId(currentConfig.getId());
-            updatedConfig.setMaxTickets(currentConfig.getMaxTickets());
-            updatedConfig.setPixLinks(currentConfig.getPixLinks());
-            updatedConfig.setUnitPrice(currentConfig.getUnitPrice());
-            updatedConfig.setTextConfigurations(currentConfig.getTextConfigurations());
-            updatedConfig.setLote(2);
-            
-            currentConfig = updatedConfig;
-            this.save(currentConfig);
-        }
         return currentConfig;
+    }
+
+    
+    @SuppressWarnings("unused")
+    private UserConfiguration updateConfigurationFields(UserConfiguration currentConfig) {
+        var updatedConfig = new UserConfiguration();
+        updatedConfig.setId(currentConfig.getId());
+        updatedConfig.setMaxTickets(currentConfig.getMaxTickets());
+        updatedConfig.setPixLinks(currentConfig.getPixLinks());
+        updatedConfig.setUnitPrice(currentConfig.getUnitPrice());
+        updatedConfig.setTextConfigurations(currentConfig.getTextConfigurations());
+        updatedConfig.setLote(currentConfig.getLote());
+        return updatedConfig;
     }
 
     private void createDefaultConfig() {
