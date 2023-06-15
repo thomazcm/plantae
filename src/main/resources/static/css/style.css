@@ -63,7 +63,7 @@ body {
 #confirm-box {
     background-color: rgb(247, 231, 212);
     text-align: center;
-    margin-top: 260px;
+/*     margin-top: 260px; */
     width: 90%;
     margin-left: 5%;
 }
@@ -75,6 +75,26 @@ body {
 .plantae-text {
     color: #84312e;
     font-weight: 600;
+}
+
+.primeiro-lote-text {
+	color: #84312e;
+	font-weight: 500;
+	font-family: 'Merriweather', sans-serif;
+}
+
+.segundo-lote-text {
+	color: #84312e;
+	font-weight: 900;
+	font-family: 'Merriweather', sans-serif;
+}
+
+.cortesia-text {
+	color: #84312e;
+	font-size: 0.9rem;
+	font-weight: 300;
+    font-style: italic;
+    font-family: 'Merriweather', sans-serif;
 }
 
 .plantae-button {
