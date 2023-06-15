@@ -1,3 +1,5 @@
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwtToken')}`
+
 function formatarData(data) {
     var dia = data.substring(8, 10);
     var mes = data.substring(5, 7);

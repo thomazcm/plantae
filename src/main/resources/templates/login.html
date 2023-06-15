@@ -2,21 +2,22 @@
 <html>
 <head>
     <div th:replace="~{base :: head('Faça Login')}"></div>
+    <script th:inline="javascript">apiEndpoint = /*[[${apiEndpoint}]]*/</script>
 </head>
-<body>
+<body onload="onLoad()">
     <div th:replace="~{base :: header}"></div>
     <div class="d-flex justify-content-center align-items-center mt-4">
     <div class="card col-10 col-sm-6 col-md-5 plantae-form" id="login-form" style="max-width: 90%; max-width: 600px;">
-        <form th:action="@{/login}" class="card-body" method="post">
+        <form @submit.prevent="fazerLogin" class="card-body" method="post" id="login">
             <div class="form-group">
                 <label for="username" class="plantae-text">Login</label>
-                <input name="username" value="plantae" class="form-control plantae-field" placeholder="login" />
+                <input name="username" v-model="email" class="form-control plantae-field" placeholder="login" />
             </div>
 
             <div class="form-group">
                 <label for="password" class="plantae-text">Senha</label>
                 <div class="input-group">
-                    <input name="password" type="password" class="form-control plantae-field" placeholder="senha" id="password-input"/>
+                    <input name="password" v-model="senha" type="password" class="form-control plantae-field" placeholder="senha" id="password-input"/>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" id="show-password-btn">👁️</button>
                     </div>
