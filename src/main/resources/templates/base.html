@@ -37,10 +37,9 @@
             <a href="/" class="text-light" sec:authorize="isAuthenticated()"
              th:if="${#httpServletRequest.requestURI != '/'}">
                 home   |</a>
-            <a href="#" class="text-light" sec:authorize="isAuthenticated()"
+            <a href="/logoutStateless" class="text-light" sec:authorize="isAuthenticated()"
                 onclick="document.querySelector('#form-logout').submit();">
                 logout</a>
-            <form id="form-logout" th:action="@{/logout}" method="POST"></form>
         </span>
     </div>
 </div>

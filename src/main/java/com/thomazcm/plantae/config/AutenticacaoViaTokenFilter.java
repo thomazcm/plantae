@@ -3,6 +3,7 @@ package com.thomazcm.plantae.config;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,13 +24,29 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-        String token = request.getHeader("Authorization");
-        boolean ehValido = service.ehValido(token);
         
-        if (ehValido) {
+        Cookie[] cookies = request.getCookies();
+        String token = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("JWT-TOKEN")) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (token != null && service.ehValido(token)) {
             autenticaRequest(token);
         }
         
+//        String token = request.getHeader("Authorization");
+//        boolean ehValido = service.ehValido(token);
+//        
+//        if (ehValido) {
+//            autenticaRequest(token);
+//        }
         filterChain.doFilter(request, response);
     }
 

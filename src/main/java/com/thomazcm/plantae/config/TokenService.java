@@ -28,7 +28,7 @@ public class TokenService {
     public String gerarToken(Authentication authentication) {
         Usuario logado = (Usuario) authentication.getPrincipal();
         Date hoje = new Date();
-        Date dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration));
+        Date dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration)* 60 * 60 * 1000);
         
         return Jwts.builder()
                 .setIssuer("plantae")
@@ -40,7 +40,7 @@ public class TokenService {
     }
 
     public boolean ehValido(String tokenRaw) {
-        String token = format(tokenRaw);
+        String token = checkToken(tokenRaw);
         try {
             Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
             return true;
@@ -59,17 +59,16 @@ public class TokenService {
     }
 
     public String idFromToken(String tokenRaw) {
-        String token = format(tokenRaw);
+        String token = checkToken(tokenRaw);
         Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
 
-    private String format(String tokenRaw) {
-        if (ObjectUtils.isEmpty(tokenRaw) || !tokenRaw.startsWith("Bearer ")) {
+    private String checkToken(String tokenRaw) {
+        if (ObjectUtils.isEmpty(tokenRaw)) {
             return null;
         }
-        String token = tokenRaw.substring(7, tokenRaw.length());
-        return token;
+        return tokenRaw;
     }
 
 }

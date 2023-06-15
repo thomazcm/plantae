@@ -1,4 +1,6 @@
- class ConfigurationUpdateForm {
+axios.defaults.withCredentials = true;
+
+class ConfigurationUpdateForm {
     constructor(pixLinks, unitPrice, maxTickets, lote) {
         this.pixLinks = pixLinks;
         this.unitPrice = unitPrice;
