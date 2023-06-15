@@ -39,7 +39,7 @@ public class LoginController {
         if (token == null) {
             return "login";
         }
-        return "home";
+        return "redirect:/home";
     }
     
     @GetMapping("/logoutStateless")

@@ -23,7 +23,12 @@ public class HomeController {
 	@Autowired
 	IngressoRepository repository;
 
-	@GetMapping
+	@GetMapping("/")
+	public String redirect() {
+	    return "forward:/home";
+	}
+	
+	@GetMapping("/home")
 	public String home(Model model) {
 		model.addAttribute("apiEndpoint", apiEndpoint);
 		return "home";
