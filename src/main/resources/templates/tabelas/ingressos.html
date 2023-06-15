@@ -1,7 +1,7 @@
 <div th:fragment class="row mt-3">
   <div class="col">
     <h4 class="plantae-text" v-cloak>Ingressos Vendidos: {{ ingressos.length }}</h4>
-    <div id="divisao-ingressos" v-if="segundoLote > 0 || Cortesias > 0">
+    <div id="divisao-ingressos" v-if="segundoLote > 0 || cortesias > 0">
       <span class="primeiro-lote-text">1º lote: {{primeiroLote}}</span>
       <span class="segundo-lote-text"> 2º lote: {{segundoLote}}</span> 
       <span class="cortesia-text"> Cortesias: {{cortesias}}</span>
@@ -35,6 +35,7 @@
                 <div v-if="ingresso.valid" class="d-flex justify-content-between">
                   <button class="btn btn-md flex-fill m-0 btn-table" style="background-color: #ca6b68;"
                     v-on:click="confirmarValidarIngresso(ingresso)">🎟️</button>
+                    
                   <button class="btn btn-md flex-fill m-0 btn-table" style="background-color: #85adad;"
                     v-on:click="baixarIngresso(ingresso)">📥</button>
                   <button class="btn btn-md btn-warning flex-fill m-0 btn-table" v-on:click="editar(ingresso)">📝</button>
