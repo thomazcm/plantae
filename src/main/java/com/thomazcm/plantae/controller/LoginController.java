@@ -37,9 +37,9 @@ public class LoginController {
         model.addAttribute("apiEndpoint", apiEndpoint);
         String token = getToken(request);
         if (token == null) {
-            return "/login";
+            return "login";
         }
-        return "/home";
+        return "home";
     }
     
     @GetMapping("/logoutStateless")
