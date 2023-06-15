@@ -71,7 +71,6 @@ public class ConfigurationApi {
         newConfig.setPixLinks(form.getPixLinks());
         newConfig.setUnitPrice(BigDecimal.valueOf(form.getUnitPrice()));
         newConfig.setMaxTickets(form.getMaxTickets());
-        newConfig.setLote(form.getLote());
         repository.save(newConfig);
         
         return ResponseEntity.ok(new ConfigurationDto(newConfig));

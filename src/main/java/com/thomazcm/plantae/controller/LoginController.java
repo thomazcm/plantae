@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LoginController {
@@ -28,23 +27,16 @@ public class LoginController {
     
     @GetMapping("/logoutStateless")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("logging out.. or is it??");
         Cookie jwtCookie = new Cookie("JWT-TOKEN", null);
-        // set max age to zero
         jwtCookie.setMaxAge(0);
-        // set http only to true
         jwtCookie.setHttpOnly(true);
-        // set the path
         jwtCookie.setPath("/");
-        // add cookie to response
         response.addCookie(jwtCookie);
 
-        // invalidate the session if exists
         HttpSession session = request.getSession(false);
         if(session != null) {
             session.invalidate();
         }
-        //context holder
         SecurityContextHolder.clearContext();
         return "redirect:/login";
     }
