@@ -9,6 +9,13 @@
     height: 1.4rem !important;
 }
 
+.nav-link {
+	text-align: end;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    margin: 0 !important;
+}
+
 #divisao-ingressos{
     display: flex;
     justify-content: space-around;
@@ -53,6 +60,7 @@ body {
 .logo-container {
     color: #FBF3EA;
     background-color: #AA4E3B;
+    min-height: 85px !important;
 }
 
 .input-field {
