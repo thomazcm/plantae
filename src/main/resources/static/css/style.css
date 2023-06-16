@@ -16,6 +16,10 @@
     margin: 0 !important;
 }
 
+.plantae-modal {
+	top: 250px !important;
+}
+
 #divisao-ingressos{
     display: flex;
     justify-content: space-around;
