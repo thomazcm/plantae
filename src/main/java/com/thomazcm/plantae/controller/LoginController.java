@@ -17,20 +17,18 @@ import com.thomazcm.plantae.repository.UsuarioRepository;
 @Controller
 public class LoginController {
 
-//    @Autowired private UsuarioRepository repository;
-//    @Autowired private BCryptPasswordEncoder encoder;
     
     @Value("${plantae.endpoint.apiendpoint}")
     private String apiEndpoint;
     
-    private UsuarioRepository repository;
-    private TokenService service;
-    
-
-    public LoginController(UsuarioRepository repository, TokenService service) {
-        this.repository = repository;
-        this.service = service;
-    }
+//    private UsuarioRepository repository;
+//    private TokenService service;
+//    
+//
+//    public LoginController(UsuarioRepository repository, TokenService service) {
+//        this.repository = repository;
+//        this.service = service;
+//    }
 
     @GetMapping("/login")
     public String loginPage(Model model, HttpServletRequest request) {

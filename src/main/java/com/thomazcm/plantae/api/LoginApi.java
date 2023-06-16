@@ -36,11 +36,7 @@ public class LoginApi {
         try {
             Authentication authentication = authManager.authenticate(userPassAuthToken);
             String token = tokenService.gerarToken(authentication);
-            
-            Cookie jwtCookie = new Cookie("JWT-TOKEN", token);
-            jwtCookie.setHttpOnly(true);
-            jwtCookie.setPath("/");
-            jwtCookie.setMaxAge(Integer.parseInt(jwtExpiration)*3600);
+            Cookie jwtCookie = tokenService.createCookie(token); 
             response.addCookie(jwtCookie);
             
             return ResponseEntity.ok().build();

@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -16,8 +15,6 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter{
     
     private TokenService service;
     private UsuarioRepository repository;
-    @Value("${rest.jwt.expiration}")
-    private String jwtExpiration;
     
     public AutenticacaoViaTokenFilter(TokenService service, UsuarioRepository repository) {
         this.service = service;
@@ -35,11 +32,8 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter{
         }  else {
             if (service.isTokenExpiring(token)) {
                 token = service.refreshToken(token);
-                Cookie jwtCookie = new Cookie("JWT-TOKEN", token);  
-                jwtCookie.setMaxAge(Integer.parseInt(jwtExpiration)* 60 * 60);  
-                jwtCookie.setHttpOnly(true);
-                jwtCookie.setPath("/");
-                response.addCookie(jwtCookie);
+                Cookie freshCookie = service.createCookie(token);
+                response.addCookie(freshCookie);
             } 
             autenticaRequest(token);
         }
@@ -62,7 +56,7 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter{
     }
 
     private void autenticaRequest(String token) {
-        var usuario = repository.findById(service.idFromToken(token)).get();
+        var usuario = service.usuarioFromToken(token, repository);
         var userPassAuthToken =
                 new UsernamePasswordAuthenticationToken(usuario, null, usuario.getPerfis());
         SecurityContextHolder.getContext().setAuthentication(userPassAuthToken);

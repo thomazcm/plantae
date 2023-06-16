@@ -3,6 +3,7 @@ package com.thomazcm.plantae.config;
 import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
+import javax.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -31,34 +32,21 @@ public class TokenService {
     private String secret;
 
     public String gerarToken(Authentication authentication) {
-        Usuario logado = (Usuario) authentication.getPrincipal();
-        Date hoje = new Date();
-        Date dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration)* 60 * 60 * 1000);
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        return createToken(usuario);
+    }
+    
+
+    public Cookie createCookie(String token) {
+        Cookie jwtCookie = new Cookie("JWT-TOKEN", token);
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setPath("/");
+        jwtCookie.setMaxAge(Integer.parseInt(expiration)*3600);
         
-        return Jwts.builder()
-                .setIssuer("plantae")
-                .setSubject(logado.getId().toString())
-                .setIssuedAt(hoje)
-                .setExpiration(dataExpiracao)
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
-    }
-    
-
-    public String refreshToken(String token) {
-        Usuario logado = usuarioFromToken(token, repository);
-        Date hoje = new Date();
-        Date dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration)* 60 * 60 * 1000);
-        return Jwts.builder()
-                .setIssuer("plantae")
-                .setSubject(logado.getId().toString())
-                .setIssuedAt(hoje)
-                .setExpiration(dataExpiracao)
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
+        return jwtCookie;
     }
 
-    
+
     public boolean isTokenExpiring(String token) {
         Date expirationDate = getExpirationDateFromToken(token);
         Date now = new Date();
@@ -66,14 +54,7 @@ public class TokenService {
         long hoursLeft = TimeUnit.MILLISECONDS.toHours(differenceInMilliseconds);
         return hoursLeft < 24;
     }
-    
-    private Date getExpirationDateFromToken(String token) {
-        Claims claims = Jwts.parser()
-            .setSigningKey(secret)
-            .parseClaimsJws(token)
-            .getBody();
-        return claims.getExpiration();
-    }
+
 
     public boolean ehValido(String tokenRaw) {
         String token = checkToken(tokenRaw);
@@ -85,19 +66,48 @@ public class TokenService {
             return false;
         }
     }
+
+
+    private String idFromToken(String tokenRaw) {
+        String token = checkToken(tokenRaw);
+        Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+        return claims.getSubject();
+    }
+
+
+    public String refreshToken(String token) {
+        Usuario usuario = usuarioFromToken(token, repository);
+        return createToken(usuario);
+    }
+
+
+    private String createToken(Usuario usuario) {
+        Date hoje = new Date();
+        Date dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration)* 60 * 60 * 1000);
+        return Jwts.builder()
+                .setIssuer("plantae")
+                .setSubject(usuario.getId().toString())
+                .setIssuedAt(hoje)
+                .setExpiration(dataExpiracao)
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
+    }
+
     
+    private Date getExpirationDateFromToken(String token) {
+        Claims claims = Jwts.parser()
+            .setSigningKey(secret)
+            .parseClaimsJws(token)
+            .getBody();
+        return claims.getExpiration();
+    }
+
     public Usuario usuarioFromToken(String token, UsuarioRepository repo) {
         try {
             return repo.findById(idFromToken(token)).get();
         } catch (NoSuchElementException e) {
             throw new RuntimeException("usuario inexistente");
         }
-    }
-
-    public String idFromToken(String tokenRaw) {
-        String token = checkToken(tokenRaw);
-        Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
-        return claims.getSubject();
     }
 
     private String checkToken(String tokenRaw) {
