@@ -47,7 +47,8 @@ function onLoad() {
             primeiroLote: 0,
             segundoLote: 0,
             gerarCortesia: false,
-            maxTickets : maxTickets
+            maxTickets : maxTickets,
+            mostrarForm : null
         },
         mounted() {
             this.addClienteInput();
@@ -81,6 +82,10 @@ function onLoad() {
                     this.textoConfirmarIngressos = `Gerar ${this.clientesIndex} ingressos para:`
                 }
             },
+            mostrarFormulario(){
+				this.mostrarForm = true;
+				console.log(this.mostrarForm);
+			},
             gerarIngresso() {
                 this.ingressoGerado = true;
                 if (this.pedidoDto.clientes.some(cliente => cliente.nome === '')
