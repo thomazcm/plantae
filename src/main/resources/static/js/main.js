@@ -84,7 +84,6 @@ function onLoad() {
             },
             mostrarFormulario(){
 				this.mostrarForm = true;
-				console.log(this.mostrarForm);
 			},
             gerarIngresso() {
                 this.ingressoGerado = true;
