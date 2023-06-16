@@ -1,6 +1,6 @@
 <div th:fragment class="row mt-3">
   <div class="col">
-    <h4 class="plantae-text" v-cloak>Ingressos Vendidos: {{ ingressos.length }}</h4>
+    <h4 class="plantae-text" v-cloak>Ingressos Vendidos: {{ ingressos.length }} / {{maxTickets}}</h4>
     <div id="divisao-ingressos" v-if="segundoLote > 0 || cortesias > 0">
       <span class="primeiro-lote-text">1º lote: {{primeiroLote}}</span>
       <span class="segundo-lote-text"> 2º lote: {{segundoLote}}</span> 

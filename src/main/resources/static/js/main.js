@@ -46,7 +46,8 @@ function onLoad() {
             cortesias: 0,
             primeiroLote: 0,
             segundoLote: 0,
-            gerarCortesia: false
+            gerarCortesia: false,
+            maxTickets : maxTickets
         },
         mounted() {
             this.addClienteInput();

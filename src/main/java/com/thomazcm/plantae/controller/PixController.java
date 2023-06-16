@@ -2,15 +2,12 @@ package com.thomazcm.plantae.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.thomazcm.plantae.controller.helper.ControllerHelper;
 import com.thomazcm.plantae.dto.config.PublicConfigurationDto;
-import com.thomazcm.plantae.model.config.UserConfiguration;
 import com.thomazcm.plantae.repository.ConfigurationRepository;
-import com.thomazcm.plantae.repository.IngressoRepository;
 import com.thomazcm.plantae.repository.StatsRepository;
 
 @Controller
@@ -21,12 +18,12 @@ public class PixController {
     
     private ConfigurationRepository configRepository;
     private StatsRepository statsRepository;
-    private IngressoRepository ingressoRepository;
+    private ControllerHelper helper;
     
-    public PixController(ConfigurationRepository configRepository, IngressoRepository ingressoRepository, StatsRepository statsRepository) {
+    public PixController(ConfigurationRepository configRepository, StatsRepository statsRepository, ControllerHelper ControllerHelper) {
         this.configRepository = configRepository;
-        this.ingressoRepository = ingressoRepository;
         this.statsRepository = statsRepository;
+        this.helper = ControllerHelper;
     }
 
     @GetMapping("/link-pix")
@@ -34,7 +31,7 @@ public class PixController {
         
         var stats = statsRepository.getStats();
         var config = configRepository.getConfig();
-        int remaining = calculateRemaniningTickets(config);
+        int remaining = helper.calculateRemaniningTickets();
         var publicConfig = new PublicConfigurationDto(remaining, config);
         
         String returnString = "link-pagamento";
@@ -46,23 +43,11 @@ public class PixController {
             publicConfig.addConfig("soldOutText2", config);
         }
         
-        if (isAuthenticated()) {
-            stats.novoAcesso(request);
-            statsRepository.save(stats);
-        }
+        stats.novoAcesso(request);
+        statsRepository.save(stats);
         
         model.addAttribute("config", publicConfig);
         return returnString;
     }
 
-    private int calculateRemaniningTickets(UserConfiguration config) {
-        int totalTicketsSold = ingressoRepository.findAll().size();
-        int maxTickets = config.getMaxTickets();
-        return maxTickets - totalTicketsSold;
-    }
-    
-    private Boolean isAuthenticated() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getName().compareTo("plantae") != 0;
-    }
 }
