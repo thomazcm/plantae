@@ -71,7 +71,7 @@ public class ComunicadoApi {
 
     private List<String> getAllCustomerEmails() {
         List<String> emails =
-                ingressoRepo.findAll().stream().map(Ingresso::getEmail).distinct().toList();
+                ingressoRepo.findAll().stream().map(Ingresso::getEmail).map(String::toLowerCase).distinct().toList();
         return emails;
     }
     
