@@ -60,7 +60,7 @@ public class ComunicadoApi {
         }
         
         customerEmails.parallelStream().forEach( email -> {
-            emailService.sendEmailTemplate(email, surveyBody, "ticketEmailTemplate");
+            emailService.sendEmailTemplate(email, surveyBody, "surveyEmailTemplate");
         });
         
         configurations.put("email-sent", "true");
