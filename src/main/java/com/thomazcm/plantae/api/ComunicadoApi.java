@@ -67,6 +67,25 @@ public class ComunicadoApi {
         configRepo.save(config);
         return ResponseEntity.ok("sent!");
     }
+    
+    @GetMapping("/send/test")
+    public ResponseEntity<?> sendEmailsTest() {
+        UserConfiguration config = configRepo.getConfig();
+        HashMap<String, String> configurations = config.getTextConfigurations();
+        String surveyBody = configurations.get("survey-body");
+        
+        
+        Boolean emailSent = configurations.get("email-sent") != null ? Boolean.parseBoolean(configurations.get("email-sent")) : true;
+        if (emailSent) {
+            return ResponseEntity.ok("email already sent");
+        }
+        
+        emailService.sendEmailTemplate("thomazcm@gmail.com", surveyBody, "surveyEmailTemplate");
+        
+        configurations.put("email-sent", "true");
+        configRepo.save(config);
+        return ResponseEntity.ok("sent!");
+    }
 
 
     private List<String> getAllCustomerEmails() {
