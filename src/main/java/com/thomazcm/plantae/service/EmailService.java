@@ -35,8 +35,26 @@ public class EmailService {
         javaMailSender.send(message);
     }
     
+    public void sendEmailTemplate(String emailCliente, String subject, String emailTemplate) {
+        try {
+            var message = javaMailSender.createMimeMessage();
+            var messageHelper = new MimeMessageHelper(message, true);
+
+            messageHelper.setTo(emailCliente);
+            messageHelper.setFrom(mailProperties.getSender());
+            messageHelper.setSubject(subject);
+            messageHelper.setText(getHtmlBody(emailTemplate), true);
+            javaMailSender.send(message);
+
+        } catch (MessagingException e) {
+            System.out.println("Failed to send email template");
+            e.printStackTrace();
+        }
+    }
+
+    
     public void sendPdfEmail(String emailCliente, ByteArrayOutputStream pdf, String nomeIngresso,
-            String nomeCliente) {
+            String nomeCliente, String emailTemplate) {
         try {
             var message = javaMailSender.createMimeMessage();
             var messageHelper = new MimeMessageHelper(message, true);
@@ -44,7 +62,7 @@ public class EmailService {
             messageHelper.setTo(emailCliente);
             messageHelper.setFrom(mailProperties.getSender());
             messageHelper.setSubject(mailProperties.getSubject() + nomeCliente);
-            messageHelper.setText(getHtmlBody(), true);
+            messageHelper.setText(getHtmlBody(emailTemplate), true);
 
             messageHelper.addAttachment(nomeIngresso,
                     new ByteArrayDataSource(pdf.toByteArray(), "application/pdf"));
@@ -57,8 +75,8 @@ public class EmailService {
         }
     }
 
-    private String getHtmlBody() {
-        Resource resource = new ClassPathResource("templates/emailTemplate.html");
+    private String getHtmlBody(String emailTemplate) {
+        Resource resource = new ClassPathResource("templates/email/"+ emailTemplate + ".html");
         try (InputStream inputStream = resource.getInputStream();
                 var scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name())) {
 

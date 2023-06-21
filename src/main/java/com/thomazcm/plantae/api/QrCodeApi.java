@@ -29,11 +29,12 @@ import com.thomazcm.plantae.service.QRCodeGenerator;
 @RequestMapping("/qr-code")
 public class QrCodeApi {
 
-    IngressoGenerator ingressoGenerator;
-    QRCodeGenerator qrCodeGenerator;
-    IngressoRepository repository;
-    PdfGenerator pdfGenerator;
-    EmailService emailSender;
+    private final IngressoGenerator ingressoGenerator;
+    private final QRCodeGenerator qrCodeGenerator;
+    private final IngressoRepository repository;
+    private final PdfGenerator pdfGenerator;
+    private final EmailService emailSender;
+    private final String EMAIL_TEMPLATE = "ticketEmailTemplate"; 
 
     public QrCodeApi(IngressoGenerator ingressoGenerator, QRCodeGenerator qrCodeGenerator,
             IngressoRepository repository, PdfGenerator pdfGenerator, EmailService emailSender) {
@@ -66,7 +67,7 @@ public class QrCodeApi {
         ByteArrayOutputStream ingressoPdf = pdfGenerator.createPDF(ingressos);
 
         if (Boolean.parseBoolean(enviarEmail) && email != null && !email.isEmpty()) {
-            emailSender.sendPdfEmail(email, ingressoPdf, nomePdf, ingressos.get(0).getCliente());
+            emailSender.sendPdfEmail(email, ingressoPdf, nomePdf, ingressos.get(0).getCliente(), EMAIL_TEMPLATE);
         }
         return ResponseEntity.ok().headers(pdfDownloadHeaders(nomePdf))
                 .body(ingressoPdf.toByteArray());

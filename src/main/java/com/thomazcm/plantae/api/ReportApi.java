@@ -20,22 +20,23 @@ import com.thomazcm.plantae.repository.StatsRepository;
 @RestController
 @RequestMapping("/report")
 public class ReportApi {
-    
-    @Autowired StatsRepository repository;
-    
+
+    @Autowired
+    StatsRepository repository;
+
     @GetMapping
     public ResponseEntity<String> getReport() {
         Stats stats = repository.findAll().get(0);
         Long totalUsers = stats.getRequestIps().stream().distinct().count();
         List<LocalDateTime> datas = stats.getDatas();
         Map<String, List<String>> report = new HashMap<>();
-        datas = datas.stream()
-                .filter(data -> data.compareTo
-                        (LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).minus(Duration.ofHours(24)))> 0)
+        datas = datas
+                .stream().filter(data -> data.compareTo(LocalDateTime
+                        .now(ZoneId.of("America/Sao_Paulo")).minus(Duration.ofHours(24))) > 0)
                 .collect(Collectors.toList());
-        
+
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("mm");
-        
+
         for (LocalDateTime data : datas) {
             int hour = data.getHour();
             String key = hour + ":00 as " + (hour + 1) + ":00";
@@ -49,15 +50,16 @@ public class ReportApi {
                 report.get(key).add(time);
             }
         }
-        StringBuilder reportBuilder = new StringBuilder("Acessos de IPs Diferentes: " + totalUsers + "<br/><br/>");
-        
-        
+        StringBuilder reportBuilder =
+                new StringBuilder("Acessos de IPs Diferentes: " + totalUsers + "<br/><br/>");
+
+
         List<String> hours = getHoursList(report);
         hours.forEach(hour -> {
-           hour = "======== " + hour;
-           reportBuilder.append(hour); 
+            hour = "======== " + hour;
+            reportBuilder.append(hour);
         });
-        
+
         return ResponseEntity.ok(reportBuilder.toString());
     }
 
@@ -68,7 +70,7 @@ public class ReportApi {
             hourBuilder.append(key + " ========");
             hourBuilder.append("<br/>");
             values.forEach(value -> {
-                hourBuilder.append(key.substring(0, 3)+value);
+                hourBuilder.append(key.substring(0, 3) + value);
                 hourBuilder.append("<br/>");
             });
             hours.add(hourBuilder.toString());

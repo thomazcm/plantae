@@ -35,8 +35,6 @@ public class HomeController {
     public String home(Model model) {
         model.addAttribute("apiEndpoint", apiEndpoint);
         model.addAttribute("maxTickets", helper.getMaxTickets());
-        int availableProcessors = Runtime.getRuntime().availableProcessors();
-        System.out.println(availableProcessors);
         return "home";
     }
 
