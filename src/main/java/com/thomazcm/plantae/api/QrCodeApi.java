@@ -30,16 +30,14 @@ import com.thomazcm.plantae.service.QRCodeGenerator;
 public class QrCodeApi {
 
     private final IngressoGenerator ingressoGenerator;
-    private final QRCodeGenerator qrCodeGenerator;
     private final IngressoRepository repository;
     private final PdfGenerator pdfGenerator;
     private final EmailService emailSender;
-    private final String EMAIL_TEMPLATE = "ticketEmailTemplate"; 
+    private final String EMAIL_TEMPLATE = "ticketEmailTemplate";
 
-    public QrCodeApi(IngressoGenerator ingressoGenerator, QRCodeGenerator qrCodeGenerator,
-            IngressoRepository repository, PdfGenerator pdfGenerator, EmailService emailSender) {
+    public QrCodeApi(IngressoGenerator ingressoGenerator, IngressoRepository repository,
+            PdfGenerator pdfGenerator, EmailService emailSender) {
         this.ingressoGenerator = ingressoGenerator;
-        this.qrCodeGenerator = qrCodeGenerator;
         this.repository = repository;
         this.pdfGenerator = pdfGenerator;
         this.emailSender = emailSender;
@@ -52,11 +50,10 @@ public class QrCodeApi {
         PedidoDto pedidtoDto = payload.getPedidoDto();
         String email = pedidtoDto.getEmail();
         Boolean cortesia = pedidtoDto.getCortesia();
-        List<String> nomes = pedidtoDto.getClientes()
-                .stream().map(Cliente::getNome)
+        List<String> nomes = pedidtoDto.getClientes().stream().map(Cliente::getNome)
                 .collect(Collectors.toList());
 
-        
+
         List<Ingresso> ingressos = new ArrayList<Ingresso>();
         nomes.forEach(nome -> {
             Ingresso novoIngresso = ingressoGenerator.novoIngresso(nome, email, cortesia);
@@ -67,7 +64,8 @@ public class QrCodeApi {
         ByteArrayOutputStream ingressoPdf = pdfGenerator.createPDF(ingressos);
 
         if (Boolean.parseBoolean(enviarEmail) && email != null && !email.isEmpty()) {
-            emailSender.sendPdfEmail(email, ingressoPdf, nomePdf, ingressos.get(0).getCliente(), EMAIL_TEMPLATE);
+            emailSender.sendPdfEmail(email, ingressoPdf, nomePdf, ingressos.get(0).getCliente(),
+                    EMAIL_TEMPLATE);
         }
         return ResponseEntity.ok().headers(pdfDownloadHeaders(nomePdf))
                 .body(ingressoPdf.toByteArray());
