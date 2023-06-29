@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.thomazcm.plantae.controller.dto.PublicConfigurationDto;
 import com.thomazcm.plantae.controller.helper.ControllerHelper;
-import com.thomazcm.plantae.dto.config.PublicConfigurationDto;
 import com.thomazcm.plantae.repository.ConfigurationRepository;
 import com.thomazcm.plantae.repository.StatsRepository;
 

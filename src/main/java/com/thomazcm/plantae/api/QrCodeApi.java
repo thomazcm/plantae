@@ -1,108 +1,42 @@
 package com.thomazcm.plantae.api;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.thomazcm.plantae.dto.PedidoDto;
-import com.thomazcm.plantae.dto.integration.RequestPayload;
-import com.thomazcm.plantae.model.Ingresso;
-import com.thomazcm.plantae.model.integration.Cliente;
+import com.thomazcm.plantae.api.service.PdfGenerator;
+import com.thomazcm.plantae.api.service.PdfService;
 import com.thomazcm.plantae.repository.IngressoRepository;
-import com.thomazcm.plantae.service.EmailService;
-import com.thomazcm.plantae.service.IngressoGenerator;
-import com.thomazcm.plantae.service.PdfGenerator;
-import com.thomazcm.plantae.service.QRCodeGenerator;
 
 @RestController
 @RequestMapping("/qr-code")
 public class QrCodeApi {
 
-    private final IngressoGenerator ingressoGenerator;
     private final IngressoRepository repository;
     private final PdfGenerator pdfGenerator;
-    private final EmailService emailSender;
-    private final String EMAIL_TEMPLATE = "ticketEmailTemplate";
+    private final PdfService ingressoService;
 
-    public QrCodeApi(IngressoGenerator ingressoGenerator, IngressoRepository repository,
-            PdfGenerator pdfGenerator, EmailService emailSender) {
-        this.ingressoGenerator = ingressoGenerator;
+    public QrCodeApi(IngressoRepository repository, PdfGenerator pdfGenerator,
+            PdfService ingressoService) {
         this.repository = repository;
         this.pdfGenerator = pdfGenerator;
-        this.emailSender = emailSender;
-    }
-
-    @PostMapping(value = "/novo", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<byte[]> novoIngresso(@RequestBody RequestPayload payload,
-            @RequestHeader("Enviar-Email") String enviarEmail) throws Exception {
-
-        PedidoDto pedidtoDto = payload.getPedidoDto();
-        String email = pedidtoDto.getEmail();
-        Boolean cortesia = pedidtoDto.getCortesia();
-        List<String> nomes = pedidtoDto.getClientes().stream().map(Cliente::getNome)
-                .collect(Collectors.toList());
-
-
-        List<Ingresso> ingressos = new ArrayList<Ingresso>();
-        nomes.forEach(nome -> {
-            Ingresso novoIngresso = ingressoGenerator.novoIngresso(nome, email, cortesia);
-            ingressos.add(novoIngresso);
-        });
-
-        String nomePdf = ajustarNomeArquivo(nomes, ingressos.get(0).getId());
-        ByteArrayOutputStream ingressoPdf = pdfGenerator.createPDF(ingressos);
-
-        if (Boolean.parseBoolean(enviarEmail) && email != null && !email.isEmpty()) {
-            emailSender.sendPdfEmail(email, ingressoPdf, nomePdf, ingressos.get(0).getCliente(),
-                    EMAIL_TEMPLATE);
-        }
-        return ResponseEntity.ok().headers(pdfDownloadHeaders(nomePdf))
-                .body(ingressoPdf.toByteArray());
+        this.ingressoService = ingressoService;
     }
 
     @GetMapping("/pdf/{id}")
-    public ResponseEntity<byte[]> baixarIngresso(@PathVariable String id) throws Exception {
+    public ResponseEntity<byte[]> baixarIngresso(@PathVariable String id) {
 
         var ingresso = repository.findById(id).get();
-        String nomeIngresso = ajustarNomeArquivo(List.of(ingresso.getCliente()), ingresso.getId());
-        ByteArrayOutputStream baos = pdfGenerator.createPDF(ingresso);
+        String nomeIngresso =
+                ingressoService.ajustarNomeArquivo(ingresso.getCliente(), ingresso.getId());
+        var ingressoByte = pdfGenerator.createPDF(ingresso).toByteArray();
+        HttpHeaders ingressoHeaders = ingressoService.pdfDownloadHeaders(nomeIngresso);
 
-        return ResponseEntity.ok().headers(pdfDownloadHeaders(nomeIngresso))
-                .body(baos.toByteArray());
+        return ResponseEntity.ok().headers(ingressoHeaders).body(ingressoByte);
     }
 
-    private HttpHeaders pdfDownloadHeaders(String nomeIngresso) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDisposition(
-                ContentDisposition.attachment().filename(nomeIngresso).build());
-        headers.set("file-pdf-name", nomeIngresso);
-        return headers;
-    }
 
-    private String ajustarNomeArquivo(List<String> nomes, String id) {
-        StringBuilder builder = new StringBuilder("brunch-plantae-");
-        nomes.forEach(nome -> {
-            int spaceIndex = nome.indexOf(" ");
-            if (spaceIndex != -1) {
-                String primeiroNome = nome.substring(0, spaceIndex);
-                builder.append(primeiroNome);
-            } else {
-                builder.append(nome);
-            }
-            builder.append(".");
-        });
-        return builder + id.substring(id.length() - 10) + ".pdf";
-    }
+
 }

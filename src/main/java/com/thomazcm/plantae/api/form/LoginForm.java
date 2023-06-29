@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.dto;
+package com.thomazcm.plantae.api.form;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 

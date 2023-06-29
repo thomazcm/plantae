@@ -1,6 +1,6 @@
-package com.thomazcm.plantae.dto.integration;
+package com.thomazcm.plantae.api.form.integration;
 
-import com.thomazcm.plantae.dto.PedidoDto;
+import com.thomazcm.plantae.api.dto.PedidoDto;
 
 public class RequestPayload {
 

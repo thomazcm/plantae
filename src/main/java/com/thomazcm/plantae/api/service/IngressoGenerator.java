@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.service;
+package com.thomazcm.plantae.api.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

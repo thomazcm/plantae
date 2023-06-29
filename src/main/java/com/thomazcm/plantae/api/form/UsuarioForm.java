@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.dto.config;
+package com.thomazcm.plantae.api.form;
 
 import java.time.LocalDate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

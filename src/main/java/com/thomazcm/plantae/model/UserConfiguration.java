@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.model.config;
+package com.thomazcm.plantae.model;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -16,6 +16,8 @@ public class UserConfiguration {
     private BigDecimal unitPrice;
     private Integer maxTickets;
     private Integer lote;
+    
+    
 
     private HashMap<String, String> textConfigurations;
 

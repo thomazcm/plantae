@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.thomazcm.plantae.api.form.ConfigurationsForm;
+import com.thomazcm.plantae.api.service.PlantaeEmailSender;
 import com.thomazcm.plantae.model.Ingresso;
-import com.thomazcm.plantae.model.config.UserConfiguration;
+import com.thomazcm.plantae.model.UserConfiguration;
 import com.thomazcm.plantae.repository.ConfigurationRepository;
 import com.thomazcm.plantae.repository.IngressoRepository;
-import com.thomazcm.plantae.service.EmailService;
 
 @RestController
 @RequestMapping("/comunicado")
@@ -22,10 +23,10 @@ public class ComunicadoApi {
 
     private final IngressoRepository ingressoRepo;
     private final ConfigurationRepository configRepo;
-    private final EmailService emailService;
+    private final PlantaeEmailSender emailService;
 
     public ComunicadoApi(IngressoRepository ingressoRepo, ConfigurationRepository configRepo,
-            EmailService emailService) {
+            PlantaeEmailSender emailService) {
         this.ingressoRepo = ingressoRepo;
         this.configRepo = configRepo;
         this.emailService = emailService;
@@ -37,7 +38,7 @@ public class ComunicadoApi {
     }
 
     @PostMapping("/config")
-    public ResponseEntity<String> setConfig(@RequestBody Configurations configurations) {
+    public ResponseEntity<String> setConfig(@RequestBody ConfigurationsForm configurations) {
         UserConfiguration config = configRepo.getConfig();
 
         configurations.getValues().forEach((key, value) -> {

@@ -1,6 +1,6 @@
 axios.defaults.withCredentials = true;
 
-class ConfigurationUpdateForm {
+class UserConfigurationForm {
     constructor(pixLinks, unitPrice, maxTickets, lote) {
         this.pixLinks = pixLinks;
         this.unitPrice = unitPrice;
@@ -39,7 +39,7 @@ function onLoad() {
 		methods : {
 			salvarConfiguracoes(){
 				this.loading = null;
-				const newConfig = new ConfigurationUpdateForm(this.pixLinks, this.unitPrice, this.maxTickets);
+				const newConfig = new UserConfigurationForm(this.pixLinks, this.unitPrice, this.maxTickets);
 				axios.put(`${apiEndpoint}/configurations`, newConfig)
 				.then(res =>{
 					this.loading = true;

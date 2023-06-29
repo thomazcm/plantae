@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.thomazcm.plantae.api.form.LoginForm;
 import com.thomazcm.plantae.config.TokenService;
-import com.thomazcm.plantae.dto.LoginForm;
 
 @RestController
 @RequestMapping("/auth")

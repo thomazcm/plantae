@@ -1,8 +1,8 @@
-package com.thomazcm.plantae.api;
+package com.thomazcm.plantae.api.form;
 
 import java.util.Map;
 
-public class Configurations {
+public class ConfigurationsForm {
 
     private Map<String, String> values;
 

@@ -1,4 +1,4 @@
-package com.thomazcm.plantae.service;
+package com.thomazcm.plantae.api.service;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;

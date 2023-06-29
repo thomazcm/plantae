@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.thomazcm.plantae.service;
+package com.thomazcm.plantae.api.service;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

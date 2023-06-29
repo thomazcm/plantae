@@ -1,8 +1,8 @@
-package com.thomazcm.plantae.dto.config;
+package com.thomazcm.plantae.controller.dto;
 
 import java.util.HashMap;
 import java.util.List;
-import com.thomazcm.plantae.model.config.UserConfiguration;
+import com.thomazcm.plantae.model.UserConfiguration;
 
 public class PublicConfigurationDto {
 

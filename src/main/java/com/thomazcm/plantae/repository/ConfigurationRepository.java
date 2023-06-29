@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import com.thomazcm.plantae.model.config.UserConfiguration;
+import com.thomazcm.plantae.model.UserConfiguration;
 
 public interface ConfigurationRepository extends MongoRepository<UserConfiguration, String>{
 

@@ -99,7 +99,7 @@ function onLoad() {
                 const payload = {
                     pedidoDto: this.pedidoDto
                 };
-                axios.post(`${apiEndpoint}/qr-code/novo`, payload, {
+                axios.post(`${apiEndpoint}/ingressos/novo`, payload, {
                     responseType: 'arraybuffer',
                     headers: {
                         'Content-Type': 'application/json',
