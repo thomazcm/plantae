@@ -6,6 +6,11 @@ function formatarData(data) {
     return `${dia}/${mes}`;
 }
 
+function areSameDay(date1, date2) {
+    return date1.getUTCFullYear() === date2.getUTCFullYear() &&
+           date1.getUTCMonth() === date2.getUTCMonth() &&
+           date1.getUTCDate() === date2.getUTCDate();
+}
 class Cliente {
     constructor(nome, index) {
         this.nome = nome;
@@ -48,7 +53,8 @@ function onLoad() {
             segundoLote: 0,
             gerarCortesia: false,
             maxTickets: maxTickets,
-            mostrarForm: false
+            mostrarForm: false,
+            dayOfEvent: null
         },
         mounted() {
             this.addClienteInput();
@@ -64,6 +70,12 @@ function onLoad() {
                 $('#modalIngressoExpirado').modal('show');
             } else if (invalido) {
                 $('#modalIngressoInvalido').modal('show');
+            }
+
+            let now = new Date();
+            let event = new Date('2023-07-02T00:00:00');
+            if (areSameDay(now, event)) {
+                this.dayOfEvent = true;
             }
         },
         beforeDestroy() {

@@ -1,73 +1,77 @@
 <div th:fragment class="row mt-3">
-  <div class="col">
-    <h4 class="plantae-text" v-cloak>Ingressos Vendidos: {{ ingressos.length }} / {{maxTickets}}</h4>
-    <div id="divisao-ingressos" v-if="segundoLote > 0 || cortesias > 0">
-      <span class="primeiro-lote-text">1º lote: {{primeiroLote}}</span>
-      <span class="segundo-lote-text"> 2º lote: {{segundoLote}}</span> 
-      <span class="cortesia-text"> Cortesias: {{cortesias}}</span>
+    <div class="col">
+        <div v-if="!dayOfEvent">
+            <h4 class="plantae-text" v-cloak>Ingressos Vendidos: {{ ingressos.length }} / {{maxTickets}}</h4>
+            <div id="divisao-ingressos" v-if="segundoLote > 0 || cortesias > 0">
+                <span class="primeiro-lote-text">1º lote: {{primeiroLote}}</span>
+                <span class="segundo-lote-text"> 2º lote: {{segundoLote}}</span>
+                <span class="cortesia-text"> Cortesias: {{cortesias}}</span>
+            </div>
+        </div>
+        <div class="table-responsive" :key="listaKey">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="plantae-text">
+                        <th>Data da Compra</th>
+                        <th class="text-left align-middle">Nome</th>
+                        <th v-if="!ingresso.editando">🎟️ Validar<br>📥 PDF<br>📝 Editar
+                        </th>
+                        <th v-else>🗑️ Excluir<br>✅ Ok
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="ingresso in ingressos">
+                        <td style="width: 8%;"
+                            :class="[ingresso.lote=='PRIMEIRO' ? 'primeiro-lote-text' : ingresso.lote=='CORTESIA' ? 'cortesia-text' : 'segundo-lote-text']">
+                            {{ ingresso.data }}</td>
+                        <td v-if="!ingresso.editando"
+                            :class="[ingresso.lote=='PRIMEIRO' ? 'primeiro-lote-text' : ingresso.lote=='CORTESIA' ? 'cortesia-text' : 'segundo-lote-text']">
+                            {{ ingresso.cliente }}</td>
+                        <td v-else style="padding: 10px"><input class="form-control input-field" type="text"
+                                v-model="ingresso.cliente"></input></td>
+
+                        <td class="table-buttons">
+                            <div v-if="!ingresso.editando" style="width: 32%;">
+
+                                <div v-if="ingresso.valid" class="d-flex justify-content-between">
+                                    <button class="btn btn-md flex-fill m-0 btn-table"
+                                        style="background-color: #ca6b68;"
+                                        v-on:click="confirmarValidarIngresso(ingresso)">🎟️</button>
+
+                                    <button class="btn btn-md flex-fill m-0 btn-table"
+                                        style="background-color: #85adad;"
+                                        v-on:click="baixarIngresso(ingresso)">📥</button>
+                                    <button class="btn btn-md btn-warning flex-fill m-0 btn-table"
+                                        v-on:click="editar(ingresso)">📝</button>
+                                    <div th:replace="~{modals/confirmar-ingresso::validar}"></div>
+                                </div>
+
+                                <div v-else class="d-flex justify-content-between align-items-center">
+                                    <span class="text-success ml-1 mr-3">Validado</span>
+                                    <button class="btn btn-md btn-danger flex-fill m-0 btn-table"
+                                        v-on:click="confirmarExcluirIngresso(ingresso)">🗑️</button>
+                                    <div th:replace="~{modals/confirmar-ingresso::excluir}"></div>
+                                </div>
+                            </div>
+
+                            <div v-else class="d-flex justify-content-between">
+                                <span v-if="!ingresso.valid" class="text-danger">❌</span>
+                                <button v-else class="btn btn-md btn-danger flex-fill m-0 btn-table"
+                                    v-on:click="confirmarExcluirIngresso(ingresso)">
+                                    🗑️</span>
+                                    <button class="btn btn-md btn-success ml-1 flex-fill m- 0 btn-table"
+                                        v-on:click="ok(ingresso)">✅</button>
+                                    <div th:replace="~{modals/confirmar-ingresso::excluir}"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 0px;">
+            <img src="https://raw.githubusercontent.com/thomazcm/plantae/master/src/main/resources/static/png/girls-cooking.png"
+                style="min-width: 487px; max-width: 1019px; width: 100%; height: auto;">
+        </div>
     </div>
-    <div class="table-responsive" :key="listaKey">
-      <table class="table table-bordered">
-        <thead>
-          <tr class="plantae-text">
-            <th>Data da Compra</th>
-            <th class="text-left align-middle">Nome</th>
-            <th v-if="!ingresso.editando">🎟️ Validar<br>📥 PDF<br>📝 Editar
-            </th>
-            <th v-else>🗑️ Excluir<br>✅ Ok
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="ingresso in ingressos">    
-            <td style="width: 8%;"
-            :class="[ingresso.lote=='PRIMEIRO' ? 'primeiro-lote-text' : ingresso.lote=='CORTESIA' ? 'cortesia-text' : 'segundo-lote-text']"
-            >{{ ingresso.data }}</td>
-            <td v-if="!ingresso.editando" 
-            :class="[ingresso.lote=='PRIMEIRO' ? 'primeiro-lote-text' : ingresso.lote=='CORTESIA' ? 'cortesia-text' : 'segundo-lote-text']"
-            >{{ ingresso.cliente }}</td>
-            <td v-else style="padding: 10px"><input class="form-control input-field" type="text"
-              v-model="ingresso.cliente"></input></td>
-
-            <td class="table-buttons">
-              <div v-if="!ingresso.editando" style="width: 32%;">
-
-                <div v-if="ingresso.valid" class="d-flex justify-content-between">
-                  <button class="btn btn-md flex-fill m-0 btn-table" style="background-color: #ca6b68;"
-                    v-on:click="confirmarValidarIngresso(ingresso)">🎟️</button>
-                    
-                  <button class="btn btn-md flex-fill m-0 btn-table" style="background-color: #85adad;"
-                    v-on:click="baixarIngresso(ingresso)">📥</button>
-                  <button class="btn btn-md btn-warning flex-fill m-0 btn-table" v-on:click="editar(ingresso)">📝</button>
-                  <div th:replace="~{modals/confirmar-ingresso::validar}"></div>
-                </div>
-
-                <div v-else class="d-flex justify-content-between align-items-center">
-                  <span class="text-success ml-1 mr-3">Validado</span>
-                  <button class="btn btn-md btn-danger flex-fill m-0 btn-table"
-                    v-on:click="confirmarExcluirIngresso(ingresso)">🗑️</button>
-                  <div th:replace="~{modals/confirmar-ingresso::excluir}"></div>
-                </div>
-              </div>
-
-              <div v-else class="d-flex justify-content-between">
-                <span v-if="!ingresso.valid" class="text-danger">❌</span>
-                <button v-else class="btn btn-md btn-danger flex-fill m-0 btn-table"
-                  v-on:click="confirmarExcluirIngresso(ingresso)">
-                  🗑️</span>
-                  <button class="btn btn-md btn-success ml-1 flex-fill m- 0 btn-table"
-                    v-on:click="ok(ingresso)">✅</button>
-                  <div th:replace="~{modals/confirmar-ingresso::excluir}"></div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="display: flex; justify-content: center; margin-top: 0px;">
-      <img
-        src="https://raw.githubusercontent.com/thomazcm/plantae/master/src/main/resources/static/png/girls-cooking.png"
-        style="min-width: 487px; max-width: 1019px; width: 100%; height: auto;">
-    </div>
-  </div>
 </div>
