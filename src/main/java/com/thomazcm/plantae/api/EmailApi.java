@@ -50,12 +50,17 @@ public class EmailApi {
         return ResponseEntity.ok().build();
     }
     
-    @GetMapping("/send-reminder-test")
-    public ResponseEntity<String> sendReminderTestMail() {
-        String subject = mailProperties.getReminderSubject();
-        sender.sendEmailTemplate("thomazcm@gmail.com", subject, REMINDER_EMAIL_TEMPLATE);
-        return ResponseEntity.ok("sent");
-    }
+//    @GetMapping("/send-reminder-test")
+//    public ResponseEntity<String> sendReminderTestMail() {
+//        String subject = mailProperties.getReminderSubject();
+//        List<String> emailsMissing = List.of("thomazcm@gmail.com");
+//        
+//        for (String email : emailsMissing) {
+//            sender.sendEmailTemplate(email, subject, REMINDER_EMAIL_TEMPLATE);
+//            System.out.println("Sent mail to: " + email);
+//        }
+//        return ResponseEntity.ok("sent");
+//    }
     
     @GetMapping("/list-bundles")
     public ResponseEntity<List<List<String>>> testBundles() {

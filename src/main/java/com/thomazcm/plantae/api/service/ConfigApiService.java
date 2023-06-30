@@ -18,7 +18,7 @@ public class ConfigApiService {
     
     
     public void sendConfigChangeWarningEmails(String finalMessage, PlantaeEmailSender mailService) {
-        List.of(adminMail1, adminMail2).parallelStream().forEach(adminMail -> {
+        List.of(adminMail1, adminMail2).stream().forEach(adminMail -> {
             mailService.sendEmail(adminMail, EMAIL_WARNING_SUBJECT, finalMessage);
         });
     }
