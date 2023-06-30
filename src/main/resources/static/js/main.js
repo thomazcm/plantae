@@ -47,25 +47,36 @@ function onLoad() {
             primeiroLote: 0,
             segundoLote: 0,
             gerarCortesia: false,
-            maxTickets : maxTickets,
-            mostrarForm : false
+            maxTickets: maxTickets,
+            mostrarForm: false
         },
         mounted() {
             this.addClienteInput();
             this.getIngressos();
+     
             document.addEventListener('click', this.clearErrorMessage);
             if (validado) {
                 this.nomeValidado = nomeValidado;
+                this.throwConfetti();
                 $('#modalIngressoValidado').modal('show');
             } else if (expirado) {
                 this.nomeValidado = nomeValidado;
                 $('#modalIngressoExpirado').modal('show');
+            } else if (invalido) {
+                $('#modalIngressoInvalido').modal('show');
             }
         },
         beforeDestroy() {
             document.removeEventListener('click', this.clearErrorMessage);
         },
         methods: {
+            throwConfetti() {
+                confetti.create(this.$refs.confettiCanvas, { useWorker: true})({ 
+                    particleCount: 250, 
+                    spread: 100,
+                    origin: { y: 1.0 },
+                     });
+              },
             openCameraModal() {
                 $('#cameraModal').modal('show');
                 this.openCamera();
@@ -75,21 +86,21 @@ function onLoad() {
                 this.$refs.videoElement.srcObject.getTracks().forEach(track => track.stop());
                 clearInterval(this.scanInterval);
             },
-            async openCamera(retryCount = 6, delay = 500){
+            async openCamera(retryCount = 6, delay = 500) {
                 try {
                     const constraints = { video: { facingMode: "environment" } };
                     const stream = await navigator.mediaDevices.getUserMedia(constraints);
                     this.$refs.videoElement.srcObject = stream;
-            
+
                     this.scanInterval = setInterval(() => {
-                      this.scanQRCode();
+                        this.scanQRCode();
                     }, 1000);
-                  } catch(err) {
+                } catch (err) {
                     console.error("Error: " + err);
-                    if(retryCount > 0) {
+                    if (retryCount > 0) {
                         setTimeout(() => this.openCamera(retryCount - 1, delay), delay);
                     }
-                  }
+                }
             },
             scanQRCode() {
                 const video = this.$refs.videoElement;
@@ -99,15 +110,15 @@ function onLoad() {
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          
+
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const code = window.jsQR(imageData.data, imageData.width, imageData.height);
                 if (code) {
-                  console.log("Found QR code", code.data);
-                  clearInterval(this.scanInterval);
-                  video.srcObject.getTracks().forEach(track => track.stop());
-                  this.closeCamera();
-                  window.location.href = code.data;
+                    console.log("Found QR code", code.data);
+                    clearInterval(this.scanInterval);
+                    video.srcObject.getTracks().forEach(track => track.stop());
+                    this.closeCamera();
+                    window.location.href = code.data;
                 }
             },
             confirmarNovoIngresso() {
@@ -126,12 +137,12 @@ function onLoad() {
                     this.textoConfirmarIngressos = `Gerar ${this.clientesIndex} ingressos para:`
                 }
             },
-            mostrarFormulario(){
-				this.mostrarForm = true;
-			},
-            ocultarFormulario(){
-				this.mostrarForm = false;
-			},
+            mostrarFormulario() {
+                this.mostrarForm = true;
+            },
+            ocultarFormulario() {
+                this.mostrarForm = false;
+            },
             gerarIngresso() {
                 this.ingressoGerado = true;
                 if (this.pedidoDto.clientes.some(cliente => cliente.nome === '')
@@ -140,8 +151,8 @@ function onLoad() {
                 }
                 this.loadingMessage = 'Gerando ingresso,'
                 this.loading = true;
-                
-                
+
+
                 this.pedidoDto.cortesia = this.gerarCortesia;
                 const payload = {
                     pedidoDto: this.pedidoDto

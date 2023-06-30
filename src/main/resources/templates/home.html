@@ -8,17 +8,20 @@
             validado = /*[[${validado}]]*/
             nomeValidado = /*[[${nomeValidado}]]*/
             expirado = /*[[${expirado}]]*/
+            invalido = /*[[${invalido}]]*/
             maxTickets = /*[[${maxTickets}]]*/
     </script>
     <link
         href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,400;0,500;0,700;1,300&family=Merriweather:ital,wght@0,400;0,900;1,300&display=swap"
         rel="stylesheet">
     <script src="https://unpkg.com/jsqr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0"></script>
 </head>
 
 <body onload="onLoad()">
     <div th:replace="~{base :: header}"></div>
     <div class="container" id="ingresso" v-cloak>
+        <canvas ref="confettiCanvas" class="confetti-canvas"></canvas>
 
         <div class="loading" v-if="loading">
             <div class="loading-content">
@@ -70,7 +73,7 @@
         <div th:replace="~{tabelas/tabela-ingressos}"></div>
         <div th:replace="~{modals/validacao}"></div>
     </div>
-
+    
     <script type="application/javascript" src="js/main.js"></script>
 </body>
 

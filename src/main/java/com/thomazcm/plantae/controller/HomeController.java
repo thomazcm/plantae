@@ -53,6 +53,7 @@ public class HomeController {
             return "forward:/";
         } catch (NoSuchElementException e) {
             e.printStackTrace();
+            model.addAttribute("invalido", true);
             return "forward:/";
         }
     }

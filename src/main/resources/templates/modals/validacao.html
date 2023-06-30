@@ -3,9 +3,39 @@
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content mt-10" id="confirm-box">
+            
             <div class="modal-body">
-                <h3 class="modal-title" style="color: #84312e;">Ingresso validado com sucesso!</h3>
+                <h3 class="modal-title" style="color: #84312e;">Ingresso validado!</h3>
                 <p class="plantae-text" style="font-size:1.5rem">{{ nomeValidado }}</p>
+            </div>
+            <div class="modal-footer">
+                <button v-on:click="home()" class="btn btn-lg plantae-button">Continuar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div  class="modal fade plantae-modal" id="modalIngressoExpirado" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content mt-10" id="confirm-box">
+            <div class="modal-body">
+                <h3 class="modal-title" style="color: #84312e;">Ingresso inválido!</h3>
+                <p class="plantae-text" style="font-size:1.5rem">{{ nomeValidado }}<br>já validou seu ingresso</p>
+            </div>
+            <div class="modal-footer">
+                <button v-on:click="home()" class="btn btn-lg plantae-button">Voltar à lista</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div  class="modal fade plantae-modal" id="modalIngressoInvalido" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content mt-10" id="confirm-box">
+            <div class="modal-body">
+                <h3 class="modal-title" style="color: #84312e;">Ingresso inválido!</h3>
             </div>
             <div class="modal-footer">
                 <button v-on:click="home()" class="btn btn-lg plantae-button">Voltar à lista</button>
