@@ -46,6 +46,11 @@ public class EmailApi {
         return ResponseEntity.ok().build();
     }
     
+    @GetMapping("/list-bundles")
+    public ResponseEntity<List<List<String>>> testBundles() {
+        return ResponseEntity.ok(emailApiService.bundleCustomerEmails(getAllDistinctCustomerEmails()));
+    }
+    
     private List<String> getAllDistinctCustomerEmails() {
         return ingressoRepo.findAll().stream()
                 .map(Ingresso::getEmail)

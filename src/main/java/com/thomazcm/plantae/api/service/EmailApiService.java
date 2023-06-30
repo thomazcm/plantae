@@ -35,7 +35,7 @@ public class EmailApiService {
         }
     }
 
-    private List<List<String>> bundleCustomerEmails(List<String> allCustomerEmails) {
+    public List<List<String>> bundleCustomerEmails(List<String> allCustomerEmails) {
         var emailBundles = new ArrayList<List<String>>();
         List<String> bundle = new ArrayList<String>();
 
