@@ -11,6 +11,7 @@ public class EmailApiService {
     private final PlantaeEmailSender emailSender;
     private static final int BUNDLE_MAX_SIZE = 5;
     private static final int THREAD_WAIT_MILLISECONDS = 5000;
+    private static final String REMINDER_EMAIL_TEMPLATE = "reminderEmailTemplate";
     
 
     public EmailApiService(PlantaeEmailSender emailSender) {
@@ -22,8 +23,8 @@ public class EmailApiService {
         var emailBundles = bundleCustomerEmails(allCustomerEmails);
 
         for (List<String> bundle : emailBundles) {
-            bundle.parallelStream().forEach(email -> {
-                emailSender.sendEmailTemplate(email, subject, template);
+            bundle.stream().forEach(email -> {
+                emailSender.sendEmailTemplate(email, subject, REMINDER_EMAIL_TEMPLATE);
                 System.out.println("Sent mail to: " + email);
             });
             try {
