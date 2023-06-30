@@ -23,5 +23,13 @@ public class MailProperties {
     public String getSubject() {
         return this.getResource("subject");
     }
+    
+    public String getSurveySubject() {
+        return this.getResource("surveySubject");
+    }
+    
+    public String getReminderSubject() {
+        return this.getResource("reminderSubject");
+    }
 
 }

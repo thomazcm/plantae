@@ -37,7 +37,6 @@ public class IngressoApi {
     private final PlantaeEmailSender emailSender;
     private final PdfGenerator pdfGenerator;
     private final PdfService service;
-    private static final String EMAIL_TEMPLATE = "ticketEmailTemplate";
 
     public IngressoApi(IngressoRepository repository, IngressoGenerator ingressoGenerator,
             PlantaeEmailSender emailSender, PdfService service, PdfGenerator pdfGenerator) {
@@ -76,8 +75,7 @@ public class IngressoApi {
         ByteArrayOutputStream ingressoPdf = pdfGenerator.createPDF(ingressos);
 
         if (Boolean.parseBoolean(enviarEmail) && email != null && !email.isEmpty()) {
-            emailSender.sendPdfEmail(email, ingressoPdf, nomePdf, ingressos.get(0).getCliente(),
-                    EMAIL_TEMPLATE);
+            emailSender.sendPdfEmail(email, ingressoPdf, nomePdf, ingressos.get(0).getCliente());
         }
         return ResponseEntity.ok().headers(service.pdfDownloadHeaders(nomePdf))
                 .body(ingressoPdf.toByteArray());
