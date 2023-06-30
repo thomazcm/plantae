@@ -32,10 +32,15 @@
 
         <div class="row justify-content-between mt-2 mb-2">
             <div class="col-auto">
-                <div class="col-6" v-if="ingressos.length > maxTickets || mostrarForm != true">
+                <div class="col-6" v-if="ingressos.length >= maxTickets && mostrarForm != true">
                     <br />
                     <button @click="mostrarFormulario()"
                         class="plantae-button btn ml-2" style="font-family: 'Merriweather', sans-serif;">Mostrar<br />Formulário</button>
+                </div>
+                <div class="col-6" v-else="ingressos.length >= maxTickets && mostrarForm != true">
+                    <br />
+                    <button @click="ocultarFormulario()"
+                        class="plantae-button btn ml-2" style="font-family: 'Merriweather', sans-serif;">Ocultar<br />Formulário</button>
                 </div>
             </div>
             <div class="col-auto">

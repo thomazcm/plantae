@@ -48,7 +48,7 @@ function onLoad() {
             segundoLote: 0,
             gerarCortesia: false,
             maxTickets : maxTickets,
-            mostrarForm : null
+            mostrarForm : false
         },
         mounted() {
             this.addClienteInput();
@@ -128,6 +128,9 @@ function onLoad() {
             },
             mostrarFormulario(){
 				this.mostrarForm = true;
+			},
+            ocultarFormulario(){
+				this.mostrarForm = false;
 			},
             gerarIngresso() {
                 this.ingressoGerado = true;
