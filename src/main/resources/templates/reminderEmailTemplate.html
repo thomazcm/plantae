@@ -40,7 +40,7 @@
         p {
             font-size: 16px;
             line-height: 1.8;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .signature {
@@ -56,11 +56,15 @@
             font-size: 20px;
         }
 
-        .survey-link {
-            font-size: 24px;
-            color: #388e3c;
-            text-decoration: underline;
-            font-weight: bold;
+        .event-details {
+            font-size: 18px;
+            color: #84312e;
+            background-color: #f7e7d4;
+            border: 2px solid #84312e;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 20px auto;
+            width: fit-content;
         }
 
         .center-image {
@@ -71,32 +75,66 @@
             height: auto;
             min-width: 320px;
         }
+
+        .divider {
+            margin: 30px auto;
+            width: 80%;
+            border-top: 1px solid #84312e;
+        }
+
+        .signature-image {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 320px;
+        }
+        .main-image {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 320px;
+        }
+        .bom-dia{
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #84312e;
+        }
+        .p-event{
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .p-goodbye{
+            color: #388e3c;
+            font-weight: 600;
+        }
+
     </style>
 </head>
 
 <body>
     <div class="container" style="margin-bottom: 25px">
         <div>
-            <h1>A sua opinião é muito importante<br> para nós!</h1>
-            <p>Estamos na contagem regressiva para o nosso 1º Brunch Vegetal da Plantae e não poderíamos estar mais
-                empolgadas!</p>
-            <p>Gostaríamos de fazer o seu dia conosco o mais agradável e inesquecível possível.<br> Por isso, <b>criamos
-                    um pequeno questionário com 5 perguntinhas</b> para entender melhor as suas preferências.</p>
-            <p>Seu tempo é valioso então não deve levar mais do que dois minutinhos: <br><a
-                    href="https://docs.google.com/forms/d/e/1FAIpQLScXuvnzZuNGJRpiLK6sgp_WyiEkbVnVNp4HbxqOVERu5UhO6A/viewform?pli=1"
-                    class="survey-link">RESPONDER AGORA</a></p>
-        </div>
-        <a  href="https://docs.google.com/forms/d/e/1FAIpQLScXuvnzZuNGJRpiLK6sgp_WyiEkbVnVNp4HbxqOVERu5UhO6A/viewform?pli=1">
-            <img 
-            src="https://raw.githubusercontent.com/thomazcm/plantae/master/src/main/resources/static/png/survey.png"
-            class="center-image" alt="Girls holding survey papers" >
-        </a>
-        <div>
-            <p>Sua resposta vai nos ajudar a tornar o evento ainda mais especial!</p>
-            <p>Contamos com a sua colaboração e mal podemos esperar para te ver no dia 2 de julho!</p>
-            <div class="signature">
-                <p><span style="color:#388e3c">Beijos verdes,</span></p>
-                <p style="color:#388e3c">Laura e Giulia</p>
+            <img class="main-image" src="https://raw.githubusercontent.com/thomazcm/images/master/plantae-email-template.jpg" />
+            <p class="bom-dia">Bom dia, pessoal!</p>
+            <p>O dia do nosso primeiro brunch está chegando!</p>
+            <p>Fica de olho e coloca na agenda pra não esquecer:</p>
+            <div class="event-details">
+                <p class="p-event">Domingo, dia 2 de julho às 10:00</p>
+            <a style="text-decoration: none; color: #84312e;"href="https://goo.gl/maps/k1iTGuxiYYS4q4GV7">
+                <p class="p-event">Espaço Vitruvie - Rua Professor José Renault, 67</p>
+                <p class="p-event">São Bento - Belo Horizonte</p>
+            </a>
+            </div>
+            <p>Estamos mega ansiosas para ver todos vocês e nos esforçando ao máximo para que tudo esteja perfeito.</p>
+            <p>Desde já, agradecemos pela confiança no nosso trabalho!</p>
+            <p class="p-goodbye">Beijos verdes e até domingo!</p>
+            <p p class="p-goodbye">Laura e Giulia</p>
+            <div>
+                <hr class="divider">
+                <a href="https://www.instagram.com/plantae_cozinhavegetal/">
+                    <img src="https://raw.githubusercontent.com/thomazcm/images/master/plantae-signature.jpg" class="signature-image" alt="Signature of Laura and Giulia" />
+                </a>
             </div>
         </div>
     </div>
