@@ -12,6 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.thomazcm.plantae.config.properties.MailProperties;
 
@@ -54,7 +55,7 @@ public class PlantaeEmailSender {
         }
     }
 
-
+    @Async
     public void sendPdfEmail(String emailCliente, ByteArrayOutputStream pdf, String nomeIngresso,
             String nomeCliente) {
         try {
