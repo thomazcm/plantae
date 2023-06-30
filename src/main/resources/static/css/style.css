@@ -4,6 +4,22 @@
     display: none;
 }
 
+
+video {
+    width: 95%;
+    height: auto;
+  }
+
+.qr-icon {
+    width: 70px;
+    height: auto;
+}
+
+#qrButton {
+    padding: 4px;
+    margin-top: 12px;
+}
+
 .plantae-checkbox {
     width: 1.4rem !important;
     height: 1.4rem !important;

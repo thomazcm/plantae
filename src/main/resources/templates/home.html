@@ -2,36 +2,71 @@
 <html>
 
 <head>
-	<div th:replace="~{base :: head('Plantae')}"></div>
-	<script th:inline="javascript">
-		apiEndpoint = /*[[${apiEndpoint}]]*/
-			validado = /*[[${validado}]]*/
-			nomeValidado = /*[[${nomeValidado}]]*/
-			expirado = /*[[${expirado}]]*/
-			maxTickets = /*[[${maxTickets}]]*/
-	</script>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,400;0,500;0,700;1,300&family=Merriweather:ital,wght@0,400;0,900;1,300&display=swap"
-		rel="stylesheet">
+    <div th:replace="~{base :: head('Plantae')}"></div>
+    <script th:inline="javascript">
+        apiEndpoint = /*[[${apiEndpoint}]]*/
+            validado = /*[[${validado}]]*/
+            nomeValidado = /*[[${nomeValidado}]]*/
+            expirado = /*[[${expirado}]]*/
+            maxTickets = /*[[${maxTickets}]]*/
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,400;0,500;0,700;1,300&family=Merriweather:ital,wght@0,400;0,900;1,300&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/jsqr"></script>
 </head>
 
 <body onload="onLoad()">
-	<div th:replace="~{base :: header}"></div>
-	<div class="container" id="ingresso" v-cloak>
-		<div class="loading" v-if="loading">
-			<div class="loading-content">
-				<div class="loading-spinner"></div>
-				<p class="plantae-text loading-text">
-					{{ loadingMessage }} <br>aguarde...
-				</p>
-			</div>
-		</div>
-		<div th:replace="~{formularios/formulario-ingresso}"></div>
-		<div th:replace="~{tabelas/tabela-ingressos}"></div>
-		<div th:replace="~{modals/validacao}"></div>
-	</div>
+    <div th:replace="~{base :: header}"></div>
+    <div class="container" id="ingresso" v-cloak>
 
-	<script type="application/javascript" src="js/main.js"></script>
+        <div class="loading" v-if="loading">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p class="plantae-text loading-text">
+                    {{ loadingMessage }} <br>aguarde...
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-between mt-2 mb-2">
+            <div class="col-auto">
+                <div class="col-6" v-if="ingressos.length > maxTickets || mostrarForm != true">
+                    <br />
+                    <button @click="mostrarFormulario()"
+                        class="plantae-button btn ml-2" style="font-family: 'Merriweather', sans-serif;">Mostrar<br />Formulário</button>
+                </div>
+            </div>
+            <div class="col-auto">
+                <button class="btn plantae-button mr-3" @click="openCameraModal" id="qrButton">
+                    <img src="https://raw.githubusercontent.com/thomazcm/images/master/qr-code-plantae.png"
+                        alt="QR code" class="qr-icon" />
+                </button>
+            </div>
+        </div>
+
+        <div class="modal fade mt-5" id="cameraModal" tabindex="-1" role="dialog"
+            aria-labelledby="cameraModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="background-color: #f7e7d4;">
+                    <div class="modal-body">
+                        <video ref="videoElement" autoplay></video>
+                        <canvas ref="canvasElement" style="display: none;"></canvas>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-lg plantae-button" @click="closeCamera">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="~{formularios/formulario-ingresso}"></div>
+        <div th:replace="~{tabelas/tabela-ingressos}"></div>
+        <div th:replace="~{modals/validacao}"></div>
+    </div>
+
+    <script type="application/javascript" src="js/main.js"></script>
 </body>
 
 </html>

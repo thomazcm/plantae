@@ -66,6 +66,50 @@ function onLoad() {
             document.removeEventListener('click', this.clearErrorMessage);
         },
         methods: {
+            openCameraModal() {
+                $('#cameraModal').modal('show');
+                this.openCamera();
+            },
+            closeCamera() {
+                $('#cameraModal').modal('hide');
+                this.$refs.videoElement.srcObject.getTracks().forEach(track => track.stop());
+                clearInterval(this.scanInterval);
+            },
+            async openCamera(retryCount = 6, delay = 500){
+                try {
+                    const constraints = { video: { facingMode: "environment" } };
+                    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                    this.$refs.videoElement.srcObject = stream;
+            
+                    this.scanInterval = setInterval(() => {
+                      this.scanQRCode();
+                    }, 1000);
+                  } catch(err) {
+                    console.error("Error: " + err);
+                    if(retryCount > 0) {
+                        setTimeout(() => this.openCamera(retryCount - 1, delay), delay);
+                    }
+                  }
+            },
+            scanQRCode() {
+                const video = this.$refs.videoElement;
+                const canvas = this.$refs.canvasElement;
+                const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const code = window.jsQR(imageData.data, imageData.width, imageData.height);
+                if (code) {
+                  console.log("Found QR code", code.data);
+                  clearInterval(this.scanInterval);
+                  video.srcObject.getTracks().forEach(track => track.stop());
+                  this.closeCamera();
+                  window.location.href = code.data;
+                }
+            },
             confirmarNovoIngresso() {
                 this.ingressoGerado = true;
                 let emptyCliente = this.pedidoDto.clientes.some(cliente => cliente.nome.trim() === '');
