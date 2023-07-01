@@ -126,7 +126,8 @@ function onLoad() {
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const code = window.jsQR(imageData.data, imageData.width, imageData.height);
                 if (code) {
-                    console.log("Found QR code", code.data);
+                    this.loading = true;
+                    this.loadingMessage = "Verificando ingresso...";
                     clearInterval(this.scanInterval);
                     video.srcObject.getTracks().forEach(track => track.stop());
                     this.closeCamera();
