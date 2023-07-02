@@ -38,6 +38,12 @@
                   login
               </a>
               
+              <a href="/logoutStateless" class="nav-link text-light col-12 mb-2" 
+                sec:authorize="isAuthenticated()"
+                onclick="document.querySelector('#form-logout').submit();">
+                  logout
+              </a>
+              
               <a href="/user-configuration" class="nav-link text-light col-12" 
                 sec:authorize="isAuthenticated()"
                 th:if="${#httpServletRequest.requestURI != '/user-configuration' && #httpServletRequest.requestURI != '/link-pix'  }">
@@ -48,12 +54,6 @@
                sec:authorize="isAuthenticated()"
                th:if="${#httpServletRequest.requestURI == '/user-configuration' || #httpServletRequest.requestURI == '/link-pix'}">
                   home
-              </a>
-              
-              <a href="/logoutStateless" class="nav-link text-light col-12" 
-                sec:authorize="isAuthenticated()"
-                onclick="document.querySelector('#form-logout').submit();">
-                  logout
               </a>
               
           </span>
