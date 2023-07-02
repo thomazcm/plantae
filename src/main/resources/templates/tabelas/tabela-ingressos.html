@@ -1,5 +1,5 @@
 <div th:fragment class="row mt-3">
-    <div class="col">
+    <div class="col home-container">
         <div v-if="!dayOfEvent">
             <h4 class="plantae-text" v-cloak>Ingressos Vendidos: {{ ingressos.length }} / {{maxTickets}}</h4>
             <div id="divisao-ingressos" v-if="segundoLote > 0 || cortesias > 0">
@@ -7,6 +7,10 @@
                 <span class="segundo-lote-text"> 2º lote: {{segundoLote}}</span>
                 <span class="cortesia-text"> Cortesias: {{cortesias}}</span>
             </div>
+        </div>
+        <div v-else style="display: flex; justify-content: center; margin-top: 0px;">
+            <img src="https://raw.githubusercontent.com/thomazcm/images/master/plantae-event-3.png"
+                style="min-width: 387px; max-width: 1019px; width: 100%; height: auto;">
         </div>
         <div class="table-responsive" :key="listaKey">
             <table class="table table-bordered">
@@ -71,7 +75,7 @@
         </div>
         <div style="display: flex; justify-content: center; margin-top: 0px;">
             <img src="https://raw.githubusercontent.com/thomazcm/plantae/master/src/main/resources/static/png/girls-cooking.png"
-                style="min-width: 487px; max-width: 1019px; width: 100%; height: auto;">
+                style="min-width: 387px; max-width: 1019px; width: 100%; height: auto;">
         </div>
     </div>
 </div>

@@ -54,7 +54,8 @@ function onLoad() {
             gerarCortesia: false,
             maxTickets: maxTickets,
             mostrarForm: false,
-            dayOfEvent: null
+            dayOfEvent: null,
+            eventDate: '2023-07-02T00:00:00',
         },
         mounted() {
             this.addClienteInput();
@@ -73,7 +74,7 @@ function onLoad() {
             }
 
             let now = new Date();
-            let event = new Date('2023-07-02T00:00:00');
+            let event = new Date(this.eventDate);
             if (areSameDay(now, event)) {
                 this.dayOfEvent = true;
             }
