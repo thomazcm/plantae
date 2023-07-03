@@ -1,6 +1,7 @@
 package com.thomazcm.plantae.api;
 
 import java.io.ByteArrayOutputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,8 +22,8 @@ import com.thomazcm.plantae.api.dto.PedidoDto;
 import com.thomazcm.plantae.api.form.IngressoUpdateForm;
 import com.thomazcm.plantae.api.form.integration.RequestPayload;
 import com.thomazcm.plantae.api.service.IngressoGenerator;
-import com.thomazcm.plantae.api.service.PdfService;
 import com.thomazcm.plantae.api.service.PdfGenerator;
+import com.thomazcm.plantae.api.service.PdfService;
 import com.thomazcm.plantae.api.service.PlantaeEmailSender;
 import com.thomazcm.plantae.model.Ingresso;
 import com.thomazcm.plantae.model.integration.Cliente;
@@ -54,6 +55,37 @@ public class IngressoApi {
         return ResponseEntity.ok(sortByValidoENumero(ingressos));
     }
     
+    @GetMapping("/info")
+    public ResponseEntity<String> customerInfo() {
+        List<Ingresso> allIngressos = repository.findAll();
+        String ingressoInfo = buildInfo(allIngressos);
+        
+        return ResponseEntity.ok(ingressoInfo);
+        
+    }
+    
+    private String buildInfo(List<Ingresso> allIngressos) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+        StringBuilder builder = new StringBuilder("=== Ingressos Vendidos ====");
+        builder.append("\n1º Lote: 43\n2ºLote: 11 \nCortesias: 4");
+        builder.append("\n===============");
+        
+        
+        for (int i = 0; i < allIngressos.size(); i++) {
+            Ingresso ingresso = allIngressos.get(i);
+            
+            builder.append(System.lineSeparator());
+            builder.append(String.join(": ", Integer.valueOf(i+1).toString(), ingresso.getCliente()));
+            builder.append(System.lineSeparator());
+            builder.append("Lote: " + ingresso.getLote().toString().toLowerCase());
+            builder.append(System.lineSeparator());
+            builder.append(String.join(": ", "Data da compra", ingresso.getData().format(formatter)));
+            
+        }
+        
+        return builder.toString();
+    }
+
     @PostMapping(value = "/novo", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> novoIngresso(@RequestBody RequestPayload payload,
             @RequestHeader("Enviar-Email") String enviarEmail) throws Exception {
