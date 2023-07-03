@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.thomazcm.plantae.api.dto.IngressoDto;
+import com.thomazcm.plantae.api.dto.IngressoInfoDto;
 import com.thomazcm.plantae.api.dto.PedidoDto;
 import com.thomazcm.plantae.api.form.IngressoUpdateForm;
 import com.thomazcm.plantae.api.form.integration.RequestPayload;
@@ -56,11 +57,11 @@ public class IngressoApi {
     }
     
     @GetMapping("/info")
-    public ResponseEntity<String> customerInfo() {
+    public ResponseEntity<List<IngressoInfoDto>> customerInfo() {
         List<Ingresso> allIngressos = repository.findAll();
-        String ingressoInfo = buildInfo(allIngressos);
+//        String ingressoInfo = buildInfo(allIngressos);
         
-        return ResponseEntity.ok(ingressoInfo);
+        return ResponseEntity.ok(IngressoInfoDto.toList(allIngressos));
         
     }
     
